@@ -53,7 +53,6 @@
     <Compile Include="FileTransform.cs" />
     <Compile Include="SparseKNN.cs" />
     <Compile Include="TFIDF.cs" />
-    <Compile Include="DistancesEvaluation.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,8 +61,6 @@
     </Compile>
     <Compile Include="Globals.cs" />
     <Compile Include="FileUtils.cs" />
-    <Compile Include="ListExtension.cs" />
-    <Compile Include="Pair.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

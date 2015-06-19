@@ -59,25 +59,6 @@ namespace NDSB
             return nCols;
         }
 
-        public static Pair<float[,], int[]> FileImporter(string path)
-        {
-            int nbLines = CountLines(path),
-                nbCols = CountCols(path);
-
-            float[,] matrix = new float[nbLines, nbCols - 1];
-            int[] labels = new int[nbLines];
-
-            IEnumerable<float[]> elements = LineYielder(path);
-            int i = 0;
-            foreach (float[] element in elements)
-            {
-                for (int j = 1; j < nbCols; j++)
-                    matrix[i, j - 1] = element[j];
-                labels[i] = Convert.ToInt16(element[0]);
-                i++;
-            }
-            return new Pair<float[,], int[]>(matrix, labels);
-        }
-
+        
     }
 }
