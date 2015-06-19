@@ -50,3 +50,5 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+*.exe
+NDSB/bin/Debug/NDSB.pdb
