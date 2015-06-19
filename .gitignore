@@ -52,3 +52,12 @@ Temporary Items
 
 *.exe
 NDSB/bin/Debug/NDSB.pdb
+NDSB/obj/x86/Debug/NDSB.csproj.FileListAbsolute.txt
+*.dll
+NDSB/obj/x86/Debug/NDSB.csprojResolveAssemblyReference.cache
+*.Cache
+NDSB/obj/x86/Debug/NDSB.Properties.Resources.resources
+*.resources
+NDSB/obj/x86/Debug/DesignTimeResolveAssemblyReferences.cache
+*.cache
+*.cache

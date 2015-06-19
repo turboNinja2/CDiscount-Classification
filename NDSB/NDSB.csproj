@@ -51,8 +51,9 @@
   <ItemGroup>
     <Compile Include="CrowdFlowerFormatting.cs" />
     <Compile Include="FileTransform.cs" />
-    <Compile Include="SparseDistances.cs" />
-    <Compile Include="SparseKNN.cs" />
+    <Compile Include="SparseMethods\SparseDistances.cs" />
+    <Compile Include="SparseMethods\SparseKNN.cs" />
+    <Compile Include="SparseMethods\SparseNormalizations.cs" />
     <Compile Include="TFIDF.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

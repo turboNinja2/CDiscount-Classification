@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading.Tasks;
+using NDSB.SparseMethods;
 
 namespace NDSB
 {
@@ -47,11 +48,11 @@ namespace NDSB
             string[] predicted = new string[testPoints.Count()];
 
             for(int i =0; i < trainPoints.Length; i++)
-                trainPoints[i] = SparseKNN.ToCube(trainPoints[i]);
+                trainPoints[i] = SparseNormalizations.ToCube(trainPoints[i]);
 
             for (int i = 0; i < testPoints.Length; i++)
             {
-                int pred = SparseKNN.Predict(labels, trainPoints, SparseKNN.ToCube(testPoints[i]), 10);
+                int pred = SparseKNN.Predict(labels, trainPoints, SparseNormalizations.ToCube(testPoints[i]), 10);
                 predicted[i] = pred.ToString();
             }
             File.AppendAllText(outfileName, String.Join(Environment.NewLine, predicted));
