@@ -1,9 +1,0 @@
-C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\bin\Release\NDSB.exe
-C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\bin\Release\NDSB.pdb
-C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\bin\Release\Cudafy.NET.dll
-C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x86\Release\NDSB.Form1.resources
-C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x86\Release\NDSB.Properties.Resources.resources
-C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x86\Release\NDSB.csproj.GenerateResource.Cache
-C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x86\Release\NDSB.exe
-C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x86\Release\NDSB.pdb
-C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x86\Release\NDSB.csprojResolveAssemblyReference.cache
