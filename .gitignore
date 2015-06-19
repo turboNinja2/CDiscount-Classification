@@ -14,6 +14,14 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+# CUDA crap
+*.ptx
+*.cu
+
+# exes
+*.pdb
+*.exe
+
 # Windows shortcuts
 *.lnk
 
@@ -41,3 +49,4 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
