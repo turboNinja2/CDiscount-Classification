@@ -74,15 +74,6 @@ namespace NDSB
             }
         }
 
-        private void cleanDataBtn_Click(object sender, EventArgs e)
-        {
-            CrowdFlowerFormatting.CleanFile(trainPathTbx.Text);
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            CrowdFlowerFormatting.ExtractLabels(trainPathTbx.Text);
-        }
 
     }
 }

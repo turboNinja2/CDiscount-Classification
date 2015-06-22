@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CrowdFlowerFormatting.cs" />
     <Compile Include="FileTransform.cs" />
     <Compile Include="SparseMethods\SparseDistances.cs" />
     <Compile Include="SparseMethods\SparseKNN.cs" />

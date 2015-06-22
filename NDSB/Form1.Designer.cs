@@ -169,7 +169,6 @@
             this.cleanDataBtn.TabIndex = 8;
             this.cleanDataBtn.Text = "Clean data";
             this.cleanDataBtn.UseVisualStyleBackColor = true;
-            this.cleanDataBtn.Click += new System.EventHandler(this.cleanDataBtn_Click);
             // 
             // button3
             // 
@@ -179,7 +178,6 @@
             this.button3.TabIndex = 9;
             this.button3.Text = "CrowdFlower labels";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Form1
             // 
