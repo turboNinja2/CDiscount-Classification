@@ -11,9 +11,9 @@ namespace NDSB
         /// <param name="inputFilePath"></param>
         /// <param name="header"></param>
         /// <returns></returns>
-        public static Dictionary<string, double>[] ImportPoints(string inputFilePath, bool header = true)
+        public static Dictionary<string, double>[] ImportPoints(string inputFilePath, bool header = true, int prealloc = 1000000)
         {
-            List<Dictionary<string, double>> points = new List<Dictionary<string, double>>(1000000);
+            List<Dictionary<string, double>> points = new List<Dictionary<string, double>>(prealloc);
             foreach (string line in LinesEnumerator.YieldLinesOfFile(inputFilePath))
                 points.Add(SparsePointFromString(line));
             if (header)
