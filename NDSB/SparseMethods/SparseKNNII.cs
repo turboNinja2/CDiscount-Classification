@@ -23,17 +23,17 @@ namespace NDSB
             StampInverseDictionary(sample);
 
             string[] keys = newPoint.Keys.ToArray();
+            int[] relevantIndexes = PreselectNeighbours(keys);
 
-            List<int> relevantIndexes = PreselectNeighbours(keys);
+            double[] distances = new double[relevantIndexes.Length];
+            int[] selectedLabels = new int[relevantIndexes.Length];
 
-            double[] distances = new double[relevantIndexes.Count];
-            int[] selectedLabels = new int[relevantIndexes.Count];
-
-            for (int i = 0; i < relevantIndexes.Count; i++)
+            for (int i = 0; i < relevantIndexes.Length; i++)
             {
                 distances[i] = distance(newPoint, sample[relevantIndexes[i]]);
                 selectedLabels[i] = labels[relevantIndexes[i]];
             }
+
             int[] neighboursLabels = LazyBubbleSort(selectedLabels, distances, nbNeighbours);
             return neighboursLabels;
         }
@@ -72,15 +72,13 @@ namespace NDSB
         /// </summary>
         /// <param name="keywords"></param>
         /// <returns></returns>
-        private static List<int> PreselectNeighbours(string[] keywords)
+        private static int[] PreselectNeighbours(string[] keywords)
         {
             List<int> candidateIndexes = new List<int>();
             for (int i = 0; i < keywords.Length; i++)
-            {
                 if (_invertedIndexes.ContainsKey(keywords[i]))
                     candidateIndexes.AddRange(_invertedIndexes[keywords[i]]);
-            }
-            return candidateIndexes.Distinct().ToList();
+            return candidateIndexes.Distinct().ToArray();
         }
 
         /// <summary>
@@ -99,27 +97,22 @@ namespace NDSB
                 return failed;
             }
 
-            int[] labelsCopy = new int[labels.Length];
-            double[] distancesCopy = new double[distances.Length];
-            labels.CopyTo(labelsCopy, 0);
-            distances.CopyTo(distancesCopy, 0);
-
             int n = labels.Length;
             for (int j = 0; j < k; j++)
                 for (int i = n - 2; i >= 0; i--)
-                    if (distancesCopy[i] > distancesCopy[i + 1] )
+                    if (distances[i] > distances[i + 1])
                     {
-                        double distanceTmp = distancesCopy[i + 1];
-                        distancesCopy[i + 1] = distancesCopy[i];
-                        distancesCopy[i] = distanceTmp;
+                        double distanceTmp = distances[i + 1];
+                        distances[i + 1] = distances[i];
+                        distances[i] = distanceTmp;
 
-                        int labelTmp = labelsCopy[i + 1];
-                        labelsCopy[i + 1] = labelsCopy[i];
-                        labelsCopy[i] = labelTmp;
+                        int labelTmp = labels[i + 1];
+                        labels[i + 1] = labels[i];
+                        labels[i] = labelTmp;
                     }
 
             int[] result = new int[k];
-            Array.Copy(labelsCopy, result, k);
+            Array.Copy(labels, result, k);
             return result;
         }
     }
