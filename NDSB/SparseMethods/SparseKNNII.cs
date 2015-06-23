@@ -85,6 +85,13 @@ namespace NDSB
         /// <returns></returns>
         private static int[] LazyBubbleSort(int[] labels, double[] distances, int k)
         {
+            if (labels.Length == 0)
+            {
+                int[] failed = new int[k];
+                for (int i = 0; i < k; i++) failed[k] = -1;
+                return failed;
+            }
+
             int[] labelsCopy = new int[labels.Length];
             double[] distancesCopy = new double[distances.Length];
             labels.CopyTo(labelsCopy, 0);
