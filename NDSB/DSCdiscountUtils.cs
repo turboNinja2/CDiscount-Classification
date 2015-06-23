@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace NDSB
+﻿namespace NDSB
 {
     public static class DSCdiscountUtils
     {
@@ -11,6 +6,5 @@ namespace NDSB
         {
             return input.Split(';')[3];
         }
-
     }
 }

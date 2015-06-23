@@ -7,7 +7,14 @@ namespace NDSB
 {
     public static class SparseKNN
     {
-        private static int[] LazyBubbleSort(int[] labels, double[] distances, int elementsToSort)
+        /// <summary>
+        /// Performs k iterations of the bubble sort algorithm 
+        /// </summary>
+        /// <param name="labels"></param>
+        /// <param name="distances"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        private static int[] LazyBubbleSort(int[] labels, double[] distances, int k)
         {
             int[] labelsCopy = new int[labels.Length];
             double[] distancesCopy = new double[distances.Length];
@@ -15,7 +22,7 @@ namespace NDSB
             distances.CopyTo(distancesCopy, 0);
 
             int n = labels.Length;
-            for (int j = 0; j < elementsToSort; j++)
+            for (int j = 0; j < k; j++)
                 for (int i = n - 2; i >= 0; i--)
                     if (distancesCopy[i] > distancesCopy[i + 1])
                     {
@@ -28,13 +35,19 @@ namespace NDSB
                         labelsCopy[i] = labelTmp;
                     }
 
-            int[] result = new int[elementsToSort];
-            Array.Copy(labelsCopy, result, elementsToSort);
+            int[] result = new int[k];
+            Array.Copy(labelsCopy, result, k);
             return result;
         }
 
-
-
+        /// <summary>
+        /// Returns the labels of the nearest neighbours
+        /// </summary>
+        /// <param name="labels"></param>
+        /// <param name="sample"></param>
+        /// <param name="newPoint"></param>
+        /// <param name="nbNeighbours"></param>
+        /// <returns></returns>
         public static int[] NearestNeighbours(int[] labels, Dictionary<string, double>[] sample, Dictionary<string, double> newPoint, int nbNeighbours)
         {
             double[] distances = new double[sample.Length];
