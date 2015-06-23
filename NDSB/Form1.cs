@@ -52,17 +52,18 @@ namespace NDSB
 
             for (int i = 0; i < testPoints.Length; i++)
             {
-                int pred = SparseKNN.Predict(labels, trainPoints, SparseNormalizations.ToCube(testPoints[i]), 10);
-                predicted[i] = pred.ToString();
+                int[] pred = SparseKNN.NearestNeighbours(labels, trainPoints, SparseNormalizations.ToCube(testPoints[i]), 10);
+                predicted[i] = String.Join(";",pred);
             }
             File.AppendAllText(outfileName, String.Join(Environment.NewLine, predicted));
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //FileTransform.ExtractLabels(trainPathTbx.Text, 1000000);
-            FileTransform.TextToSparseData(testPathTbx.Text, 1000000);
-            FileTransform.TextToSparseData(trainPathTbx.Text, 1000000);
+            
+            FileTransform.TextToSparseData(testPathTbx.Text);
+            FileTransform.TextToSparseData(trainPathTbx.Text);
+            FileTransform.ExtractLabels(trainPathTbx.Text);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -72,6 +73,11 @@ namespace NDSB
             {
                 labelsTbx.Text = fdlg.FileName;
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            DownSample.Run(trainPathTbx.Text, 200, DSCdiscountUtils.GetLabel);
         }
 
 

@@ -7,7 +7,7 @@ namespace NDSB
 {
     class FileTransform
     {
-        public static void TextToSparseData(string inputFilePath, int maxLines)
+        public static void TextToSparseData(string inputFilePath, int maxLines = int.MaxValue)
         {
             string outputFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_sparse.txt";
             int currentLine = 0;
@@ -21,7 +21,7 @@ namespace NDSB
             }
         }
 
-        public static void ExtractLabels(string inputFilePath, int maxLines)
+        public static void ExtractLabels(string inputFilePath, int maxLines = int.MaxValue)
         {
             string outputFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_labels.txt";
             int currentLine = 0;
@@ -75,5 +75,7 @@ namespace NDSB
             }
             return sparseRepresentation;
         }
+
+
     }
 }

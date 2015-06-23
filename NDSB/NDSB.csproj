@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassificationUtils\DownSample.cs" />
+    <Compile Include="DSCdiscountUtils.cs" />
     <Compile Include="FileTransform.cs" />
     <Compile Include="SparseMethods\SparseDistances.cs" />
     <Compile Include="SparseMethods\SparseKNN.cs" />

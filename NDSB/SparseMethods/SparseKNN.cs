@@ -35,13 +35,12 @@ namespace NDSB
 
 
 
-        public static int Predict(int[] labels, Dictionary<string, double>[] sample, Dictionary<string, double> newPoint, int nbNeighbours)
+        public static int[] NearestNeighbours(int[] labels, Dictionary<string, double>[] sample, Dictionary<string, double> newPoint, int nbNeighbours)
         {
             double[] distances = new double[sample.Length];
             Parallel.For(0, sample.Length, i => { distances[i] = SparseDistances.ManhattanDistance(newPoint, sample[i]); });
             int[] neighboursLabels = LazyBubbleSort(labels, distances, nbNeighbours);
-            int mostLikely = neighboursLabels.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
-            return mostLikely;
+            return neighboursLabels;
         }
     }
 }
