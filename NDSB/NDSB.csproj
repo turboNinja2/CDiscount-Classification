@@ -50,10 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassificationUtils\DownSample.cs" />
+    <Compile Include="SparseMethods\SparseKNN.cs" />
     <Compile Include="TextUtils\DSCdiscountUtils.cs" />
     <Compile Include="FileUtils\CSRHelper.cs" />
     <Compile Include="SparseMethods\SparseDistances.cs" />
-    <Compile Include="SparseMethods\SparseKNN.cs" />
+    <Compile Include="SparseMethods\SparseKNNII.cs" />
     <Compile Include="SparseMethods\SparseNormalizations.cs" />
     <Compile Include="TextUtils\TFIDF.cs" />
     <Compile Include="Form1.cs">

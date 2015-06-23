@@ -47,7 +47,7 @@ namespace NDSB
 
             for (int i = 0; i < testPoints.Length; i++)
             {
-                int[] pred = SparseKNN.NearestNeighbours(labels, trainPoints, SparseNormalizations.ToCube(testPoints[i]), 10, SparseDistances.ManhattanDistance);
+                int[] pred = SparseKNNII.NearestNeighbours(labels, trainPoints, SparseNormalizations.ToCube(testPoints[i]), 10, SparseDistances.ManhattanDistance);
                 predicted[i] = String.Join(";",pred);
             }
             File.AppendAllText(outfileName, String.Join(Environment.NewLine, predicted));
