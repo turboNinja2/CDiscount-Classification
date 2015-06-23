@@ -50,12 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassificationUtils\DownSample.cs" />
-    <Compile Include="DSCdiscountUtils.cs" />
-    <Compile Include="FileTransform.cs" />
+    <Compile Include="TextUtils\DSCdiscountUtils.cs" />
+    <Compile Include="FileUtils\CSRHelper.cs" />
     <Compile Include="SparseMethods\SparseDistances.cs" />
     <Compile Include="SparseMethods\SparseKNN.cs" />
     <Compile Include="SparseMethods\SparseNormalizations.cs" />
-    <Compile Include="TFIDF.cs" />
+    <Compile Include="TextUtils\TFIDF.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,7 +63,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Globals.cs" />
-    <Compile Include="LinesEnumerator.cs" />
+    <Compile Include="FileUtils\LinesEnumerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

@@ -35,9 +35,9 @@ namespace NDSB
         private void runBtn_Click(object sender, EventArgs e)
         {
 
-            Dictionary<string, double>[] trainPoints = FileTransform.ImportPoints(trainPathTbx.Text);
-            Dictionary<string, double>[] testPoints = FileTransform.ImportPoints(testPathTbx.Text);
-            int[] labels = FileTransform.ImportLabels(labelsTbx.Text);
+            Dictionary<string, double>[] trainPoints = CSRHelper.ImportPoints(trainPathTbx.Text);
+            Dictionary<string, double>[] testPoints = CSRHelper.ImportPoints(testPathTbx.Text);
+            int[] labels = DSCdiscountUtils.ReadLabels(labelsTbx.Text);
 
             string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_pred.txt";
             string[] predicted = new string[testPoints.Count()];
@@ -56,9 +56,9 @@ namespace NDSB
         private void button1_Click(object sender, EventArgs e)
         {
             
-            FileTransform.TextToSparseData(testPathTbx.Text);
-            FileTransform.TextToSparseData(trainPathTbx.Text);
-            FileTransform.ExtractLabels(trainPathTbx.Text);
+            DSCdiscountUtils.TextToTFIDFCSR(testPathTbx.Text);
+            DSCdiscountUtils.TextToTFIDFCSR(trainPathTbx.Text);
+            DSCdiscountUtils.ExtractLabelsFromTraining(trainPathTbx.Text);
         }
 
         private void button2_Click(object sender, EventArgs e)

@@ -161,8 +161,6 @@ namespace NDSB
             }
         }
 
-
-
         /// <summary>
         /// Normalizes a TF*IDF array of vectors using L2-Norm.
         /// Xi = Xi / Sqrt(X0^2 + X1^2 + .. + Xn^2)
