@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using NDSB.SparseMethods;
 
@@ -18,18 +19,14 @@ namespace NDSB
         {
             OpenFileDialog fdlg = new OpenFileDialog();
             if (fdlg.ShowDialog() == DialogResult.OK)
-            {
                 trainPathTbx.Text = fdlg.FileName;
-            }
         }
 
         private void loadTestBtn_Click(object sender, EventArgs e)
         {
             OpenFileDialog fdlg = new OpenFileDialog();
             if (fdlg.ShowDialog() == DialogResult.OK)
-            {
                 testPathTbx.Text = fdlg.FileName;
-            }
         }
 
         private void runBtn_Click(object sender, EventArgs e)
@@ -45,17 +42,16 @@ namespace NDSB
             for(int i =0; i < trainPoints.Length; i++)
                 trainPoints[i] = SparseNormalizations.ToCube(trainPoints[i]);
 
-            for (int i = 0; i < testPoints.Length; i++)
+            Parallel.For(0, testPoints.Length, i =>
             {
                 int[] pred = SparseKNNII.NearestNeighbours(labels, trainPoints, SparseNormalizations.ToCube(testPoints[i]), 10, SparseDistances.ManhattanDistance);
-                predicted[i] = String.Join(";",pred);
-            }
+                predicted[i] = String.Join(";", pred);
+            });
             File.AppendAllText(outfileName, String.Join(Environment.NewLine, predicted));
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
             DSCdiscountUtils.TextToTFIDFCSR(testPathTbx.Text);
             DSCdiscountUtils.TextToTFIDFCSR(trainPathTbx.Text);
             DSCdiscountUtils.ExtractLabelsFromTraining(trainPathTbx.Text);
@@ -65,16 +61,12 @@ namespace NDSB
         {
             OpenFileDialog fdlg = new OpenFileDialog();
             if (fdlg.ShowDialog() == DialogResult.OK)
-            {
                 labelsTbx.Text = fdlg.FileName;
-            }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            DownSample.Run(trainPathTbx.Text, 200, DSCdiscountUtils.GetLabel);
+            DownSample.Run(trainPathTbx.Text, 200, DSCdiscountUtils.GetLabelCDiscountDB);
         }
-
-
     }
 }

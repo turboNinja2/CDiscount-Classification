@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace NDSB
 {
@@ -39,6 +38,10 @@ namespace NDSB
             return neighboursLabels;
         }
 
+        /// <summary>
+        /// Creates an inverse dictionnary and stamps it.
+        /// </summary>
+        /// <param name="sample"></param>
         private static void StampInverseDictionary(Dictionary<string, double>[] sample)
         {
             if (_invertedIndexes.Count == 0)
@@ -64,6 +67,11 @@ namespace NDSB
             }
         }
 
+        /// <summary>
+        /// Given keywords, returns the line indexes containing at least one of the keywords.
+        /// </summary>
+        /// <param name="keywords"></param>
+        /// <returns></returns>
         private static List<int> PreselectNeighbours(string[] keywords)
         {
             List<int> candidateIndexes = new List<int>();
@@ -74,7 +82,6 @@ namespace NDSB
             }
             return candidateIndexes.Distinct().ToList();
         }
-
 
         /// <summary>
         /// Performs k iterations of the bubble sort algorithm 
@@ -115,7 +122,5 @@ namespace NDSB
             Array.Copy(labelsCopy, result, k);
             return result;
         }
-
-
     }
 }

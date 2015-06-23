@@ -75,7 +75,6 @@ namespace NDSB
             return TransformToTFIDFVectors(stemmedDocs, _vocabularyIDF);
         }
 
-
         public static IEnumerable<Dictionary<string, double>> Transform2(IEnumerable<string> documents, int vocabularyThreshold = 4)
         {
             List<List<string>> stemmedDocs;

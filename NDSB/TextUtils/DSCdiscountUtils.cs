@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System;
 using System.Linq;
 
 namespace NDSB
 {
     public static class DSCdiscountUtils
     {
-        public static string GetLabel(string input)
+        public static string GetLabelCDiscountDB(string input)
         {
             return input.Split(';')[3];
         }
@@ -34,7 +34,7 @@ namespace NDSB
                 toWrite = "";
 
             foreach (string line in LinesEnumerator.YieldLinesOfFile(inputFilePath, maxLines))
-                toWrite += GetLabel(line) + Environment.NewLine;
+                toWrite += GetLabelCDiscountDB(line) + Environment.NewLine;
 
             File.AppendAllText(outputFilePath, toWrite + Environment.NewLine);
         }
