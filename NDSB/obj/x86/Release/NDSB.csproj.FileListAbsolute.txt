@@ -7,3 +7,4 @@ C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x86\Release\NDSB.Properties.R
 C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x86\Release\NDSB.csproj.GenerateResource.Cache
 C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x86\Release\NDSB.exe
 C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x86\Release\NDSB.pdb
+C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\bin\Release\NDSB.exe.config

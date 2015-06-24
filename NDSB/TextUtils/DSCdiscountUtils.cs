@@ -19,7 +19,7 @@ namespace NDSB
         /// <param name="maxLines"></param>
         public static void TextToTFIDFCSR(string inputFilePath, int maxLines = int.MaxValue)
         {
-            string outputFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_sparse.txt";
+            string outputFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_tfidf.csr";
             List<string> buffer = new List<string>();
             foreach (var cd in TFIDF.Transform2(LinesEnumerator.YieldLinesOfFile(inputFilePath, maxLines)))
             {
@@ -32,13 +32,13 @@ namespace NDSB
 
         public static void ExtractLabelsFromTraining(string inputFilePath, int maxLines = int.MaxValue)
         {
-            string outputFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_labels.txt",
-                toWrite = "";
+            string outputFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_labels.txt";
+            List<string> toWrite = new List<string>();
 
             foreach (string line in LinesEnumerator.YieldLinesOfFile(inputFilePath, maxLines))
-                toWrite += GetLabelCDiscountDB(line) + Environment.NewLine;
+                toWrite.Add(GetLabelCDiscountDB(line));
 
-            File.AppendAllText(outputFilePath, toWrite + Environment.NewLine);
+            File.WriteAllLines(outputFilePath, toWrite);
         }
 
         public static int[] ReadLabels(string inputFilePath, bool header = true)

@@ -42,7 +42,10 @@ namespace NDSB
             for(int i =0; i < trainPoints.Length; i++)
                 trainPoints[i] = SparseNormalizations.ToCube(trainPoints[i]);
 
+            SparseKNNII.StampInverseDictionary(trainPoints, 1);
+
             Parallel.For(0, testPoints.Length, i =>
+            //for(int i = 0 ; i < testPoints.Length;i++)
             {
                 int[] pred = SparseKNNII.NearestNeighbours(labels, trainPoints, SparseNormalizations.ToCube(testPoints[i]), 10, SparseDistances.ManhattanDistance);
                 predicted[i] = String.Join(";", pred);
@@ -67,6 +70,11 @@ namespace NDSB
         private void button4_Click(object sender, EventArgs e)
         {
             DownSample.Split(trainPathTbx.Text, 400, 0.002, DSCdiscountUtils.GetLabelCDiscountDB);
+        }
+
+        private void processBtn_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(IntPtr.Size.ToString());
         }
     }
 }

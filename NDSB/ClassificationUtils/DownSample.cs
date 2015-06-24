@@ -27,8 +27,8 @@ namespace NDSB
                 {
                     validation.Add(line);
                     downSampled.Add(line);
-
                     header = false;
+                    continue;
                 }
 
                 if (rnd.NextDouble() < proportionOOS)

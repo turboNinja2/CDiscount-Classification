@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NDSB
 {
@@ -18,9 +19,8 @@ namespace NDSB
         /// <param name="newPoint"></param>
         /// <param name="nbNeighbours"></param>
         /// <returns></returns>
-        public static int[] NearestNeighbours(int[] labels, Dictionary<string, double>[] sample, Dictionary<string, double> newPoint, int nbNeighbours, Distance distance)
+        public static int[] NearestNeighbours(int[] labels, Dictionary<string, double>[] sample, Dictionary<string, double> newPoint, int nbNeighbours, Distance distance, double minTFIDF = 0)
         {
-            StampInverseDictionary(sample);
 
             string[] keys = newPoint.Keys.ToArray();
             int[] relevantIndexes = PreselectNeighbours(keys);
@@ -29,10 +29,11 @@ namespace NDSB
             int[] selectedLabels = new int[relevantIndexes.Length];
 
             for (int i = 0; i < relevantIndexes.Length; i++)
+            //Parallel.For(0, relevantIndexes.Length, i =>
             {
                 distances[i] = distance(newPoint, sample[relevantIndexes[i]]);
                 selectedLabels[i] = labels[relevantIndexes[i]];
-            }
+            }//);
 
             int[] neighboursLabels = LazyBubbleSort(selectedLabels, distances, nbNeighbours);
             return neighboursLabels;
@@ -42,7 +43,7 @@ namespace NDSB
         /// Creates an inverse dictionnary and stamps it.
         /// </summary>
         /// <param name="sample"></param>
-        private static void StampInverseDictionary(Dictionary<string, double>[] sample)
+        public static void StampInverseDictionary(Dictionary<string, double>[] sample, double minTFIDF)
         {
             if (_invertedIndexes.Count == 0)
             {
@@ -52,7 +53,7 @@ namespace NDSB
                     foreach (KeyValuePair<string, double> kvp in sparsePoint)
                     {
                         string currentKey = kvp.Key;
-                        if (currentKey.Length < 3) continue;
+                        if (kvp.Value < minTFIDF) continue;
                         if (_invertedIndexes.ContainsKey(currentKey))
                         {
                             _invertedIndexes[currentKey].Add(i);
@@ -90,10 +91,10 @@ namespace NDSB
         /// <returns></returns>
         private static int[] LazyBubbleSort(int[] labels, double[] distances, int k)
         {
-            if (labels.Length == 0)
+            if (labels.Length < k)
             {
                 int[] failed = new int[k];
-                for (int i = 0; i < k; i++) failed[k] = -1;
+                for (int i = 0; i < k; i++) failed[i] = -1;
                 return failed;
             }
 
