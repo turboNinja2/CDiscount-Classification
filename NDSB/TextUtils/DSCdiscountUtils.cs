@@ -56,6 +56,5 @@ namespace NDSB
             }
             return labels.ToArray();
         }
-
     }
 }

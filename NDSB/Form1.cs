@@ -31,7 +31,6 @@ namespace NDSB
 
         private void runBtn_Click(object sender, EventArgs e)
         {
-
             Dictionary<string, double>[] trainPoints = CSRHelper.ImportPoints(trainPathTbx.Text);
             Dictionary<string, double>[] testPoints = CSRHelper.ImportPoints(testPathTbx.Text);
             int[] labels = DSCdiscountUtils.ReadLabels(labelsTbx.Text);
@@ -45,7 +44,6 @@ namespace NDSB
             SparseKNNII.StampInverseDictionary(trainPoints, 1);
 
             Parallel.For(0, testPoints.Length, i =>
-            //for(int i = 0 ; i < testPoints.Length;i++)
             {
                 int[] pred = SparseKNNII.NearestNeighbours(labels, trainPoints, SparseNormalizations.ToCube(testPoints[i]), 10, SparseDistances.ManhattanDistance);
                 predicted[i] = String.Join(";", pred);

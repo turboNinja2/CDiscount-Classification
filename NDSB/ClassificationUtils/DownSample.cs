@@ -47,7 +47,6 @@ namespace NDSB
                     downSampled.Add(line);
                     
             }
-
             File.WriteAllLines(validationFilePath, validation);
             File.WriteAllLines(downSampledFilePath, downSampled);
         }

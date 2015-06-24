@@ -173,7 +173,7 @@
             // 
             // processBtn
             // 
-            this.processBtn.Location = new System.Drawing.Point(877, 23);
+            this.processBtn.Location = new System.Drawing.Point(502, 12);
             this.processBtn.Name = "processBtn";
             this.processBtn.Size = new System.Drawing.Size(75, 23);
             this.processBtn.TabIndex = 11;
@@ -185,7 +185,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(964, 541);
+            this.ClientSize = new System.Drawing.Size(618, 168);
             this.Controls.Add(this.processBtn);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button1);
