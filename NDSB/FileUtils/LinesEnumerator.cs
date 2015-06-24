@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Globalization;
+using System.IO;
 
 namespace NDSB
 {
@@ -18,13 +19,17 @@ namespace NDSB
         {
             string line;
             int lineNumber = 0;
-            System.IO.StreamReader file = new System.IO.StreamReader(path);
-            while ((line = file.ReadLine()) != null && lineNumber < maxLines)
+
+            using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (BufferedStream bs = new BufferedStream(fs))
+            using (StreamReader sr = new StreamReader(bs))
             {
-                lineNumber++;
-                yield return line;
+                while ((line = sr.ReadLine()) != null && lineNumber < maxLines)
+                {
+                    lineNumber++;
+                    yield return line;
+                }
             }
-            file.Close();
         }
     }
 }

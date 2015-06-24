@@ -66,7 +66,7 @@ namespace NDSB
 
         private void button4_Click(object sender, EventArgs e)
         {
-            DownSample.Run(trainPathTbx.Text, 200, DSCdiscountUtils.GetLabelCDiscountDB);
+            DownSample.Split(trainPathTbx.Text, 400, 0.002, DSCdiscountUtils.GetLabelCDiscountDB);
         }
     }
 }

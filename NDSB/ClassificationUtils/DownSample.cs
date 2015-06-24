@@ -8,19 +8,33 @@ namespace NDSB
     {
         public delegate string GetLabel(string input);
 
-        public static void Run(string inputFilePath, int maxElementsPerClass, GetLabel gl)
+        public static void Split(string inputFilePath, int maxElementsPerClass, double proportionOOS, GetLabel gl)
         {
-            string outputFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_down_sampled" + Path.GetExtension(inputFilePath);
+            string downSampledFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_down_sampled" + Path.GetExtension(inputFilePath);
+            string validationFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_validation" + Path.GetExtension(inputFilePath);
+
+            Random rnd = new Random(1);
 
             Dictionary<string, int> counter = new Dictionary<string, int>();
             bool header = true;
+
+            List<string> validation = new List<string>(),
+                downSampled = new List<string>();
 
             foreach (string line in LinesEnumerator.YieldLinesOfFile(inputFilePath))
             {
                 if (header)
                 {
-                    File.AppendAllText(outputFilePath, line + Environment.NewLine);
+                    validation.Add(line);
+                    downSampled.Add(line);
+
                     header = false;
+                }
+
+                if (rnd.NextDouble() < proportionOOS)
+                {
+                    validation.Add(line);
+                    continue;
                 }
 
                 string currentLabel = gl(line);
@@ -30,8 +44,12 @@ namespace NDSB
                     counter.Add(currentLabel, 1);
 
                 if(counter[currentLabel]< maxElementsPerClass)
-                    File.AppendAllText(outputFilePath, line + Environment.NewLine);
+                    downSampled.Add(line);
+                    
             }
+
+            File.WriteAllLines(validationFilePath, validation);
+            File.WriteAllLines(downSampledFilePath, downSampled);
         }
     }
 }

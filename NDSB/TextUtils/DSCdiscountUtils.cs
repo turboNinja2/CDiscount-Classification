@@ -20,12 +20,14 @@ namespace NDSB
         public static void TextToTFIDFCSR(string inputFilePath, int maxLines = int.MaxValue)
         {
             string outputFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_sparse.txt";
+            List<string> buffer = new List<string>();
             foreach (var cd in TFIDF.Transform2(LinesEnumerator.YieldLinesOfFile(inputFilePath, maxLines)))
             {
                 List<string> res = cd.Select(kvp => kvp.Key + ":" + Math.Round(kvp.Value, 3)).ToList();
                 string toWrite = String.Join(" ", res);
-                File.AppendAllText(outputFilePath, toWrite + Environment.NewLine);
+                buffer.Add(toWrite);
             }
+            File.AppendAllLines(outputFilePath, buffer);
         }
 
         public static void ExtractLabelsFromTraining(string inputFilePath, int maxLines = int.MaxValue)
