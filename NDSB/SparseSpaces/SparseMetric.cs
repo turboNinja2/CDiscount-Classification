@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NDSB
 {
-    public static class SparseDistances
+    public static class SparseMetric
     {
         public static double EuclideDistance(Dictionary<string, double> sp1, Dictionary<string, double> sp2)
         {

@@ -38,14 +38,14 @@ namespace NDSB
             string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_pred.txt";
             string[] predicted = new string[testPoints.Count()];
 
-            for(int i =0; i < trainPoints.Length; i++)
-                trainPoints[i] = SparseNormalizations.ToCube(trainPoints[i]);
+            for (int i = 0; i < trainPoints.Length; i++)
+                trainPoints[i] = SparseLinearSpace.ToCube(trainPoints[i]);
 
-            SparseKNNII.StampInverseDictionary(trainPoints, 1);
+            SparseKNNII.StampInverseDictionary(trainPoints, 0.5);
 
             Parallel.For(0, testPoints.Length, i =>
             {
-                int[] pred = SparseKNNII.NearestNeighbours(labels, trainPoints, SparseNormalizations.ToCube(testPoints[i]), 10, SparseDistances.ManhattanDistance);
+                int[] pred = SparseKNNII.NearestNeighbours(labels, trainPoints, SparseLinearSpace.ToCube(testPoints[i]), 20, SparseMetric.ManhattanDistance);
                 predicted[i] = String.Join(";", pred);
             });
             File.AppendAllText(outfileName, String.Join(Environment.NewLine, predicted));
@@ -67,7 +67,7 @@ namespace NDSB
 
         private void button4_Click(object sender, EventArgs e)
         {
-            DownSample.Split(trainPathTbx.Text, 400, 0.002, DSCdiscountUtils.GetLabelCDiscountDB);
+            DownSample.Split(trainPathTbx.Text, 500, 0.002, DSCdiscountUtils.GetLabelCDiscountDB);
         }
 
         private void processBtn_Click(object sender, EventArgs e)
