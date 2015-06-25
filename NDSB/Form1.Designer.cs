@@ -42,6 +42,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.processBtn = new System.Windows.Forms.Button();
+            this.runPegasosBtn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -143,17 +144,17 @@
             // 
             // runBtn
             // 
-            this.runBtn.Location = new System.Drawing.Point(502, 135);
+            this.runBtn.Location = new System.Drawing.Point(428, 135);
             this.runBtn.Name = "runBtn";
             this.runBtn.Size = new System.Drawing.Size(75, 23);
             this.runBtn.TabIndex = 6;
-            this.runBtn.Text = "Run";
+            this.runBtn.Text = "Run KNN";
             this.runBtn.UseVisualStyleBackColor = true;
             this.runBtn.Click += new System.EventHandler(this.runBtn_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(407, 135);
+            this.button1.Location = new System.Drawing.Point(333, 135);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(89, 23);
             this.button1.TabIndex = 7;
@@ -163,7 +164,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(312, 133);
+            this.button4.Location = new System.Drawing.Point(238, 134);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(89, 23);
             this.button4.TabIndex = 10;
@@ -181,11 +182,22 @@
             this.processBtn.UseVisualStyleBackColor = true;
             this.processBtn.Click += new System.EventHandler(this.processBtn_Click);
             // 
+            // runPegasosBtn
+            // 
+            this.runPegasosBtn.Location = new System.Drawing.Point(509, 133);
+            this.runPegasosBtn.Name = "runPegasosBtn";
+            this.runPegasosBtn.Size = new System.Drawing.Size(85, 23);
+            this.runPegasosBtn.TabIndex = 12;
+            this.runPegasosBtn.Text = "Run Pegasos";
+            this.runPegasosBtn.UseVisualStyleBackColor = true;
+            this.runPegasosBtn.Click += new System.EventHandler(this.runPegasosBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(618, 168);
+            this.Controls.Add(this.runPegasosBtn);
             this.Controls.Add(this.processBtn);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button1);
@@ -215,6 +227,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button processBtn;
+        private System.Windows.Forms.Button runPegasosBtn;
     }
 }
 

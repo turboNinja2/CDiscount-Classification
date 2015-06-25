@@ -52,7 +52,7 @@
     <Compile Include="ClassificationUtils\DownSample.cs" />
     <Compile Include="SparseSpaces\SparseHilbert.cs" />
     <Compile Include="SparseMethods\SparseKNN.cs" />
-    <Compile Include="SparseSpaces\SparseLinearSpace.cs" />
+    <Compile Include="SparseSpaces\SparseVectorial.cs" />
     <Compile Include="SparseMethods\SparsePegasos.cs" />
     <Compile Include="TextUtils\DSCdiscountUtils.cs" />
     <Compile Include="FileUtils\CSRHelper.cs" />

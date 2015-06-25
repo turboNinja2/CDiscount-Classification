@@ -5,9 +5,11 @@ using System.Text;
 
 namespace NDSB.SparseMethods
 {
+    using Vector = Dictionary<string, double>;
+
     public static class SparseHilbert
     {
-        public static double DotProduct(Dictionary<string, double> sp1, Dictionary<string, double> sp2)
+        public static double DotProduct(Vector sp1, Vector sp2)
         {
             double dotproduct = 0;
 
@@ -17,7 +19,5 @@ namespace NDSB.SparseMethods
 
             return dotproduct;
         }
-
-
     }
 }
