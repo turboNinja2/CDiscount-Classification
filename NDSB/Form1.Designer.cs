@@ -43,6 +43,9 @@
             this.button4 = new System.Windows.Forms.Button();
             this.processBtn = new System.Windows.Forms.Button();
             this.runPegasosBtn = new System.Windows.Forms.Button();
+            this.maxOccurencesOfClassTbx = new System.Windows.Forms.TextBox();
+            this.nbNeighboursTbx = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -144,9 +147,9 @@
             // 
             // runBtn
             // 
-            this.runBtn.Location = new System.Drawing.Point(428, 135);
+            this.runBtn.Location = new System.Drawing.Point(238, 194);
             this.runBtn.Name = "runBtn";
-            this.runBtn.Size = new System.Drawing.Size(75, 23);
+            this.runBtn.Size = new System.Drawing.Size(89, 23);
             this.runBtn.TabIndex = 6;
             this.runBtn.Text = "Run KNN";
             this.runBtn.UseVisualStyleBackColor = true;
@@ -154,17 +157,17 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(333, 135);
+            this.button1.Location = new System.Drawing.Point(238, 165);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(89, 23);
             this.button1.TabIndex = 7;
-            this.button1.Text = "Prepare data";
+            this.button1.Text = "Extract TFIDF";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(238, 134);
+            this.button4.Location = new System.Drawing.Point(238, 136);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(89, 23);
             this.button4.TabIndex = 10;
@@ -184,19 +187,46 @@
             // 
             // runPegasosBtn
             // 
-            this.runPegasosBtn.Location = new System.Drawing.Point(509, 133);
+            this.runPegasosBtn.Location = new System.Drawing.Point(238, 224);
             this.runPegasosBtn.Name = "runPegasosBtn";
-            this.runPegasosBtn.Size = new System.Drawing.Size(85, 23);
+            this.runPegasosBtn.Size = new System.Drawing.Size(89, 23);
             this.runPegasosBtn.TabIndex = 12;
             this.runPegasosBtn.Text = "Run Pegasos";
             this.runPegasosBtn.UseVisualStyleBackColor = true;
             this.runPegasosBtn.Click += new System.EventHandler(this.runPegasosBtn_Click);
             // 
+            // maxOccurencesOfClassTbx
+            // 
+            this.maxOccurencesOfClassTbx.Location = new System.Drawing.Point(186, 138);
+            this.maxOccurencesOfClassTbx.Name = "maxOccurencesOfClassTbx";
+            this.maxOccurencesOfClassTbx.Size = new System.Drawing.Size(50, 20);
+            this.maxOccurencesOfClassTbx.TabIndex = 13;
+            // 
+            // nbNeighboursTbx
+            // 
+            this.nbNeighboursTbx.Location = new System.Drawing.Point(186, 197);
+            this.nbNeighboursTbx.Name = "nbNeighboursTbx";
+            this.nbNeighboursTbx.Size = new System.Drawing.Size(50, 20);
+            this.nbNeighboursTbx.TabIndex = 14;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(238, 247);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(89, 23);
+            this.button3.TabIndex = 15;
+            this.button3.Text = "Run Rocchio";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(618, 168);
+            this.ClientSize = new System.Drawing.Size(618, 282);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.nbNeighboursTbx);
+            this.Controls.Add(this.maxOccurencesOfClassTbx);
             this.Controls.Add(this.runPegasosBtn);
             this.Controls.Add(this.processBtn);
             this.Controls.Add(this.button4);
@@ -208,6 +238,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -228,6 +259,9 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button processBtn;
         private System.Windows.Forms.Button runPegasosBtn;
+        private System.Windows.Forms.TextBox maxOccurencesOfClassTbx;
+        private System.Windows.Forms.TextBox nbNeighboursTbx;
+        private System.Windows.Forms.Button button3;
     }
 }
 

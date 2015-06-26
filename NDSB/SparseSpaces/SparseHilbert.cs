@@ -19,5 +19,7 @@ namespace NDSB.SparseMethods
 
             return dotproduct;
         }
+
+
     }
 }

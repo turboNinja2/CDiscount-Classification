@@ -31,6 +31,8 @@ namespace NDSB
 
         private void runBtn_Click(object sender, EventArgs e)
         {
+            int nbNeighbours = Convert.ToInt32(nbNeighboursTbx.Text);
+
             Dictionary<string, double>[] trainPoints = CSRHelper.ImportPoints(trainPathTbx.Text);
             Dictionary<string, double>[] testPoints = CSRHelper.ImportPoints(testPathTbx.Text);
             int[] labels = DSCdiscountUtils.ReadLabels(labelsTbx.Text);
@@ -45,7 +47,7 @@ namespace NDSB
 
             Parallel.For(0, testPoints.Length, i =>
             {
-                int[] pred = SparseKNNII.NearestNeighbours(labels, trainPoints, SparseVectorial.ToCube(testPoints[i]), 20, SparseMetric.ManhattanDistance);
+                int[] pred = SparseKNNII.NearestNeighbours(labels, trainPoints, SparseVectorial.ToCube(testPoints[i]), nbNeighbours, SparseMetric.ManhattanDistance);
                 predicted[i] = String.Join(";", pred);
             });
             File.AppendAllText(outfileName, String.Join(Environment.NewLine, predicted));
@@ -67,7 +69,7 @@ namespace NDSB
 
         private void button4_Click(object sender, EventArgs e)
         {
-            DownSample.Split(trainPathTbx.Text, 500, 0.002, DSCdiscountUtils.GetLabelCDiscountDB);
+            DownSample.Split(trainPathTbx.Text, Convert.ToInt32(maxOccurencesOfClassTbx.Text), DSCdiscountUtils.GetLabelCDiscountDB);
         }
 
         private void processBtn_Click(object sender, EventArgs e)
@@ -84,8 +86,30 @@ namespace NDSB
             string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_pegasos_pred.txt";
 
 
-            SparsePegasos model = new SparsePegasos();
-            model.TrainSpecificClass(trainPoints, labels, 0.3,247);
+            SparseMulticlassPerceptron model = new SparseMulticlassPerceptron();
+            model.Train(trainPoints, labels, 0.3);
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, double>[] trainPoints = CSRHelper.ImportPoints(trainPathTbx.Text);
+            Dictionary<string, double>[] testPoints = CSRHelper.ImportPoints(testPathTbx.Text);
+            int[] labels = DSCdiscountUtils.ReadLabels(labelsTbx.Text);
+
+            string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_rocchio_pred.txt";
+
+            SparseCentroids sr = new SparseCentroids();
+            sr.Train(labels, trainPoints);
+
+            string[] predicted = new string[testPoints.Count()];
+            Parallel.For(0, testPoints.Length, i =>
+            //for(int i =0; i < testPoints.Length; i++)
+            {
+                int pred = sr.Predict(testPoints[i]);
+                predicted[i] = String.Join(";", pred);
+            });
+            File.AppendAllText(outfileName, String.Join(Environment.NewLine, predicted));
 
         }
     }
