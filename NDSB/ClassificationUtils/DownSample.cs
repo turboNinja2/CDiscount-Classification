@@ -10,7 +10,8 @@ namespace NDSB
 
         public static void Split(string inputFilePath, int maxElementsPerClass, GetLabel gl)
         {
-            string downSampledFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_down_sampled" + Path.GetExtension(inputFilePath);
+            string downSampledFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_down_sampled_" + maxElementsPerClass.ToString()
+                + Path.GetExtension(inputFilePath);
 
             Random rnd = new Random(1);
 

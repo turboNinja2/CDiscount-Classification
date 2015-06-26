@@ -85,7 +85,6 @@ namespace NDSB
 
             string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_pegasos_pred.txt";
 
-
             SparseMulticlassPerceptron model = new SparseMulticlassPerceptron();
             model.Train(trainPoints, labels, 0.3);
 

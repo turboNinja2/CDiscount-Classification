@@ -34,17 +34,25 @@ namespace NDSB.SparseMethods
 
             for (int i = 0; i < distinctLabels.Length; i++) // scaling
                 SparseVectorial.Multiply(_centroids[distinctLabels[i]], 1f / labelsCount[distinctLabels[i]]);
+
+            for (int i = 0; i < _centroids.Count; i++)
+                _centroids[distinctLabels[i]] = SparseVectorial.ToSphere(_centroids[distinctLabels[i]]);
         }
+
 
         public int Predict(Point pt)
         {
-            double minDistance = Double.MaxValue;
+            pt = SparseVectorial.ToSphere(pt);
+            double maxSimilarity = Double.MinValue;
             int bestLabel = -1;
             for (int i = 0; i < _centroids.Count; i++)
             {
-                double currentDistance = SparseHilbert.DotProduct(pt,_centroids.ElementAt(i).Value);
-                if (currentDistance < minDistance)
+                double currentSimilarity = SparseHilbert.DotProduct(pt,_centroids.ElementAt(i).Value);
+                if (currentSimilarity > maxSimilarity)
+                {
                     bestLabel = _centroids.ElementAt(i).Key;
+                    maxSimilarity = currentSimilarity;
+                }
             }
             return bestLabel;
         }
