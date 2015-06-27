@@ -7,9 +7,9 @@ using System.Collections.Concurrent;
 
 namespace NDSB.SparseMethods
 {
-    class SparseMulticlassPerceptron
+    class MulticlassPerceptron
     {
-        private ConcurrentDictionary<int, SparsePerceptron> _perceptrons = new ConcurrentDictionary<int, SparsePerceptron>();
+        private ConcurrentDictionary<int, Perceptron> _perceptrons = new ConcurrentDictionary<int, Perceptron>();
 
         public void Train(Dictionary<string, double>[] xts, int[] yts, double lambda)
         {
@@ -20,7 +20,7 @@ namespace NDSB.SparseMethods
 
             Parallel.For(0, nbClasses, i =>
             {
-                SparsePerceptron currentPerceptron = new SparsePerceptron();
+                Perceptron currentPerceptron = new Perceptron();
                 currentPerceptron.TrainSpecificClass(xts, yts, lambda, labels[i]);
                 _perceptrons.TryAdd(labels[i], currentPerceptron);
                 approxTrainedPerceptrons++;

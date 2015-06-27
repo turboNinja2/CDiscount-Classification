@@ -7,7 +7,7 @@ namespace NDSB.SparseMethods
 {
     using Vector = Dictionary<string, double>;
 
-    public static class SparseHilbert
+    public static class HilbertSpace
     {
         public static double DotProduct(Vector sp1, Vector sp2)
         {

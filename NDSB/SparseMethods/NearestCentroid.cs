@@ -7,10 +7,15 @@ namespace NDSB.SparseMethods
 {
     using Point = Dictionary<string, double>;
 
-    public class SparseCentroids
+    public class NearestCentroid
     {
         private Dictionary<int, Point> _centroids;
 
+        /// <summary>
+        /// Generates, normalizes and stores the centroids.
+        /// </summary>
+        /// <param name="labels"></param>
+        /// <param name="points"></param>
         public void Train(int[] labels, Dictionary<string, double>[] points)
         {
             int[] distinctLabels = labels.Distinct().ToArray();
@@ -29,25 +34,31 @@ namespace NDSB.SparseMethods
             for (int i = 0; i < labels.Length; i++) // training
             {
                 labelsCount[labels[i]] += 1;
-                SparseVectorial.Add(_centroids[labels[i]], points[i]);
+                LinearSpace.Add(_centroids[labels[i]], points[i]);
             }
 
             for (int i = 0; i < distinctLabels.Length; i++) // scaling
-                SparseVectorial.Multiply(_centroids[distinctLabels[i]], 1f / labelsCount[distinctLabels[i]]);
+                LinearSpace.Multiply(_centroids[distinctLabels[i]], 1f / labelsCount[distinctLabels[i]]);
 
             for (int i = 0; i < _centroids.Count; i++)
-                _centroids[distinctLabels[i]] = SparseVectorial.ToSphere(_centroids[distinctLabels[i]]);
+                _centroids[distinctLabels[i]] = LinearSpace.ToSphere(_centroids[distinctLabels[i]]);
         }
 
-
+        /// <summary>
+        /// Returns the label of the nearest centroid of the point.
+        /// Note that since the norms of the point and the centroid are 1, it is equivalent (and faster) 
+        /// to maximize the dot product.
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <returns></returns>
         public int Predict(Point pt)
         {
-            pt = SparseVectorial.ToSphere(pt);
+            pt = LinearSpace.ToSphere(pt);
             double maxSimilarity = Double.MinValue;
             int bestLabel = -1;
             for (int i = 0; i < _centroids.Count; i++)
             {
-                double currentSimilarity = SparseHilbert.DotProduct(pt,_centroids.ElementAt(i).Value);
+                double currentSimilarity = HilbertSpace.DotProduct(pt,_centroids.ElementAt(i).Value);
                 if (currentSimilarity > maxSimilarity)
                 {
                     bestLabel = _centroids.ElementAt(i).Key;

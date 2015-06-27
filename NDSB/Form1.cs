@@ -41,13 +41,13 @@ namespace NDSB
             string[] predicted = new string[testPoints.Count()];
 
             for (int i = 0; i < trainPoints.Length; i++)
-                trainPoints[i] = SparseVectorial.ToCube(trainPoints[i]);
+                trainPoints[i] = LinearSpace.ToCube(trainPoints[i]);
 
-            SparseKNNII.StampInverseDictionary(trainPoints, 0.5);
+            KNNII.StampInverseDictionary(trainPoints, 0.5);
 
             Parallel.For(0, testPoints.Length, i =>
             {
-                int[] pred = SparseKNNII.NearestNeighbours(labels, trainPoints, SparseVectorial.ToCube(testPoints[i]), nbNeighbours, SparseMetric.ManhattanDistance);
+                int[] pred = KNNII.NearestNeighbours(labels, trainPoints, LinearSpace.ToCube(testPoints[i]), nbNeighbours, MetricSpace.ManhattanDistance);
                 predicted[i] = String.Join(";", pred);
             });
             File.AppendAllText(outfileName, String.Join(Environment.NewLine, predicted));
@@ -85,7 +85,7 @@ namespace NDSB
 
             string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_pegasos_pred.txt";
 
-            SparseMulticlassPerceptron model = new SparseMulticlassPerceptron();
+            MulticlassPerceptron model = new MulticlassPerceptron();
             model.Train(trainPoints, labels, 0.3);
 
         }
@@ -98,7 +98,7 @@ namespace NDSB
 
             string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_rocchio_pred.txt";
 
-            SparseCentroids sr = new SparseCentroids();
+            NearestCentroid sr = new NearestCentroid();
             sr.Train(labels, trainPoints);
 
             string[] predicted = new string[testPoints.Count()];

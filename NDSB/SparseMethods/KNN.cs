@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace NDSB
 {
-    public static class SparseKNN
+    public static class KNN
     {
         public delegate double Distance(Dictionary<string, double> sp1, Dictionary<string, double> sp2);
 

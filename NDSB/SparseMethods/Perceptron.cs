@@ -2,21 +2,21 @@
 
 namespace NDSB.SparseMethods
 {
-    public class SparsePerceptron
+    public class Perceptron
     {
         private Dictionary<string, double> _w = new Dictionary<string, double>(10000);
 
         public double Predict(Dictionary<string, double> point)
         {
-            return SparseHilbert.DotProduct(point, _w);
+            return HilbertSpace.DotProduct(point, _w);
         }
 
         private void Update(Dictionary<string, double> xt, double yt, double gammat)
         {
             if (Predict(xt) * yt <= 0)
             {
-                SparseVectorial.Multiply(xt, gammat * yt);
-                SparseVectorial.Add(_w, xt);
+                LinearSpace.Multiply(xt, gammat * yt);
+                LinearSpace.Add(_w, xt);
             }
         }
 

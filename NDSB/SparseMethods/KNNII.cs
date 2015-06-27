@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace NDSB
 {
-    public static class SparseKNNII
+    public static class KNNII
     {
         public delegate double Distance(Dictionary<string, double> sp1, Dictionary<string, double> sp2);
 

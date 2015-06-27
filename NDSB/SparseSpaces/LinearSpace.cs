@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NDSB.SparseMethods
 {
-    public static class SparseVectorial
+    public static class LinearSpace
     {
         public static Dictionary<string, double> ToCube(Dictionary<string, double> input)
         {
