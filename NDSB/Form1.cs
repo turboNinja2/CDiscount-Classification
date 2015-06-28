@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NDSB.SparseMethods;
+using NDSB.FileUtils;
 
 namespace NDSB
 {
@@ -69,7 +70,9 @@ namespace NDSB
 
         private void button4_Click(object sender, EventArgs e)
         {
-            DownSample.Split(trainPathTbx.Text, Convert.ToInt32(maxOccurencesOfClassTbx.Text), DSCdiscountUtils.GetLabelCDiscountDB);
+            DownSample.Split(trainPathTbx.Text,
+                Convert.ToInt32(maxOccurencesOfClassTbx.Text),
+                DSCdiscountUtils.GetLabelCDiscountDB);
         }
 
         private void processBtn_Click(object sender, EventArgs e)
@@ -96,7 +99,7 @@ namespace NDSB
             Dictionary<string, double>[] testPoints = CSRHelper.ImportPoints(testPathTbx.Text);
             int[] labels = DSCdiscountUtils.ReadLabels(labelsTbx.Text);
 
-            string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_rocchio_pred.txt";
+            string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_centroid_pred.txt";
 
             NearestCentroid sr = new NearestCentroid();
             sr.Train(labels, trainPoints);
@@ -110,6 +113,42 @@ namespace NDSB
             });
             File.AppendAllText(outfileName, String.Join(Environment.NewLine, predicted));
 
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            int maxEltsPerClass = Convert.ToInt32(maxEltsPerClassTbx.Text),
+                nbNeighbours = Convert.ToInt32(nbNeighbTbx.Text);
+
+            string[] trainFilePaths = new string[1];
+            string testFilePath = "";
+
+
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "Test file path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                testFilePath = fdlg.FileName;
+
+            fdlg = new OpenFileDialog();
+            fdlg.Multiselect = true;
+            fdlg.Title = "Train file path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                trainFilePaths = fdlg.FileNames;
+
+            for (int i = 0; i < trainFilePaths.Length; i++)
+                MLHelper.TFIDFTrainAndPredict(maxEltsPerClass, nbNeighbours, trainFilePaths[i], testFilePath);
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Multiselect = true;
+            fdlg.Title = "Files to merge";
+            string[] filePaths = new string[1];
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                filePaths = fdlg.FileNames;
+
+            CSVHelper.MergeToOneFile(filePaths);
         }
     }
 }

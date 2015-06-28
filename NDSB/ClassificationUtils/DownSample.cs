@@ -8,12 +8,10 @@ namespace NDSB
     {
         public delegate string GetLabel(string input);
 
-        public static void Split(string inputFilePath, int maxElementsPerClass, GetLabel gl)
+        public static string Split(string inputFilePath, int maxElementsPerClass, GetLabel gl)
         {
             string downSampledFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_down_sampled_" + maxElementsPerClass.ToString()
                 + Path.GetExtension(inputFilePath);
-
-            Random rnd = new Random(1);
 
             Dictionary<string, int> counter = new Dictionary<string, int>();
             bool header = true;
@@ -39,6 +37,8 @@ namespace NDSB
                     
             }
             File.WriteAllLines(downSampledFilePath, downSampled);
+
+            return downSampledFilePath;
         }
     }
 }

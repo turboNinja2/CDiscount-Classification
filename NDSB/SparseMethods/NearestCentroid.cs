@@ -16,7 +16,7 @@ namespace NDSB.SparseMethods
         /// </summary>
         /// <param name="labels"></param>
         /// <param name="points"></param>
-        public void Train(int[] labels, Dictionary<string, double>[] points)
+        public void Train(int[] labels, Point[] points)
         {
             int[] distinctLabels = labels.Distinct().ToArray();
             int nLabels = distinctLabels.Length;

@@ -17,7 +17,7 @@ namespace NDSB
         /// </summary>
         /// <param name="inputFilePath"></param>
         /// <param name="maxLines"></param>
-        public static void TextToTFIDFCSR(string inputFilePath, int maxLines = int.MaxValue)
+        public static string TextToTFIDFCSR(string inputFilePath, int maxLines = int.MaxValue)
         {
             string outputFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_tfidf.csr";
             List<string> buffer = new List<string>();
@@ -27,10 +27,11 @@ namespace NDSB
                 string toWrite = String.Join(" ", res);
                 buffer.Add(toWrite);
             }
-            File.AppendAllLines(outputFilePath, buffer);
+            File.WriteAllLines(outputFilePath, buffer);
+            return outputFilePath;
         }
 
-        public static void ExtractLabelsFromTraining(string inputFilePath, int maxLines = int.MaxValue)
+        public static string ExtractLabelsFromTraining(string inputFilePath, int maxLines = int.MaxValue)
         {
             string outputFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_labels.txt";
             List<string> toWrite = new List<string>();
@@ -39,6 +40,7 @@ namespace NDSB
                 toWrite.Add(GetLabelCDiscountDB(line));
 
             File.WriteAllLines(outputFilePath, toWrite);
+            return outputFilePath;
         }
 
         public static int[] ReadLabels(string inputFilePath, bool header = true)

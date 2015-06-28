@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassificationUtils\DownSample.cs" />
+    <Compile Include="FileUtils\CSVHelper.cs" />
+    <Compile Include="MLHelper.cs" />
     <Compile Include="SparseMethods\MulticlassPerceptron.cs" />
     <Compile Include="SparseMethods\NearestCentroid.cs" />
     <Compile Include="SparseSpaces\HilbertSpace.cs" />
