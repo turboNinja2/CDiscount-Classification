@@ -12,7 +12,7 @@ namespace NDSB.SparseMethods
     public class NearestCentroid
     {
         private Dictionary<int, Point> _centroids;
-        public IMapping<Point> _mapping = new IdentitySparse();
+        public IMapping<Point> _mapping = new IdentitySparse<Point>();
 
         public NearestCentroid(IMapping<Point> map)
         {

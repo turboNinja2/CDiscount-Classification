@@ -46,7 +46,7 @@ namespace NDSB
             File.AppendAllText(outfileNameNC2, String.Join(Environment.NewLine, predicted2));
 
 
-            NearestCentroid nc = new NearestCentroid(new IdentitySparse());
+            NearestCentroid nc = new NearestCentroid(new IdentitySparse<Dictionary<string,double>>());
             nc.Train(labels, trainPoints);
 
             string[] predicted = new string[testPoints.Count()];

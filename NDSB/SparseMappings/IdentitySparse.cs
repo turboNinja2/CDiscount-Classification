@@ -5,9 +5,9 @@ using System.Text;
 
 namespace NDSB.SparseMappings
 {
-    public class IdentitySparse : IMapping<Dictionary<string, double>>
+    public class IdentitySparse<T> : IMapping<T>
     {
-        public Dictionary<string, double> Map(Dictionary<string, double> point)
+        public T Map(T point)
         {
             return point;
         }

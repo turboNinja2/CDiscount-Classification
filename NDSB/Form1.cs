@@ -105,7 +105,7 @@ namespace NDSB
 
             string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_centroid_pred.txt";
 
-            NearestCentroid sr = new NearestCentroid(new IdentitySparse());
+            NearestCentroid sr = new NearestCentroid(new IdentitySparse<Dictionary<string, double>>());
             sr.Train(labels, trainPoints);
 
             string[] predicted = new string[testPoints.Count()];
