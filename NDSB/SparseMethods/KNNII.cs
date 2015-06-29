@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace NDSB
 {
-    public static class KNNII
+    public class KNNII
     {
         public delegate double Distance(Dictionary<string, double> sp1, Dictionary<string, double> sp2);
 
-        public static Dictionary<string, List<int>> _invertedIndexes = new Dictionary<string, List<int>>(1000000);
+        public Dictionary<string, List<int>> _invertedIndexes = new Dictionary<string, List<int>>(1000000);
 
         /// <summary>
         /// Returns the labels of the nearest neighbours
@@ -21,10 +21,10 @@ namespace NDSB
         /// <param name="newPoint"></param>
         /// <param name="nbNeighbours"></param>
         /// <returns></returns>
-        public static int[] NearestNeighbours(int[] labels, Dictionary<string, double>[] sample, Dictionary<string, double> newPoint, int nbNeighbours, Distance distance, double minTFIDF = 0)
+        public int[] NearestNeighbours(int[] labels, Dictionary<string, double>[] sample, Dictionary<string, double> newPoint, int nbNeighbours, Distance distance, double minTFIDF = 0)
         {
             string[] keys = newPoint.Keys.ToArray();
-            int[] relevantIndexes = PreselectNeighbours(keys);
+            int[] relevantIndexes = PreselectNeighbours(keys,_invertedIndexes);
 
             double[] distances = new double[relevantIndexes.Length];
             int[] selectedLabels = new int[relevantIndexes.Length];
@@ -42,7 +42,7 @@ namespace NDSB
         /// Creates an inverse dictionnary and stamps it.
         /// </summary>
         /// <param name="sample"></param>
-        public static void StampInverseDictionary(Dictionary<string, double>[] sample, double minTFIDF)
+        public void StampInverseDictionary(Dictionary<string, double>[] sample, double minTFIDF)
         {
             if (_invertedIndexes.Count == 0)
             {
@@ -70,12 +70,12 @@ namespace NDSB
         /// </summary>
         /// <param name="keywords"></param>
         /// <returns></returns>
-        private static int[] PreselectNeighbours(string[] keywords)
+        private static int[] PreselectNeighbours(string[] keywords, Dictionary<string, List<int>> invertedIndexes)
         {
             List<int> candidateIndexes = new List<int>();
             for (int i = 0; i < keywords.Length; i++)
-                if (_invertedIndexes.ContainsKey(keywords[i]))
-                    candidateIndexes.AddRange(_invertedIndexes[keywords[i]]);
+                if (invertedIndexes.ContainsKey(keywords[i]))
+                    candidateIndexes.AddRange(invertedIndexes[keywords[i]]);
             return candidateIndexes.Distinct().ToArray();
         }
 
@@ -86,7 +86,7 @@ namespace NDSB
         /// <param name="distances"></param>
         /// <param name="k"></param>
         /// <returns></returns>
-        private static int[] LazyBubbleSort(int[] labels, double[] distances, int k)
+        private int[] LazyBubbleSort(int[] labels, double[] distances, int k)
         {
             int[] result = new int[k];
 

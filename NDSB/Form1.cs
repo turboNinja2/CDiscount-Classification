@@ -44,6 +44,8 @@ namespace NDSB
             for (int i = 0; i < trainPoints.Length; i++)
                 trainPoints[i] = LinearSpace.ToCube(trainPoints[i]);
 
+
+            /*
             KNNII.StampInverseDictionary(trainPoints, 0.5);
 
             Parallel.For(0, testPoints.Length, i =>
@@ -51,6 +53,7 @@ namespace NDSB
                 int[] pred = KNNII.NearestNeighbours(labels, trainPoints, LinearSpace.ToCube(testPoints[i]), nbNeighbours, MetricSpace.ManhattanDistance);
                 predicted[i] = String.Join(";", pred);
             });
+             */
             File.AppendAllText(outfileName, String.Join(Environment.NewLine, predicted));
         }
 

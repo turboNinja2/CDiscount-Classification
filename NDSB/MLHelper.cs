@@ -47,7 +47,7 @@ namespace NDSB
             #endregion
             
             #region KNN
-            /*
+            
             string outfileNameKNN = Path.GetDirectoryName(trainTFIDFFilePath) + "\\" + Path.GetFileNameWithoutExtension(trainTFIDFFilePath) +
                 "_knn_" + maxElementsPerClass + "_" + nbNeighbours + "_pred.txt";
 
@@ -56,16 +56,17 @@ namespace NDSB
             for (int i = 0; i < trainPoints.Length; i++)
                 trainPoints[i] = LinearSpace.ToCube(trainPoints[i]);
 
-            KNNII.StampInverseDictionary(trainPoints, 0.5);
+            KNNII knn = new KNNII();
+            knn.StampInverseDictionary(trainPoints, 0.5);
 
             Parallel.For(0, testPoints.Length, i =>
             {
-                int[] pred = KNNII.NearestNeighbours(labels, trainPoints, LinearSpace.ToCube(testPoints[i]), nbNeighbours, MetricSpace.ManhattanDistance);
+                int[] pred = knn.NearestNeighbours(labels, trainPoints, LinearSpace.ToCube(testPoints[i]), nbNeighbours, MetricSpace.ManhattanDistance);
                 predictedKNN[i] = String.Join(";", pred);
             });
 
             File.AppendAllText(outfileNameKNN, String.Join(Environment.NewLine, predictedKNN));
-            */
+            
             #endregion
 
             File.Delete(labelsFilePath);
