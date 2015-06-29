@@ -2,14 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NDSB.SparseMappings;
 
 namespace NDSB.SparseMethods
 {
     using Point = Dictionary<string, double>;
+    using System.Threading.Tasks;
 
     public class NearestCentroid
     {
         private Dictionary<int, Point> _centroids;
+        public IMapping<Point> _mapping = new IdentitySparse();
+
+        public NearestCentroid(IMapping<Point> map)
+        {
+            _mapping = map;
+        }
 
         /// <summary>
         /// Generates, normalizes and stores the centroids.
@@ -34,14 +42,19 @@ namespace NDSB.SparseMethods
             for (int i = 0; i < labels.Length; i++) // training
             {
                 labelsCount[labels[i]] += 1;
-                LinearSpace.Add(_centroids[labels[i]], points[i]);
+                LinearSpace.Add(_centroids[labels[i]], _mapping.Map(points[i]));
             }
-
+            
+            /*
             for (int i = 0; i < distinctLabels.Length; i++) // scaling
                 LinearSpace.Multiply(_centroids[distinctLabels[i]], 1f / labelsCount[distinctLabels[i]]);
+            */
 
-            for (int i = 0; i < _centroids.Count; i++)
+            //for (int i = 0; i < _centroids.Count; i++)
+            Parallel.For(0, _centroids.Count, i =>
+            {
                 _centroids[distinctLabels[i]] = LinearSpace.ToSphere(_centroids[distinctLabels[i]]);
+            });
         }
 
         /// <summary>
@@ -58,7 +71,7 @@ namespace NDSB.SparseMethods
             int bestLabel = -1;
             for (int i = 0; i < _centroids.Count; i++)
             {
-                double currentSimilarity = HilbertSpace.DotProduct(pt,_centroids.ElementAt(i).Value);
+                double currentSimilarity = HilbertSpace.DotProduct(_mapping.Map(pt),_centroids.ElementAt(i).Value);
                 if (currentSimilarity > maxSimilarity)
                 {
                     bestLabel = _centroids.ElementAt(i).Key;

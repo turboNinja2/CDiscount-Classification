@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using NDSB.SparseMethods;
 using NDSB.FileUtils;
+using NDSB.SparseMappings;
 
 namespace NDSB
 {
@@ -104,7 +105,7 @@ namespace NDSB
 
             string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_centroid_pred.txt";
 
-            NearestCentroid sr = new NearestCentroid();
+            NearestCentroid sr = new NearestCentroid(new IdentitySparse());
             sr.Train(labels, trainPoints);
 
             string[] predicted = new string[testPoints.Count()];
