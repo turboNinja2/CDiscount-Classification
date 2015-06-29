@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using NDSB.SparseMethods;
 using System.Threading.Tasks;
+using NDSB.SparseMappings;
 
 namespace NDSB
 {
@@ -29,7 +30,23 @@ namespace NDSB
 
             #region Centroids 
 
-            NearestCentroid nc = new NearestCentroid();
+            NearestCentroid nc2 = new NearestCentroid(new InteractionsSparse(2,20));
+            nc2.Train(labels, trainPoints);
+
+            string[] predicted2 = new string[testPoints.Count()];
+            Parallel.For(0, testPoints.Length, i =>
+            {
+                int pred = nc2.Predict(testPoints[i]);
+                predicted2[i] = pred.ToString();
+            });
+
+            string outfileNameNC2 = Path.GetDirectoryName(trainTFIDFFilePath) + "\\" + Path.GetFileNameWithoutExtension(trainTFIDFFilePath) +
+                "_nc2_" + maxElementsPerClass + "_pred.txt";
+
+            File.AppendAllText(outfileNameNC2, String.Join(Environment.NewLine, predicted2));
+
+
+            NearestCentroid nc = new NearestCentroid(new IdentitySparse());
             nc.Train(labels, trainPoints);
 
             string[] predicted = new string[testPoints.Count()];
