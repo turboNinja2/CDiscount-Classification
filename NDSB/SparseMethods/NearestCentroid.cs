@@ -11,6 +11,8 @@ namespace NDSB.SparseMethods
 
     public class NearestCentroid
     {
+        private static readonly int _PRE_ALLOC_NB_CENTROIDS_ = 6000;
+        private static readonly int _PRE_ALLOC_COMPONENTS_ = 12000;
         private Dictionary<int, Point> _centroids;
         public IMapping<Point> _mapping = new IdentitySparse<Point>();
 
@@ -29,32 +31,15 @@ namespace NDSB.SparseMethods
             int[] distinctLabels = labels.Distinct().ToArray();
             int nLabels = distinctLabels.Length;
 
-            _centroids = new Dictionary<int, Point>();
-            
-            Dictionary<int, int> labelsCount = new Dictionary<int, int>();
+            _centroids = new Dictionary<int, Point>(_PRE_ALLOC_NB_CENTROIDS_);
 
             for (int i = 0; i < nLabels; i++) // pre alloc
-            {
-                _centroids.Add(distinctLabels[i], new Dictionary<string, double>(500));
-                labelsCount.Add(distinctLabels[i], 0);
-            }
+                _centroids.Add(distinctLabels[i], new Point(_PRE_ALLOC_COMPONENTS_));
 
             for (int i = 0; i < labels.Length; i++) // training
-            {
-                labelsCount[labels[i]] += 1;
                 LinearSpace.Add(_centroids[labels[i]], _mapping.Map(points[i]));
-            }
-            
-            /*
-            for (int i = 0; i < distinctLabels.Length; i++) // scaling
-                LinearSpace.Multiply(_centroids[distinctLabels[i]], 1f / labelsCount[distinctLabels[i]]);
-            */
 
-            //for (int i = 0; i < _centroids.Count; i++)
-            Parallel.For(0, _centroids.Count, i =>
-            {
-                _centroids[distinctLabels[i]] = LinearSpace.ToSphere(_centroids[distinctLabels[i]]);
-            });
+            Parallel.For(0, _centroids.Count, i => { _centroids[distinctLabels[i]] = LinearSpace.ToSphere(_centroids[distinctLabels[i]]); });
         }
 
         /// <summary>
@@ -71,7 +56,7 @@ namespace NDSB.SparseMethods
             int bestLabel = -1;
             for (int i = 0; i < _centroids.Count; i++)
             {
-                double currentSimilarity = HilbertSpace.DotProduct(_mapping.Map(pt),_centroids.ElementAt(i).Value);
+                double currentSimilarity = HilbertSpace.DotProduct(_mapping.Map(pt), _centroids.ElementAt(i).Value);
                 if (currentSimilarity > maxSimilarity)
                 {
                     bestLabel = _centroids.ElementAt(i).Key;

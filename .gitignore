@@ -60,7 +60,6 @@ NDSB/obj/x86/Debug/NDSB.Properties.Resources.resources
 *.resources
 NDSB/obj/x86/Debug/DesignTimeResolveAssemblyReferences.cache
 *.cache
-*.cache
-*.cache
-*.cache
 *.suo
+*.manifest
+NDSB/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
