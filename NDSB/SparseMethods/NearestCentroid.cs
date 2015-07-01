@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 using NDSB.SparseMappings;
 
 namespace NDSB.SparseMethods
 {
     using Point = Dictionary<string, double>;
-    using System.Threading.Tasks;
 
     public class NearestCentroid
     {
         private static readonly int _PRE_ALLOC_NB_CENTROIDS_ = 6000;
         private static readonly int _PRE_ALLOC_COMPONENTS_ = 1000;
+
         private Dictionary<int, Point> _centroids;
-        public IMapping<Point> _mapping = new IdentitySparse<Point>();
+        private IMapping<Point> _mapping = new Identity<Point>();
 
         public NearestCentroid(IMapping<Point> map)
         {
@@ -66,6 +66,20 @@ namespace NDSB.SparseMethods
                 }
             }
             return bestLabel;
+        }
+
+        public static string[] TrainAndPredict(NearestCentroid model, Dictionary<string, double>[] trainPoints, int[] labels, Dictionary<string, double>[] testPoints)
+        {
+            model.Train(labels, trainPoints);
+
+            string[] predicted2 = new string[testPoints.Count()];
+            Parallel.For(0, testPoints.Length, i =>
+            {
+                int pred = model.Predict(testPoints[i]);
+                predicted2[i] = pred.ToString();
+            });
+
+            return predicted2;
         }
 
     }

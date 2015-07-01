@@ -28,43 +28,33 @@ namespace NDSB
             Dictionary<string, double>[] testPoints = CSRHelper.ImportPoints(testTFIDFFilePath);
             int[] labels = DSCdiscountUtils.ReadLabels(labelsFilePath);
 
-            #region Centroids 
+            #region Centroids
 
-            NearestCentroid nc2 = new NearestCentroid(new InteractionsSparse(2,20));
-            nc2.Train(labels, trainPoints);
-
-            string[] predicted2 = new string[testPoints.Count()];
-            Parallel.For(0, testPoints.Length, i =>
-            {
-                int pred = nc2.Predict(testPoints[i]);
-                predicted2[i] = pred.ToString();
-            });
+            string[] predicted2 = NearestCentroid.TrainAndPredict(new NearestCentroid((new Interactions(2, 20))), trainPoints, labels, testPoints);
 
             string outfileNameNC2 = Path.GetDirectoryName(trainTFIDFFilePath) + "\\" + Path.GetFileNameWithoutExtension(trainTFIDFFilePath) +
-                "_nc2_" + maxElementsPerClass + "_pred.txt";
+                "_nc_Interactions_" + maxElementsPerClass + "_pred.txt";
 
             File.AppendAllText(outfileNameNC2, String.Join(Environment.NewLine, predicted2));
 
+            string[] predicted3 = NearestCentroid.TrainAndPredict(new NearestCentroid((new PureInteractions(2, 20))), trainPoints, labels, testPoints);
 
-            NearestCentroid nc = new NearestCentroid(new IdentitySparse<Dictionary<string,double>>());
-            nc.Train(labels, trainPoints);
+            string outfileNameNC3 = Path.GetDirectoryName(trainTFIDFFilePath) + "\\" + Path.GetFileNameWithoutExtension(trainTFIDFFilePath) +
+                "_nc_pureInteractions_" + maxElementsPerClass + "_pred.txt";
 
-            string[] predicted = new string[testPoints.Count()];
-            Parallel.For(0, testPoints.Length, i =>
-            {
-                int pred = nc.Predict(testPoints[i]);
-                predicted[i] = pred.ToString();
-            });
+            File.AppendAllText(outfileNameNC3, String.Join(Environment.NewLine, predicted3));
+
+            string[] predicted = NearestCentroid.TrainAndPredict(new NearestCentroid((new Identity<Dictionary<string, double>>())), trainPoints, labels, testPoints);
 
             string outfileNameNC = Path.GetDirectoryName(trainTFIDFFilePath) + "\\" + Path.GetFileNameWithoutExtension(trainTFIDFFilePath) +
-                "_nc_" + maxElementsPerClass + "_pred.txt";
+                "_nc_identity_" + maxElementsPerClass + "_pred.txt";
 
             File.AppendAllText(outfileNameNC, String.Join(Environment.NewLine, predicted));
 
             #endregion
-            
+
             #region KNN
-            
+
             string outfileNameKNN = Path.GetDirectoryName(trainTFIDFFilePath) + "\\" + Path.GetFileNameWithoutExtension(trainTFIDFFilePath) +
                 "_knn_" + maxElementsPerClass + "_" + nbNeighbours + "_pred.txt";
 
@@ -83,7 +73,7 @@ namespace NDSB
             });
 
             File.AppendAllText(outfileNameKNN, String.Join(Environment.NewLine, predictedKNN));
-            
+
             #endregion
 
             File.Delete(labelsFilePath);
