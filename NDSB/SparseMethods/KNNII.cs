@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
-using NDSB.SparseMethods;
-using System.Threading.Tasks;
 
 namespace NDSB
 {
@@ -37,6 +34,7 @@ namespace NDSB
             int[] neighboursLabels = LazyBubbleSort(selectedLabels, distances, nbNeighbours);
             return neighboursLabels;
         }
+
 
         /// <summary>
         /// Creates an inverse dictionnary and stamps it.
