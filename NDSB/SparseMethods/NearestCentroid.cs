@@ -12,7 +12,7 @@ namespace NDSB.SparseMethods
     public class NearestCentroid
     {
         private static readonly int _PRE_ALLOC_NB_CENTROIDS_ = 6000;
-        private static readonly int _PRE_ALLOC_COMPONENTS_ = 12000;
+        private static readonly int _PRE_ALLOC_COMPONENTS_ = 1000;
         private Dictionary<int, Point> _centroids;
         public IMapping<Point> _mapping = new IdentitySparse<Point>();
 
@@ -51,12 +51,14 @@ namespace NDSB.SparseMethods
         /// <returns></returns>
         public int Predict(Point pt)
         {
+            pt = _mapping.Map(pt);
             pt = LinearSpace.ToSphere(pt);
+
             double maxSimilarity = Double.MinValue;
             int bestLabel = -1;
             for (int i = 0; i < _centroids.Count; i++)
             {
-                double currentSimilarity = HilbertSpace.DotProduct(_mapping.Map(pt), _centroids.ElementAt(i).Value);
+                double currentSimilarity = HilbertSpace.DotProduct(pt, _centroids.ElementAt(i).Value);
                 if (currentSimilarity > maxSimilarity)
                 {
                     bestLabel = _centroids.ElementAt(i).Key;

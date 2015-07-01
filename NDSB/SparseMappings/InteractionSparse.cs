@@ -29,10 +29,11 @@ namespace NDSB.SparseMappings
                     else // poor man dimension reduction...
                         if (keys[i].Length < _maxSize && keys[i].Length > _minSize && keys[j].Length < _maxSize && keys[j].Length > _minSize)
                         {
+                            double coef = values[i] * values[j];
                             if(keys[i].Length < keys[j].Length)
-                                res.Add(keys[i] + "_" + keys[j], values[i] * values[j]);
+                                res.Add(keys[i] + "_" + keys[j], coef);
                             else
-                                res.Add(keys[j] + "_" + keys[i], values[i] * values[j]);
+                                res.Add(keys[j] + "_" + keys[i], coef);
                         }
                 }
 

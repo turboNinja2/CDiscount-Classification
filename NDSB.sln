@@ -1,16 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDSB", "NDSB\NDSB.csproj", "{E89E445C-3516-487F-90A3-9636CE8B3F0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E89E445C-3516-487F-90A3-9636CE8B3F0D}.Debug|x64.ActiveCfg = Debug|x64
+		{E89E445C-3516-487F-90A3-9636CE8B3F0D}.Debug|x64.Build.0 = Debug|x64
 		{E89E445C-3516-487F-90A3-9636CE8B3F0D}.Debug|x86.ActiveCfg = Debug|x86
 		{E89E445C-3516-487F-90A3-9636CE8B3F0D}.Debug|x86.Build.0 = Debug|x86
+		{E89E445C-3516-487F-90A3-9636CE8B3F0D}.Release|x64.ActiveCfg = Release|x64
+		{E89E445C-3516-487F-90A3-9636CE8B3F0D}.Release|x64.Build.0 = Release|x64
 		{E89E445C-3516-487F-90A3-9636CE8B3F0D}.Release|x86.ActiveCfg = Release|x86
 		{E89E445C-3516-487F-90A3-9636CE8B3F0D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
