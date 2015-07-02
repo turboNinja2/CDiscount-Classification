@@ -8,11 +8,13 @@ namespace NDSB.SparseMappings
     {
         private int _minSize;
         private int _maxSize;
+        private double _alpha;
 
-        public Interactions(int minSize, int maxSize)
+        public Interactions(int minSize, int maxSize, double alpha)
         {
             _minSize = minSize;
             _maxSize = maxSize;
+            _alpha = alpha;
         }
 
         public Dictionary<string, double> Map(Dictionary<string, double> point)
@@ -26,7 +28,7 @@ namespace NDSB.SparseMappings
             for (int i = 0; i < point.Count; i++)
                 for (int j = i; j < point.Count; j++)
                 {
-                    if (i == j) res.Add(keys[i], values[i] * values[i]);
+                    if (i == j) res.Add(keys[i], _alpha * values[i] * values[i]);
                     else // poor man dimension reduction...
                         if (keys[i].Length < _maxSize && keys[i].Length > _minSize && keys[j].Length < _maxSize && keys[j].Length > _minSize)
                         {
