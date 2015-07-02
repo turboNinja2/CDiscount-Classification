@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace NDSB.SparseMethods
 {
@@ -35,7 +36,7 @@ namespace NDSB.SparseMethods
             for (int i = 0; i < xts.Length; i++)
             {
                 int t = i + 1;
-                double etat = 1 / (lambda * t);
+                double etat = 1 / Math.Pow(t, lambda);
                 int label = (yts[i] == target ? 1 : -1);
                 Update(xts[i], label, etat);
             }

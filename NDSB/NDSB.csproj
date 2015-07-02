@@ -78,6 +78,7 @@
     <Compile Include="SparseMappings\Identity.cs" />
     <Compile Include="SparseMappings\IMapping.cs" />
     <Compile Include="SparseMappings\PureInteractions.cs" />
+    <Compile Include="SparseMethods\KNNHelper.cs" />
     <Compile Include="SparseMethods\MulticlassPerceptron.cs" />
     <Compile Include="SparseMethods\NearestCentroid.cs" />
     <Compile Include="SparseSpaces\HilbertSpace.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Kernels\PolynomialKernel.cs" />
     <Compile Include="SparseSpaces\LinearSpace.cs" />
     <Compile Include="SparseMethods\Perceptron.cs" />
+    <Compile Include="SparseSpaces\RKHilbertSpace.cs" />
     <Compile Include="TextUtils\DSCdiscountUtils.cs" />
     <Compile Include="FileUtils\CSRHelper.cs" />
     <Compile Include="SparseSpaces\MetricSpace.cs" />
