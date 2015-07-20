@@ -15,7 +15,6 @@ namespace NDSB
         private const int _INVERTED_INDEXES_PREALLOC_ = 1000000;
 
         #region Private attributes
-
         private int[] _labels;
         private Point[] _points;
 
@@ -45,7 +44,7 @@ namespace NDSB
             return NearestLabels(_labels, _points, pt, 1, _distance).GroupBy(item => item).OrderByDescending(g => g.Count()).Select(g => g.Key).First();
         }
 
-        public override string ToString()
+        public string Description()
         {
             return "KNNII_MinTFIDF" + _minTFIDF + "_k" + _nbNeighbours + "_distance" + _distance.Method.Name;
         }

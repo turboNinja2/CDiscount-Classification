@@ -71,7 +71,7 @@ namespace NDSB.SparseMethods
             return bestLabel;
         }
 
-        public override string ToString()
+        public string Description()
         {
             return "NearestCentroid_Map" + _mapping.Description();
         }
