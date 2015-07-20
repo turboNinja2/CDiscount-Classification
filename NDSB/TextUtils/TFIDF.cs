@@ -62,6 +62,11 @@ namespace NDSB
         /// </summary>
         private static ConcurrentDictionary<string, double> _vocabularyIDF = new ConcurrentDictionary<string, double>();
 
+        public static void Clear()
+        {
+            _vocabularyIDF.Clear();
+        }
+
         /// <summary>
         /// Transforms a list of documents into their associated TF*IDF values.
         /// If a vocabulary does not yet exist, one will be created, based upon the documents' words.

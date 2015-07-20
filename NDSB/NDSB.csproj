@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\DirtyHelpers.cs" />
     <Compile Include="PreProcessing\DownSample.cs" />
     <Compile Include="FileUtils\CSVHelper.cs" />
     <Compile Include="FileUtils\LIBSVMHelper.cs" />

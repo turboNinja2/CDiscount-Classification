@@ -18,96 +18,12 @@ namespace NDSB
             InitializeComponent();
         }
 
-        private void loadTrainBtn_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                trainPathTbx.Text = fdlg.FileName;
-        }
-
-        private void loadTestBtn_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                testPathTbx.Text = fdlg.FileName;
-        }
-
-        private void runBtn_Click(object sender, EventArgs e)
-        {
-            int nbNeighbours = Convert.ToInt32(nbNeighboursTbx.Text);
-
-            Dictionary<string, double>[] trainPoints = CSRHelper.ImportPoints(trainPathTbx.Text);
-            Dictionary<string, double>[] testPoints = CSRHelper.ImportPoints(testPathTbx.Text);
-            int[] labels = DSCdiscountUtils.ReadLabelsFromTraining(labelsTbx.Text);
-
-            string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_knn_pred.txt";
-            string[] predicted = new string[testPoints.Count()];
-
-            for (int i = 0; i < trainPoints.Length; i++)
-                trainPoints[i] = LinearSpace.ToCube(trainPoints[i]);
-
-
-            /*
-            KNNII.StampInverseDictionary(trainPoints, 0.5);
-
-            Parallel.For(0, testPoints.Length, i =>
-            {
-                int[] pred = KNNII.NearestNeighbours(labels, trainPoints, LinearSpace.ToCube(testPoints[i]), nbNeighbours, MetricSpace.ManhattanDistance);
-                predicted[i] = String.Join(";", pred);
-            });
-             */
-            File.AppendAllText(outfileName, String.Join(Environment.NewLine, predicted));
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //DSCdiscountUtils.TextToTFIDFCSR(testPathTbx.Text);
-            //DSCdiscountUtils.TextToTFIDFCSR(trainPathTbx.Text);
-            DSCdiscountUtils.ExtractLabelsFromTraining(trainPathTbx.Text);
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                labelsTbx.Text = fdlg.FileName;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            DownSample.Split(trainPathTbx.Text,
-                Convert.ToInt32(maxOccurencesOfClassTbx.Text),
-                DSCdiscountUtils.GetLabelCDiscountDB);
-        }
 
         private void processBtn_Click(object sender, EventArgs e)
         {
             MessageBox.Show(IntPtr.Size.ToString());
         }
 
-
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            Dictionary<string, double>[] trainPoints = CSRHelper.ImportPoints(trainPathTbx.Text);
-            Dictionary<string, double>[] testPoints = CSRHelper.ImportPoints(testPathTbx.Text);
-            int[] labels = DSCdiscountUtils.ReadLabelsFromTraining(labelsTbx.Text);
-
-            string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_centroid_pred.txt";
-
-            NearestCentroid sr = new NearestCentroid(new Identity<Dictionary<string, double>>());
-            sr.Train(labels, trainPoints);
-
-            string[] predicted = new string[testPoints.Count()];
-            Parallel.For(0, testPoints.Length, i =>
-            //for(int i =0; i < testPoints.Length; i++)
-            {
-                int pred = sr.Predict(testPoints[i]);
-                predicted[i] = String.Join(";", pred);
-            });
-            File.AppendAllText(outfileName, String.Join(Environment.NewLine, predicted));
-
-        }
 
         private void button5_Click(object sender, EventArgs e)
         {
@@ -129,30 +45,7 @@ namespace NDSB
             if (fdlg.ShowDialog() == DialogResult.OK)
                 trainFilePaths = fdlg.FileNames;
 
-            string dsTrainFile = DownSample.Split(trainFilePaths[0], maxEltsPerClass, DSCdiscountUtils.GetLabelCDiscountDB),
-                tfidfTestFile = TFIDF.TextToTFIDFCSR(testFilePath),
-                tfidfTrainFile = TFIDF.TextToTFIDFCSR(dsTrainFile);
 
-            KNNII knn = new KNNII(MetricSpace.EuclideDistance, nbNeighbours, 0.5);
-
-            Dictionary<string, double>[] trainSet = CSRHelper.ImportPoints(tfidfTrainFile);
-            Dictionary<string, double>[] testSet = CSRHelper.ImportPoints(tfidfTestFile);
-
-            Parallel.For(0, trainSet.Length, i =>
-            {
-                trainSet[i] = LinearSpace.ToSphere(trainSet[i]);
-            });
-
-            Parallel.For(0, testSet.Length, i =>
-            {
-                testSet[i] = LinearSpace.ToSphere(testSet[i]);
-            });
-
-            int[] preds = ClassificationHelper.TrainAndPredict(knn, trainSet, DSCdiscountUtils.ReadLabelsFromTraining(dsTrainFile), testSet);
-
-
-            string predPath = Path.GetDirectoryName(dsTrainFile) + "\\" + Path.GetFileNameWithoutExtension(dsTrainFile) + "_" + knn.Description() + ".csv";
-            File.WriteAllLines(predPath, preds.Select(c => c.ToString()).ToArray());
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -167,13 +60,5 @@ namespace NDSB
             CSVHelper.MergeToOneFile(filePaths);
         }
 
-        private void button7_Click(object sender, EventArgs e)
-        {
-            string dsFilePath = DownSample.Split(trainPathTbx.Text,
-                Convert.ToInt32(maxEltsPerClassTbx.Text),
-                DSCdiscountUtils.GetLabelCDiscountDB);
-            LIBSVMHelper.Convert(dsFilePath, DSCdiscountUtils.GetLabelCDiscountDB);
-            LIBSVMHelper.Convert(testPathTbx.Text, c => "0");
-        }
     }
 }
