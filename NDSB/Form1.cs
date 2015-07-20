@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using NDSB.SparseMethods;
 using NDSB.FileUtils;
 using NDSB.SparseMappings;
+using NDSB.Models;
 
 namespace NDSB
 {
@@ -60,8 +61,8 @@ namespace NDSB
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DSCdiscountUtils.TextToTFIDFCSR(testPathTbx.Text);
-            DSCdiscountUtils.TextToTFIDFCSR(trainPathTbx.Text);
+            //DSCdiscountUtils.TextToTFIDFCSR(testPathTbx.Text);
+            //DSCdiscountUtils.TextToTFIDFCSR(trainPathTbx.Text);
             DSCdiscountUtils.ExtractLabelsFromTraining(trainPathTbx.Text);
         }
 
@@ -128,6 +129,30 @@ namespace NDSB
             if (fdlg.ShowDialog() == DialogResult.OK)
                 trainFilePaths = fdlg.FileNames;
 
+            string dsTrainFile = DownSample.Split(trainFilePaths[0], maxEltsPerClass, DSCdiscountUtils.GetLabelCDiscountDB),
+                tfidfTestFile = TFIDF.TextToTFIDFCSR(testFilePath),
+                tfidfTrainFile = TFIDF.TextToTFIDFCSR(dsTrainFile);
+
+            KNNII knn = new KNNII(MetricSpace.EuclideDistance, nbNeighbours, 0.5);
+
+            Dictionary<string, double>[] trainSet = CSRHelper.ImportPoints(tfidfTrainFile);
+            Dictionary<string, double>[] testSet = CSRHelper.ImportPoints(tfidfTestFile);
+
+            Parallel.For(0, trainSet.Length, i =>
+            {
+                trainSet[i] = LinearSpace.ToSphere(trainSet[i]);
+            });
+
+            Parallel.For(0, testSet.Length, i =>
+            {
+                testSet[i] = LinearSpace.ToSphere(testSet[i]);
+            });
+
+            int[] preds = ClassificationHelper.TrainAndPredict(knn, trainSet, DSCdiscountUtils.ReadLabels(dsTrainFile), testSet);
+
+
+            string predPath = Path.GetDirectoryName(dsTrainFile) + "\\" + Path.GetFileNameWithoutExtension(dsTrainFile) + "_" + knn.Description() + ".csv";
+            File.WriteAllLines(predPath, preds.Select(c => c.ToString()).ToArray());
         }
 
         private void button6_Click(object sender, EventArgs e)

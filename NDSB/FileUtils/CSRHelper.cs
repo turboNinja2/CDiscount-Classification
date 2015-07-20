@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace NDSB
 {
+    using Point = Dictionary<string, double>;
+
     public static class CSRHelper
     {
         /// <summary>
@@ -11,7 +13,7 @@ namespace NDSB
         /// <param name="inputFilePath"></param>
         /// <param name="header"></param>
         /// <returns></returns>
-        public static Dictionary<string, double>[] ImportPoints(string inputFilePath, bool header = true, int prealloc = 1000000)
+        public static Point[] ImportPoints(string inputFilePath, bool header = true, int prealloc = 1000000)
         {
             List<Dictionary<string, double>> points = new List<Dictionary<string, double>>(prealloc);
             foreach (string line in LinesEnumerator.YieldLinesOfFile(inputFilePath))
@@ -26,9 +28,9 @@ namespace NDSB
         /// </summary>
         /// <param name="current"></param>
         /// <returns></returns>
-        public static Dictionary<string, double> SparsePointFromString(string current)
+        public static Point SparsePointFromString(string current)
         {
-            Dictionary<string, double> sparseRepresentation = new Dictionary<string, double>(20);
+            Point sparseRepresentation = new Dictionary<string, double>(20);
             if (current.Length == 0) return sparseRepresentation;
             string[] splitted = current.Split(' ');
 

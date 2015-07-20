@@ -5,5 +5,7 @@
         void Train(int[] labels, T[] points);
 
         int Predict(T point);
+
+        string Description();
     }
 }

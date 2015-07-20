@@ -70,7 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClassificationUtils\DownSample.cs" />
+    <Compile Include="PreProcessing\DownSample.cs" />
     <Compile Include="FileUtils\CSVHelper.cs" />
     <Compile Include="FileUtils\LIBSVMHelper.cs" />
     <Compile Include="Models\IModelClassification.cs" />
