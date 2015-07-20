@@ -84,18 +84,7 @@ namespace NDSB
             MessageBox.Show(IntPtr.Size.ToString());
         }
 
-        private void runPegasosBtn_Click(object sender, EventArgs e)
-        {
-            Dictionary<string, double>[] trainPoints = CSRHelper.ImportPoints(trainPathTbx.Text);
-            Dictionary<string, double>[] testPoints = CSRHelper.ImportPoints(testPathTbx.Text);
-            int[] labels = DSCdiscountUtils.ReadLabels(labelsTbx.Text);
 
-            string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_pegasos_pred.txt";
-
-            MulticlassPerceptron model = new MulticlassPerceptron();
-            model.Train(trainPoints, labels, 0.3);
-
-        }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -153,6 +142,15 @@ namespace NDSB
                 filePaths = fdlg.FileNames;
 
             CSVHelper.MergeToOneFile(filePaths);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            string dsFilePath = DownSample.Split(trainPathTbx.Text,
+                Convert.ToInt32(maxEltsPerClassTbx.Text),
+                DSCdiscountUtils.GetLabelCDiscountDB);
+            LIBSVMHelper.Convert(dsFilePath, DSCdiscountUtils.GetLabelCDiscountDB);
+            LIBSVMHelper.Convert(testPathTbx.Text, c => "0");
         }
     }
 }

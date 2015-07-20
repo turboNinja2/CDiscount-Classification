@@ -21,8 +21,7 @@ namespace NDSB
             int lineNumber = 0;
 
             using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            using (BufferedStream bs = new BufferedStream(fs))
-            using (StreamReader sr = new StreamReader(bs))
+            using (StreamReader sr = new StreamReader(fs))
             {
                 while ((line = sr.ReadLine()) != null && lineNumber < maxLines)
                 {

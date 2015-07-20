@@ -287,7 +287,7 @@ namespace NDSB
         /// </summary>
         /// <param name="text">string</param>
         /// <returns>string[]</returns>
-        private static string[] Tokenize(string text)
+        public static string[] Tokenize(string text)
         {
             // Strip all HTML.
             text = Regex.Replace(text, "<[^<>]+>", "");

@@ -72,21 +72,15 @@
   <ItemGroup>
     <Compile Include="ClassificationUtils\DownSample.cs" />
     <Compile Include="FileUtils\CSVHelper.cs" />
-    <Compile Include="Kernels\IKernel.cs" />
+    <Compile Include="FileUtils\LIBSVMHelper.cs" />
     <Compile Include="MLHelper.cs" />
     <Compile Include="SparseMappings\Interactions.cs" />
     <Compile Include="SparseMappings\Identity.cs" />
     <Compile Include="SparseMappings\IMapping.cs" />
     <Compile Include="SparseMappings\PureInteractions.cs" />
-    <Compile Include="SparseMethods\KNNHelper.cs" />
-    <Compile Include="SparseMethods\MulticlassPerceptron.cs" />
     <Compile Include="SparseMethods\NearestCentroid.cs" />
     <Compile Include="SparseSpaces\HilbertSpace.cs" />
-    <Compile Include="SparseMethods\KNN.cs" />
-    <Compile Include="Kernels\PolynomialKernel.cs" />
     <Compile Include="SparseSpaces\LinearSpace.cs" />
-    <Compile Include="SparseMethods\Perceptron.cs" />
-    <Compile Include="SparseSpaces\RKHilbertSpace.cs" />
     <Compile Include="TextUtils\DSCdiscountUtils.cs" />
     <Compile Include="FileUtils\CSRHelper.cs" />
     <Compile Include="SparseSpaces\MetricSpace.cs" />
