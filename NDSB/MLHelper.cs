@@ -11,10 +11,6 @@ namespace NDSB
 {
     public static class MLHelper
     {
-
-
-
-
         public static void TFIDFTrainAndPredict(int maxElementsPerClass, int nbNeighbours,
     string trainFilePath, string testFilePath)
         {
@@ -25,7 +21,7 @@ namespace NDSB
 
             string testTFIDFFilePath = DSCdiscountUtils.TextToTFIDFCSR(testFilePath);
             string trainTFIDFFilePath = DSCdiscountUtils.TextToTFIDFCSR(downSampledFilePath);
-            string labelsFilePath = DSCdiscountUtils.ExtractLabelsFromTraining(downSampledFilePath);
+            string labelsFilePath = DSCdiscountUtils.ExtractLabels(downSampledFilePath);
             File.Delete(downSampledFilePath);
 
             #endregion
@@ -34,25 +30,18 @@ namespace NDSB
             Dictionary<string, double>[] testPoints = CSRHelper.ImportPoints(testTFIDFFilePath);
             int[] labels = DSCdiscountUtils.ReadLabels(labelsFilePath);
 
-
             #region Centroids
 
-            string[] predicted2 = NearestCentroid.TrainAndPredict(new NearestCentroid((new Interactions(2, 20, 0.1))), trainPoints, labels, testPoints);
+            string[] predicted2 = NearestCentroid.TrainAndPredict(
+                new NearestCentroid((new PureInteractions(2, 20))), 
+                trainPoints, labels, testPoints);
 
             string outfileNameNC2 = Path.GetDirectoryName(trainTFIDFFilePath) + "\\" + Path.GetFileNameWithoutExtension(trainTFIDFFilePath) +
-                "_nc_Interactions_01_" + maxElementsPerClass + "_pred.txt";
+                "_nc_PureInteractions_" + maxElementsPerClass + "_pred.txt";
 
             File.AppendAllText(outfileNameNC2, String.Join(Environment.NewLine, predicted2));
 
-            string[] predicted3 = NearestCentroid.TrainAndPredict(new NearestCentroid((new Interactions(2, 20, 0.5))), trainPoints, labels, testPoints);
-
-            string outfileNameNC3 = Path.GetDirectoryName(trainTFIDFFilePath) + "\\" + Path.GetFileNameWithoutExtension(trainTFIDFFilePath) +
-                "_nc_Interactions_05_" + maxElementsPerClass + "_pred.txt";
-
-            File.AppendAllText(outfileNameNC3, String.Join(Environment.NewLine, predicted3));
-
             #endregion
-
 
             /*
             #region KNN
@@ -98,5 +87,46 @@ namespace NDSB
             File.Delete(testTFIDFFilePath);
             File.Delete(trainTFIDFFilePath);
         }
+
+        public static void KNN_CrossValidate(int nbNeighbours, int maxElementsPerClass, string trainFilePath, string validationFilePath)
+        {
+            string downSampledFilePath = DownSample.Split(trainFilePath, maxElementsPerClass,
+               DSCdiscountUtils.GetLabelCDiscountDB);
+
+            string validationTFIDFFilePath = DSCdiscountUtils.TextToTFIDFCSR(validationFilePath);
+            string trainTFIDFFilePath = DSCdiscountUtils.TextToTFIDFCSR(downSampledFilePath);
+            string labelsFilePath = DSCdiscountUtils.ExtractLabels(downSampledFilePath);
+            string validationLabelsFilePath = DSCdiscountUtils.ExtractLabels(validationFilePath);
+
+            File.Delete(downSampledFilePath);
+
+            Dictionary<string, double>[] trainPoints = CSRHelper.ImportPoints(trainTFIDFFilePath);
+            Dictionary<string, double>[] validationPoints = CSRHelper.ImportPoints(validationLabelsFilePath);
+            int[] trainLabels = DSCdiscountUtils.ReadLabels(labelsFilePath);
+            int[] validationLabels = DSCdiscountUtils.ReadLabels(validationLabelsFilePath);
+
+        }
+
+        public static void KNN_GetError(int nbNeighbours, int maxElementsPerClass,
+            Dictionary<string, double>[] trainPoints, Dictionary<string, double>[] validationPoints, 
+            int[] trainLabels, int[] validationLabels, IMapping<Dictionary<string,double>> mapping)
+        {
+            int[][] predictedKNNScaled = new int[validationPoints.Count()][];
+
+            for (int i = 0; i < trainPoints.Length; i++)
+                trainPoints[i] = mapping.Map(trainPoints[i]);
+
+            KNNII knnScaled = new KNNII();
+            knnScaled.StampInverseDictionary(trainPoints, 0.3);
+
+            Parallel.For(0, validationPoints.Length, i =>
+            {
+                int[] pred = knnScaled.NearestLabels(trainLabels, trainPoints, mapping.Map(validationPoints[i]),
+                    nbNeighbours, MetricSpace.ManhattanDistance);
+                predictedKNNScaled[i] = pred;
+            });
+
+        }
+
     }
 }

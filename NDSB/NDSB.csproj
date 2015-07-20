@@ -74,10 +74,13 @@
     <Compile Include="FileUtils\CSVHelper.cs" />
     <Compile Include="Kernels\IKernel.cs" />
     <Compile Include="MLHelper.cs" />
+    <Compile Include="SparseMappings\ToTriangle.cs" />
+    <Compile Include="SparseMappings\ToSphere.cs" />
     <Compile Include="SparseMappings\Interactions.cs" />
     <Compile Include="SparseMappings\Identity.cs" />
     <Compile Include="SparseMappings\IMapping.cs" />
     <Compile Include="SparseMappings\PureInteractions.cs" />
+    <Compile Include="SparseMappings\ToCube.cs" />
     <Compile Include="SparseMethods\KNNHelper.cs" />
     <Compile Include="SparseMethods\MulticlassPerceptron.cs" />
     <Compile Include="SparseMethods\NearestCentroid.cs" />

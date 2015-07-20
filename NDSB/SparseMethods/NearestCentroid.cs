@@ -39,7 +39,12 @@ namespace NDSB.SparseMethods
             for (int i = 0; i < labels.Length; i++) // training
                 LinearSpace.Add(_centroids[labels[i]], _mapping.Map(points[i]));
 
-            Parallel.For(0, _centroids.Count, i => { _centroids[distinctLabels[i]] = LinearSpace.ToSphere(_centroids[distinctLabels[i]]); });
+            ToSphere tsMap = new ToSphere();
+
+            Parallel.For(0, _centroids.Count, i => 
+            {
+                _centroids[distinctLabels[i]] = tsMap.Map(_centroids[distinctLabels[i]]); 
+            });
         }
 
         /// <summary>
@@ -52,7 +57,9 @@ namespace NDSB.SparseMethods
         public int Predict(Point pt)
         {
             pt = _mapping.Map(pt);
-            pt = LinearSpace.ToSphere(pt);
+            ToSphere tsMap = new ToSphere();
+
+            pt = tsMap.Map(pt);
 
             double maxSimilarity = Double.MinValue;
             int bestLabel = -1;

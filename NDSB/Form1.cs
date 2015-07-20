@@ -42,8 +42,10 @@ namespace NDSB
             string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_knn_pred.txt";
             string[] predicted = new string[testPoints.Count()];
 
+            ToCube tcMap = new ToCube();
+
             for (int i = 0; i < trainPoints.Length; i++)
-                trainPoints[i] = LinearSpace.ToCube(trainPoints[i]);
+                trainPoints[i] = tcMap.Map(trainPoints[i]);
 
 
             /*
@@ -62,7 +64,7 @@ namespace NDSB
         {
             DSCdiscountUtils.TextToTFIDFCSR(testPathTbx.Text);
             DSCdiscountUtils.TextToTFIDFCSR(trainPathTbx.Text);
-            DSCdiscountUtils.ExtractLabelsFromTraining(trainPathTbx.Text);
+            DSCdiscountUtils.ExtractLabels(trainPathTbx.Text);
         }
 
         private void button2_Click(object sender, EventArgs e)

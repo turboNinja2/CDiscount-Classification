@@ -31,7 +31,7 @@ namespace NDSB
             return outputFilePath;
         }
 
-        public static string ExtractLabelsFromTraining(string inputFilePath, int maxLines = int.MaxValue)
+        public static string ExtractLabels(string inputFilePath, int maxLines = int.MaxValue)
         {
             string outputFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_labels.txt";
             List<string> toWrite = new List<string>();
