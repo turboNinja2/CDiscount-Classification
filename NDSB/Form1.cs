@@ -38,7 +38,7 @@ namespace NDSB
 
             Dictionary<string, double>[] trainPoints = CSRHelper.ImportPoints(trainPathTbx.Text);
             Dictionary<string, double>[] testPoints = CSRHelper.ImportPoints(testPathTbx.Text);
-            int[] labels = DSCdiscountUtils.ReadLabels(labelsTbx.Text);
+            int[] labels = DSCdiscountUtils.ReadLabelsFromTraining(labelsTbx.Text);
 
             string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_knn_pred.txt";
             string[] predicted = new string[testPoints.Count()];
@@ -91,7 +91,7 @@ namespace NDSB
         {
             Dictionary<string, double>[] trainPoints = CSRHelper.ImportPoints(trainPathTbx.Text);
             Dictionary<string, double>[] testPoints = CSRHelper.ImportPoints(testPathTbx.Text);
-            int[] labels = DSCdiscountUtils.ReadLabels(labelsTbx.Text);
+            int[] labels = DSCdiscountUtils.ReadLabelsFromTraining(labelsTbx.Text);
 
             string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_centroid_pred.txt";
 
@@ -148,7 +148,7 @@ namespace NDSB
                 testSet[i] = LinearSpace.ToSphere(testSet[i]);
             });
 
-            int[] preds = ClassificationHelper.TrainAndPredict(knn, trainSet, DSCdiscountUtils.ReadLabels(dsTrainFile), testSet);
+            int[] preds = ClassificationHelper.TrainAndPredict(knn, trainSet, DSCdiscountUtils.ReadLabelsFromTraining(dsTrainFile), testSet);
 
 
             string predPath = Path.GetDirectoryName(dsTrainFile) + "\\" + Path.GetFileNameWithoutExtension(dsTrainFile) + "_" + knn.Description() + ".csv";

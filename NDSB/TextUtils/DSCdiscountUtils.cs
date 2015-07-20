@@ -23,7 +23,7 @@ namespace NDSB
             return outputFilePath;
         }
 
-        public static int[] ReadLabels(string inputFilePath, bool header = true)
+        public static int[] ReadLabelsFromTraining(string inputFilePath, bool header = true)
         {
             List<int> labels = new List<int>(1000000);
             foreach (string line in LinesEnumerator.YieldLinesOfFile(inputFilePath))
@@ -33,7 +33,7 @@ namespace NDSB
                     header = false;
                     continue;
                 }
-                int label = Convert.ToInt32(line);
+                int label = Convert.ToInt32(GetLabelCDiscountDB(line));
                 labels.Add(label);
             }
             return labels.ToArray();
