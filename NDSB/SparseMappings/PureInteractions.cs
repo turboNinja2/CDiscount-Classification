@@ -37,5 +37,10 @@ namespace NDSB.SparseMappings
 
             return res;
         }
+
+        public string Description()
+        {
+            return "PI_" + _minSize + "_" + _maxSize;
+        }
     }
 }

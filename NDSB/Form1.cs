@@ -128,8 +128,6 @@ namespace NDSB
             if (fdlg.ShowDialog() == DialogResult.OK)
                 trainFilePaths = fdlg.FileNames;
 
-            for (int i = 0; i < trainFilePaths.Length; i++)
-                MLHelper.TFIDFTrainAndPredict(maxEltsPerClass, nbNeighbours, trainFilePaths[i], testFilePath);
         }
 
         private void button6_Click(object sender, EventArgs e)

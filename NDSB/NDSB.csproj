@@ -74,7 +74,6 @@
     <Compile Include="FileUtils\CSVHelper.cs" />
     <Compile Include="FileUtils\LIBSVMHelper.cs" />
     <Compile Include="Models\IModelClassification.cs" />
-    <Compile Include="MLHelper.cs" />
     <Compile Include="Models\ClassificationHelper.cs" />
     <Compile Include="SparseMappings\Interactions.cs" />
     <Compile Include="SparseMappings\Identity.cs" />

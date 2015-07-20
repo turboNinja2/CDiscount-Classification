@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NDSB.SparseMethods;
+using System.Reflection;
 
 namespace NDSB
 {
@@ -14,17 +15,22 @@ namespace NDSB
         private const int _INVERTED_INDEXES_PREALLOC_ = 1000000;
 
         #region Private attributes
-        private Distance _distance;
-        private Dictionary<string, List<int>> _invertedIndexes = new Dictionary<string, List<int>>(_INVERTED_INDEXES_PREALLOC_);
+
         private int[] _labels;
         private Point[] _points;
+
+        private Dictionary<string, List<int>> _invertedIndexes = new Dictionary<string, List<int>>(_INVERTED_INDEXES_PREALLOC_);
+
+        private Distance _distance;
         private double _minTFIDF;
+        private int _nbNeighbours;
         #endregion
 
-        public KNNII(Distance distance, double minTFIDF)
+        public KNNII(Distance distance, int nbNeighbours, double minTFIDF)
         {
             _distance = distance;
             _minTFIDF = minTFIDF;
+            _nbNeighbours = nbNeighbours;
         }
 
         public void Train(int[] labels, Point[] points)
@@ -36,7 +42,12 @@ namespace NDSB
 
         public int Predict(Point pt)
         {
-            return NearestLabels(_labels, _points, pt, 1, _distance)[0];
+            return NearestLabels(_labels, _points, pt, 1, _distance).GroupBy(item => item).OrderByDescending(g => g.Count()).Select(g => g.Key).First();
+        }
+
+        public override string ToString()
+        {
+            return "KNNII_MinTFIDF" + _minTFIDF + "_k" + _nbNeighbours + "_distance" + _distance.Method.Name;
         }
 
         /// <summary>

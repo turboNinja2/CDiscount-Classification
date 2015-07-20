@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NDSB.SparseMappings;
+using System.Reflection;
 
 namespace NDSB.SparseMethods
 {
@@ -15,7 +16,7 @@ namespace NDSB.SparseMethods
 
         #region Private members
         private Dictionary<int, Point> _centroids;
-        private IMapping<Point> _mapping = new Identity<Point>();
+        private IMapping<Point> _mapping;
         #endregion
 
         public NearestCentroid(IMapping<Point> map)
@@ -70,6 +71,9 @@ namespace NDSB.SparseMethods
             return bestLabel;
         }
 
-
+        public override string ToString()
+        {
+            return "NearestCentroid_Map" + _mapping.Description();
+        }
     }
 }

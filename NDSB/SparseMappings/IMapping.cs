@@ -7,5 +7,7 @@
     public interface IMapping<T>
     {
         T Map(T inputElement);
+
+        string Description();
     }
 }
