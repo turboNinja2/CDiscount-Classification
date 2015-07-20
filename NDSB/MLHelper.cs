@@ -6,6 +6,7 @@ using System.IO;
 using NDSB.SparseMethods;
 using System.Threading.Tasks;
 using NDSB.SparseMappings;
+using NDSB.Models;
 
 namespace NDSB
 {
@@ -37,14 +38,14 @@ namespace NDSB
 
             #region Centroids
 
-            string[] predicted2 = NearestCentroid.TrainAndPredict(new NearestCentroid((new Interactions(2, 20, 0.1))), trainPoints, labels, testPoints);
+            int[] predicted2 = ClassificationHelper.TrainAndPredict(new NearestCentroid((new Interactions(2, 20, 0.1))), trainPoints, labels, testPoints);
 
             string outfileNameNC2 = Path.GetDirectoryName(trainTFIDFFilePath) + "\\" + Path.GetFileNameWithoutExtension(trainTFIDFFilePath) +
                 "_nc_Interactions_01_" + maxElementsPerClass + "_pred.txt";
 
             File.AppendAllText(outfileNameNC2, String.Join(Environment.NewLine, predicted2));
 
-            string[] predicted3 = NearestCentroid.TrainAndPredict(new NearestCentroid((new Interactions(2, 20, 0.5))), trainPoints, labels, testPoints);
+            int[] predicted3 = ClassificationHelper.TrainAndPredict(new NearestCentroid((new Interactions(2, 20, 0.5))), trainPoints, labels, testPoints);
 
             string outfileNameNC3 = Path.GetDirectoryName(trainTFIDFFilePath) + "\\" + Path.GetFileNameWithoutExtension(trainTFIDFFilePath) +
                 "_nc_Interactions_05_" + maxElementsPerClass + "_pred.txt";

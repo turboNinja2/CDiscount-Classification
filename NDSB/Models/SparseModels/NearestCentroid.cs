@@ -8,13 +8,15 @@ namespace NDSB.SparseMethods
 {
     using Point = Dictionary<string, double>;
 
-    public class NearestCentroid
+    public class NearestCentroid : IModelClassification<Point>
     {
-        private static readonly int _PRE_ALLOC_NB_CENTROIDS_ = 6000;
-        private static readonly int _PRE_ALLOC_COMPONENTS_ = 1000;
+        private const int _PRE_ALLOC_NB_CENTROIDS_ = 6000;
+        private const int _PRE_ALLOC_COMPONENTS_ = 1000;
 
+        #region Private members
         private Dictionary<int, Point> _centroids;
         private IMapping<Point> _mapping = new Identity<Point>();
+        #endregion
 
         public NearestCentroid(IMapping<Point> map)
         {
@@ -68,19 +70,6 @@ namespace NDSB.SparseMethods
             return bestLabel;
         }
 
-        public static string[] TrainAndPredict(NearestCentroid model, Dictionary<string, double>[] trainPoints, int[] labels, Dictionary<string, double>[] testPoints)
-        {
-            model.Train(labels, trainPoints);
-
-            string[] predicted2 = new string[testPoints.Count()];
-            Parallel.For(0, testPoints.Length, i =>
-            {
-                int pred = model.Predict(testPoints[i]);
-                predicted2[i] = pred.ToString();
-            });
-
-            return predicted2;
-        }
 
     }
 }
