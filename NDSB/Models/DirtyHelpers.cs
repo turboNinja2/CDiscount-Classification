@@ -11,13 +11,13 @@ namespace NDSB.Models
 {
     public static class DirtyHelpers
     {
-        public static void RunKNN(string trainFilePath, string testFilePath, int nbNeighbours = 60, int maxEltsPerClass = 800)
+        public static void DownsampleTFIDFRunKNN(string trainFilePath, string testFilePath, int nbNeighbours = 60, int maxEltsPerClass = 800)
         {
-            string dsTrainFile = DownSample.Split(trainFilePath, maxEltsPerClass, DSCdiscountUtils.GetLabelCDiscountDB),
+            string dsTrainFile = DownSample.Run(trainFilePath, maxEltsPerClass, DSCdiscountUtils.GetLabelCDiscountDB),
                 tfidfTestFile = TFIDF.TextToTFIDFCSR(testFilePath),
                 tfidfTrainFile = TFIDF.TextToTFIDFCSR(dsTrainFile);
 
-            KNNII knn = new KNNII(MetricSpace.EuclideDistance, nbNeighbours, 0.5);
+            KNNII knn = new KNNII(Distances.Norm3, nbNeighbours, 0.5);
 
             Dictionary<string, double>[] trainSet = CSRHelper.ImportPoints(tfidfTrainFile),
                 testSet = CSRHelper.ImportPoints(tfidfTestFile);
@@ -33,6 +33,15 @@ namespace NDSB.Models
             File.WriteAllLines(predPath, preds.Select(c => c.ToString()).ToArray());
 
             TFIDF.Clear();
+
+            File.Delete(dsTrainFile);
+            File.Delete(tfidfTestFile);
+            File.Delete(tfidfTrainFile);
+        }
+
+        public static void GetAccuracy(string trainFilePath, string testFilePath, int maxEltsPerClass = 800)
+        {
+
         }
 
     }
