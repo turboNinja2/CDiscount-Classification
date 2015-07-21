@@ -8,7 +8,7 @@ namespace NDSB
     {
         public delegate string GetLabel(string input);
 
-        public static string Split(string inputFilePath, int maxElementsPerClass, GetLabel gl)
+        public static string Run(string inputFilePath, int maxElementsPerClass, GetLabel gl)
         {
             string downSampledFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_ds" + maxElementsPerClass.ToString()
                 + Path.GetExtension(inputFilePath);
@@ -18,7 +18,7 @@ namespace NDSB
 
             List<string> downSampled = new List<string>();
 
-            foreach (string line in LinesEnumerator.YieldLinesOfFile(inputFilePath))
+            foreach (string line in LinesEnumerator.YieldLines(inputFilePath))
             {
                 if (header)
                 {

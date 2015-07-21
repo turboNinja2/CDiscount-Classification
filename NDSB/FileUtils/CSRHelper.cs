@@ -16,7 +16,7 @@ namespace NDSB
         public static Point[] ImportPoints(string inputFilePath, bool header = true, int prealloc = 1000000)
         {
             List<Dictionary<string, double>> points = new List<Dictionary<string, double>>(prealloc);
-            foreach (string line in LinesEnumerator.YieldLinesOfFile(inputFilePath))
+            foreach (string line in LinesEnumerator.YieldLines(inputFilePath))
                 points.Add(SparsePointFromString(line));
             if (header)
                 points.RemoveAt(0);

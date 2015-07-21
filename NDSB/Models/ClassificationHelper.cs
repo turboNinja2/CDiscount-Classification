@@ -1,8 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.IO;
-using NDSB.SparseMappings;
 
 namespace NDSB.Models
 {
@@ -20,9 +17,8 @@ namespace NDSB.Models
             return predicted;
         }
 
-        public static double Accuracy<T>(IModelClassification<T> model, T[] trainPoints, int[] labels, T[] validationPoints, int[] validationLabels)
+        public static double Accuracy(int[] predicted, int[] validationLabels)
         {
-            int[] predicted = TrainAndPredict(model, trainPoints, labels, validationPoints);
             int acc = 0;
             for (int i = 0; i < validationLabels.Length; i++)
                 if (predicted[i] == validationLabels[i])

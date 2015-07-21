@@ -12,7 +12,7 @@ namespace NDSB
         /// <param name="path">The path of the file.</param>
         /// <param name="maxLines">The maximum number of lines to read.</param>
         /// <returns></returns>
-        public static IEnumerable<string> YieldLinesOfFile(string path, int maxLines = Int32.MaxValue)
+        public static IEnumerable<string> YieldLines(string path, int maxLines = Int32.MaxValue)
         {
             string line;
             int lineNumber = 0;

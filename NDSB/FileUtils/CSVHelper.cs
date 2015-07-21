@@ -6,11 +6,11 @@ namespace NDSB.FileUtils
 {
     public static class CSVHelper
     {
-        public static void MergeToOneFile(string[] filePaths)
+        public static void ColumnBind(string[] filePaths)
         {
             List<string[]> enumerators = new List<string[]>();
             for (int i = 0; i < filePaths.Length; i++)
-                enumerators.Add(LinesEnumerator.YieldLinesOfFile(filePaths[i]).ToArray());
+                enumerators.Add(LinesEnumerator.YieldLines(filePaths[i]).ToArray());
 
             List<string> toWrite = new List<string>();
 
@@ -22,9 +22,7 @@ namespace NDSB.FileUtils
                 line.Remove(line.Length - 1);
                 toWrite.Add(line);
             }
-
             File.WriteAllLines(Path.GetDirectoryName(filePaths[0]) + "\\Merged.csv",toWrite.ToArray());
-
         }
     }
 }

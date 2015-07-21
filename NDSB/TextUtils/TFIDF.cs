@@ -47,7 +47,7 @@ namespace NDSB
         {
             string outputFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_tfidf.csr";
             List<string> buffer = new List<string>();
-            foreach (var cd in TFIDF.Transform2(LinesEnumerator.YieldLinesOfFile(inputFilePath, maxLines)))
+            foreach (var cd in TFIDF.Transform2(LinesEnumerator.YieldLines(inputFilePath, maxLines)))
             {
                 List<string> res = cd.Select(kvp => kvp.Key + ":" + Math.Round(kvp.Value, 3)).ToList();
                 string toWrite = String.Join(" ", res);
