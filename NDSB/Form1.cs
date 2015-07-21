@@ -71,11 +71,41 @@ namespace NDSB
             for (int i = 0; i < filePaths.Length; i++)
             {
                 string shuffledFilePath = FShuffler.Shuffle(filePaths[i], 0);
-                FSplitter.Split(shuffledFilePath, 15700000);
+                FSplitter.SplitAbsolute(shuffledFilePath, 15700000);
             }
         }
 
-        private void downSampleBtn_Click(object sender, EventArgs e)
+        private void shuffleBtn_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fdlg = new OpenFileDialog();
+            int seed = Convert.ToInt32(shuffleSeedTbx.Text);
+            
+            fdlg.Multiselect = true;
+            fdlg.Title = "Files to merge";
+            string[] filePaths = new string[1];
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                filePaths = fdlg.FileNames;
+
+            for (int i = 0; i < filePaths.Length; i++)
+                FShuffler.Shuffle(filePaths[i], seed);
+        }
+
+        private void splitBtn_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fdlg = new OpenFileDialog();
+            double part = Convert.ToDouble(splitTbx.Text);
+
+            fdlg.Multiselect = true;
+            fdlg.Title = "Files to merge";
+            string[] filePaths = new string[1];
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                filePaths = fdlg.FileNames;
+
+            for (int i = 0; i < filePaths.Length; i++)
+                FSplitter.SplitRelative(filePaths[i], part);
+        }
+
+        private void downSampleBtn_Click_1(object sender, EventArgs e)
         {
             OpenFileDialog fdlg = new OpenFileDialog();
             fdlg.Multiselect = true;
@@ -89,11 +119,5 @@ namespace NDSB
                 for (int j = 0; j < filePaths.Length; j++)
                     DownSample.Run(filePaths[j], eltsPerClass[i], DSCdiscountUtils.GetLabelCDiscountDB);
         }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }

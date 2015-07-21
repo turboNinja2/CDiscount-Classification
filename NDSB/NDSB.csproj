@@ -55,9 +55,6 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Cudafy.NET">
-      <HintPath>..\..\..\..\Documents\CUDAfy.NET\Cudafy.NET.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -72,8 +69,17 @@
   <ItemGroup>
     <Compile Include="FileUtils\FShuffler.cs" />
     <Compile Include="FileUtils\FSplitter.cs" />
-    <Compile Include="Models\DirtyHelpers.cs" />
+    <Compile Include="FileUtils\GeneralFileUtils.cs" />
     <Compile Include="Models\SparseModels\SparseClassificationHelper.cs" />
+    <Compile Include="Models\Streaming\EmpiricScore.cs" />
+    <Compile Include="Models\Streaming\Models\GenericModel1.cs" />
+    <Compile Include="Models\Streaming\Models\GMEntropia.cs" />
+    <Compile Include="Models\Streaming\Models\IStreamingModel.cs" />
+    <Compile Include="Models\Streaming\ModelGenerators.cs" />
+    <Compile Include="Models\Streaming\Phis\Phis.cs" />
+    <Compile Include="Models\Streaming\Phis\PriceTransforms.cs" />
+    <Compile Include="Models\Streaming\Phis\StringCleaner.cs" />
+    <Compile Include="Models\Streaming\TrainModels.cs" />
     <Compile Include="PreProcessing\DownSample.cs" />
     <Compile Include="FileUtils\CSVHelper.cs" />
     <Compile Include="Models\IModelClassification.cs" />
@@ -125,9 +131,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Streaming\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

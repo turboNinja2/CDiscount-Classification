@@ -6,7 +6,7 @@ namespace NDSB.FileUtils
 {
     public static class FSplitter
     {
-        public static void Split(string file, int linesToSplit, int bufferSize = 1000000)
+        public static void SplitAbsolute(string file, int linesToSplit, int bufferSize = 1000000)
         {
             int numberOfLines = 0;
             bool header = true;
@@ -43,5 +43,11 @@ namespace NDSB.FileUtils
             File.AppendAllLines(validationFile, buffer);
         }
 
+        public static void SplitRelative(string file, double part, int bufferSize = 1000000)
+        {
+            int numberOfLines = GeneralFileUtils.NumberOfLines(file);
+            int linesToSplit = Convert.ToInt32(part * numberOfLines);
+            SplitAbsolute(file, linesToSplit, bufferSize);
+        }
     }
 }

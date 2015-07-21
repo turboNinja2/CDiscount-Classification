@@ -143,7 +143,6 @@ namespace DataScienceECom.Phis
             return new Tuple<int, List<string>>(answer, hashedPredictors);
         }
 
-
         private static Tuple<int, List<string>> phiRS_PT_spe(string line, string header,
     StringTransform sf,
     int minLetters, int maxLetters, int maxLibelleLength,
@@ -353,32 +352,6 @@ namespace DataScienceECom.Phis
             }
 
             return new Tuple<int, List<string>>(answer, hashedPredictors);
-        }
-
-        public static Tuple<int, List<string>> phi6(string line, string header)
-        {
-            return phiRS_PT2(line, header, StringCleaner.RemoveMorePunctuationAndAccents,
-                2, 15, 35, PriceTransforms.LogPrice);
-        }
-
-        public static Tuple<int, List<string>> phi7(string line, string header)
-        {
-            Tuple<int, List<string>> res = phiRS_PT2(line, header, StringCleaner.RemoveMorePunctuationAndAccents,
-                5, 12, 2, PriceTransforms.LogPrice);
-
-            return res;
-        }
-
-        public static Tuple<int, List<string>> phi8(string line, string header)
-        {
-            return phiRS_PT_spe(line, header, StringCleaner.RemoveMorePunctuationAndAccents,
-                2, 15, 35, PriceTransforms.LogPrice);
-        }
-
-        public static Tuple<int, List<string>> phi9(string line, string header)
-        {
-            return phiRS_PT2(line, header, StringCleaner.RemoveSomePunctuationAndAccents,
-                2, 15, 35, PriceTransforms.LogPrice);
         }
 
         public static Tuple<int, List<string>> phi10(string line, string header)

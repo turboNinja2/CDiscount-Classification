@@ -14,13 +14,5 @@ namespace DataScienceECom.Phis
             else
                 return -1;
         }
-
-        public static int Log10Price(double price)
-        {
-            if (price > 0)
-                return Convert.ToInt32(Math.Log10(price));
-            else
-                return -1;
-        }
     }
 }
