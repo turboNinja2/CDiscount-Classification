@@ -17,5 +17,10 @@ namespace NDSB.SparseMappings
             return res;
         }
 
+        public string Description()
+        {
+            return "ToCube";
+        }
+
     }
 }

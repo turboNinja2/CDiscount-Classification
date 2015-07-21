@@ -16,3 +16,4 @@ C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x64\Release\NDSB.Properties.R
 C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x64\Release\NDSB.csproj.GenerateResource.Cache
 C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x64\Release\NDSB.exe
 C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x64\Release\NDSB.pdb
+C:\Users\JUJulien\Desktop\KAGGLE\Competitions\DSEC\DataScienceECom\SparseKNN\NDSB\obj\x64\Release\NDSB.csprojResolveAssemblyReference.cache

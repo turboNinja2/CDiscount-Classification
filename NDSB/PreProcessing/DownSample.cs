@@ -10,7 +10,7 @@ namespace NDSB
 
         public static string Split(string inputFilePath, int maxElementsPerClass, GetLabel gl)
         {
-            string downSampledFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_down_sampled_" + maxElementsPerClass.ToString()
+            string downSampledFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_ds" + maxElementsPerClass.ToString()
                 + Path.GetExtension(inputFilePath);
 
             Dictionary<string, int> counter = new Dictionary<string, int>();

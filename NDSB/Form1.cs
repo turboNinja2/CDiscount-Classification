@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using NDSB.SparseMethods;
 using NDSB.FileUtils;
 using NDSB.SparseMappings;
+using NDSB.Models;
 
 namespace NDSB
 {
@@ -17,109 +18,11 @@ namespace NDSB
             InitializeComponent();
         }
 
-        private void loadTrainBtn_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                trainPathTbx.Text = fdlg.FileName;
-        }
-
-        private void loadTestBtn_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                testPathTbx.Text = fdlg.FileName;
-        }
-
-        private void runBtn_Click(object sender, EventArgs e)
-        {
-            int nbNeighbours = Convert.ToInt32(nbNeighboursTbx.Text);
-
-            Dictionary<string, double>[] trainPoints = CSRHelper.ImportPoints(trainPathTbx.Text);
-            Dictionary<string, double>[] testPoints = CSRHelper.ImportPoints(testPathTbx.Text);
-            int[] labels = DSCdiscountUtils.ReadLabels(labelsTbx.Text);
-
-            string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_knn_pred.txt";
-            string[] predicted = new string[testPoints.Count()];
-
-            ToCube tcMap = new ToCube();
-
-            for (int i = 0; i < trainPoints.Length; i++)
-                trainPoints[i] = tcMap.Map(trainPoints[i]);
-
-
-            /*
-            KNNII.StampInverseDictionary(trainPoints, 0.5);
-
-            Parallel.For(0, testPoints.Length, i =>
-            {
-                int[] pred = KNNII.NearestNeighbours(labels, trainPoints, LinearSpace.ToCube(testPoints[i]), nbNeighbours, MetricSpace.ManhattanDistance);
-                predicted[i] = String.Join(";", pred);
-            });
-             */
-            File.AppendAllText(outfileName, String.Join(Environment.NewLine, predicted));
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            DSCdiscountUtils.TextToTFIDFCSR(testPathTbx.Text);
-            DSCdiscountUtils.TextToTFIDFCSR(trainPathTbx.Text);
-            DSCdiscountUtils.ExtractLabels(trainPathTbx.Text);
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                labelsTbx.Text = fdlg.FileName;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            DownSample.Split(trainPathTbx.Text,
-                Convert.ToInt32(maxOccurencesOfClassTbx.Text),
-                DSCdiscountUtils.GetLabelCDiscountDB);
-        }
-
         private void processBtn_Click(object sender, EventArgs e)
         {
             MessageBox.Show(IntPtr.Size.ToString());
         }
 
-        private void runPegasosBtn_Click(object sender, EventArgs e)
-        {
-            Dictionary<string, double>[] trainPoints = CSRHelper.ImportPoints(trainPathTbx.Text);
-            Dictionary<string, double>[] testPoints = CSRHelper.ImportPoints(testPathTbx.Text);
-            int[] labels = DSCdiscountUtils.ReadLabels(labelsTbx.Text);
-
-            string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_pegasos_pred.txt";
-
-            MulticlassPerceptron model = new MulticlassPerceptron();
-            model.Train(trainPoints, labels, 0.3);
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            Dictionary<string, double>[] trainPoints = CSRHelper.ImportPoints(trainPathTbx.Text);
-            Dictionary<string, double>[] testPoints = CSRHelper.ImportPoints(testPathTbx.Text);
-            int[] labels = DSCdiscountUtils.ReadLabels(labelsTbx.Text);
-
-            string outfileName = Path.GetDirectoryName(trainPathTbx.Text) + "\\" + Path.GetFileNameWithoutExtension(trainPathTbx.Text) + "_centroid_pred.txt";
-
-            NearestCentroid sr = new NearestCentroid(new Identity<Dictionary<string, double>>());
-            sr.Train(labels, trainPoints);
-
-            string[] predicted = new string[testPoints.Count()];
-            Parallel.For(0, testPoints.Length, i =>
-            //for(int i =0; i < testPoints.Length; i++)
-            {
-                int pred = sr.Predict(testPoints[i]);
-                predicted[i] = String.Join(";", pred);
-            });
-            File.AppendAllText(outfileName, String.Join(Environment.NewLine, predicted));
-
-        }
 
         private void button5_Click(object sender, EventArgs e)
         {
@@ -142,7 +45,7 @@ namespace NDSB
                 trainFilePaths = fdlg.FileNames;
 
             for (int i = 0; i < trainFilePaths.Length; i++)
-                MLHelper.TFIDFTrainAndPredict(maxEltsPerClass, nbNeighbours, trainFilePaths[i], testFilePath);
+                DirtyHelpers.RunKNN(trainFilePaths[i], testFilePath, nbNeighbours, maxEltsPerClass);
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -156,5 +59,6 @@ namespace NDSB
 
             CSVHelper.MergeToOneFile(filePaths);
         }
+
     }
 }

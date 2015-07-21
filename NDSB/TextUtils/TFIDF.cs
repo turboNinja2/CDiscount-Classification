@@ -39,9 +39,33 @@ namespace NDSB
     public static class TFIDF
     {
         /// <summary>
+        /// Reads a file, gets the TFIDF representation of the file and turns it to a .csr file
+        /// </summary>
+        /// <param name="inputFilePath"></param>
+        /// <param name="maxLines"></param>
+        public static string TextToTFIDFCSR(string inputFilePath, int maxLines = int.MaxValue)
+        {
+            string outputFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_tfidf.csr";
+            List<string> buffer = new List<string>();
+            foreach (var cd in TFIDF.Transform2(LinesEnumerator.YieldLinesOfFile(inputFilePath, maxLines)))
+            {
+                List<string> res = cd.Select(kvp => kvp.Key + ":" + Math.Round(kvp.Value, 3)).ToList();
+                string toWrite = String.Join(" ", res);
+                buffer.Add(toWrite);
+            }
+            File.WriteAllLines(outputFilePath, buffer);
+            return outputFilePath;
+        }
+
+        /// <summary>
         /// Document vocabulary, containing each word's IDF value.
         /// </summary>
         private static ConcurrentDictionary<string, double> _vocabularyIDF = new ConcurrentDictionary<string, double>();
+
+        public static void Clear()
+        {
+            _vocabularyIDF.Clear();
+        }
 
         /// <summary>
         /// Transforms a list of documents into their associated TF*IDF values.
@@ -287,7 +311,7 @@ namespace NDSB
         /// </summary>
         /// <param name="text">string</param>
         /// <returns>string[]</returns>
-        private static string[] Tokenize(string text)
+        public static string[] Tokenize(string text)
         {
             // Strip all HTML.
             text = Regex.Replace(text, "<[^<>]+>", "");
