@@ -41,10 +41,12 @@ namespace NDSB
             if (fdlg.ShowDialog() == DialogResult.OK)
                 trainFilePaths = fdlg.FileNames;
 
-            NearestCentroid[] models = new NearestCentroid[] { new NearestCentroid(new PureInteractions(2, 20)), new NearestCentroid(new PureInteractions(1, 25)) };
 
             for (int i = 0; i < trainFilePaths.Length; i++)
+            {
+                NearestCentroid[] models = new NearestCentroid[] { new NearestCentroid(new PureInteractions(3, 20)), new NearestCentroid(new PureInteractions(1, 25)) };
                 SparseClassificationHelper.PrepareDataAndValidateModels(models, trainFilePaths[i], validationFilePath);
+            }
         }
 
         private void button6_Click(object sender, EventArgs e)

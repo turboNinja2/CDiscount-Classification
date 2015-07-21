@@ -14,6 +14,8 @@ namespace NDSB.SparseMethods
         private const int _PRE_ALLOC_NB_CENTROIDS_ = 6000;
         private const int _PRE_ALLOC_COMPONENTS_ = 1000;
 
+        private static ParallelOptions _parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = 6 };
+
         #region Private members
         private Dictionary<int, Point> _centroids;
         private IMapping<Point> _mapping;
@@ -43,11 +45,7 @@ namespace NDSB.SparseMethods
                 LinearSpace.Add(_centroids[labels[i]], _mapping.Map(points[i]));
 
             ToSphere tsMap = new ToSphere();
-
-            Parallel.For(0, _centroids.Count, i => 
-            {
-                _centroids[distinctLabels[i]] = tsMap.Map(_centroids[distinctLabels[i]]); 
-            });
+            Parallel.For(0, _centroids.Count, _parallelOptions, i => { _centroids[distinctLabels[i]] = tsMap.Map(_centroids[distinctLabels[i]]); });
         }
 
         /// <summary>
