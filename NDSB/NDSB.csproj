@@ -70,6 +70,7 @@
     <Compile Include="FileUtils\FShuffler.cs" />
     <Compile Include="FileUtils\FSplitter.cs" />
     <Compile Include="FileUtils\GeneralFileUtils.cs" />
+    <Compile Include="Models\SparseModels\KNNIIHelper.cs" />
     <Compile Include="Models\SparseModels\SparseClassificationHelper.cs" />
     <Compile Include="Models\Streaming\EmpiricScore.cs" />
     <Compile Include="Models\Streaming\Models\GenericModel1.cs" />
@@ -98,18 +99,18 @@
     <Compile Include="SparseSpaces\Distances.cs" />
     <Compile Include="Models\SparseModels\KNNII.cs" />
     <Compile Include="TextUtils\TFIDF.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="MainScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MainScreen.Designer.cs">
+      <DependentUpon>MainScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Globals.cs" />
     <Compile Include="FileUtils\LinesEnumerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainScreen.resx">
+      <DependentUpon>MainScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

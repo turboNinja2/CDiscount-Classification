@@ -1,6 +1,6 @@
 ﻿namespace NDSB
 {
-    partial class Form1
+    partial class MainScreen
     {
         /// <summary>
         /// Required designer variable.
@@ -45,10 +45,9 @@
             // 
             // processBtn
             // 
-            this.processBtn.Location = new System.Drawing.Point(632, 36);
-            this.processBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.processBtn.Location = new System.Drawing.Point(474, 29);
             this.processBtn.Name = "processBtn";
-            this.processBtn.Size = new System.Drawing.Size(100, 28);
+            this.processBtn.Size = new System.Drawing.Size(75, 23);
             this.processBtn.TabIndex = 11;
             this.processBtn.Text = "32_64btn";
             this.processBtn.UseVisualStyleBackColor = true;
@@ -59,50 +58,51 @@
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.nbNeighbTbx);
             this.groupBox3.Controls.Add(this.validateKNNBtn);
-            this.groupBox3.Location = new System.Drawing.Point(381, 124);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox3.Location = new System.Drawing.Point(250, 112);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox3.Size = new System.Drawing.Size(399, 127);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Size = new System.Drawing.Size(299, 103);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Latest";
+            this.groupBox3.Text = "KNN";
             this.groupBox3.UseCompatibleTextRendering = true;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(5, 52);
+            this.label3.Location = new System.Drawing.Point(4, 27);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(144, 17);
+            this.label3.Size = new System.Drawing.Size(108, 13);
             this.label3.TabIndex = 4;
             this.label3.Text = "Nb neighbours (KNN)";
             // 
             // nbNeighbTbx
             // 
-            this.nbNeighbTbx.Location = new System.Drawing.Point(153, 49);
-            this.nbNeighbTbx.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.nbNeighbTbx.Location = new System.Drawing.Point(116, 23);
+            this.nbNeighbTbx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.nbNeighbTbx.Name = "nbNeighbTbx";
-            this.nbNeighbTbx.Size = new System.Drawing.Size(100, 22);
+            this.nbNeighbTbx.Size = new System.Drawing.Size(76, 20);
             this.nbNeighbTbx.TabIndex = 2;
             // 
             // validateKNNBtn
             // 
-            this.validateKNNBtn.Location = new System.Drawing.Point(259, 20);
-            this.validateKNNBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.validateKNNBtn.Location = new System.Drawing.Point(194, 23);
+            this.validateKNNBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.validateKNNBtn.Name = "validateKNNBtn";
-            this.validateKNNBtn.Size = new System.Drawing.Size(131, 50);
+            this.validateKNNBtn.Size = new System.Drawing.Size(98, 20);
             this.validateKNNBtn.TabIndex = 0;
-            this.validateKNNBtn.Text = "KNN";
+            this.validateKNNBtn.Text = "CV";
             this.validateKNNBtn.UseVisualStyleBackColor = true;
             this.validateKNNBtn.Click += new System.EventHandler(this.button5_Click);
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(12, 98);
-            this.button6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button6.Location = new System.Drawing.Point(9, 80);
+            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(216, 23);
+            this.button6.Size = new System.Drawing.Size(162, 19);
             this.button6.TabIndex = 5;
             this.button6.Text = "CSVMerger";
             this.button6.UseVisualStyleBackColor = true;
@@ -110,17 +110,17 @@
             // 
             // downSampleTbx
             // 
-            this.downSampleTbx.Location = new System.Drawing.Point(140, 70);
-            this.downSampleTbx.Margin = new System.Windows.Forms.Padding(4);
+            this.downSampleTbx.Location = new System.Drawing.Point(105, 57);
             this.downSampleTbx.Name = "downSampleTbx";
-            this.downSampleTbx.Size = new System.Drawing.Size(88, 22);
+            this.downSampleTbx.Size = new System.Drawing.Size(67, 20);
             this.downSampleTbx.TabIndex = 20;
             // 
             // shuffleBtn
             // 
-            this.shuffleBtn.Location = new System.Drawing.Point(12, 12);
+            this.shuffleBtn.Location = new System.Drawing.Point(9, 10);
+            this.shuffleBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.shuffleBtn.Name = "shuffleBtn";
-            this.shuffleBtn.Size = new System.Drawing.Size(121, 23);
+            this.shuffleBtn.Size = new System.Drawing.Size(91, 19);
             this.shuffleBtn.TabIndex = 21;
             this.shuffleBtn.Text = "Shuffle";
             this.shuffleBtn.UseVisualStyleBackColor = true;
@@ -128,9 +128,10 @@
             // 
             // splitBtn
             // 
-            this.splitBtn.Location = new System.Drawing.Point(12, 41);
+            this.splitBtn.Location = new System.Drawing.Point(9, 33);
+            this.splitBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.splitBtn.Name = "splitBtn";
-            this.splitBtn.Size = new System.Drawing.Size(121, 23);
+            this.splitBtn.Size = new System.Drawing.Size(91, 19);
             this.splitBtn.TabIndex = 22;
             this.splitBtn.Text = "Split";
             this.splitBtn.UseVisualStyleBackColor = true;
@@ -138,9 +139,10 @@
             // 
             // downSampleBtn
             // 
-            this.downSampleBtn.Location = new System.Drawing.Point(12, 70);
+            this.downSampleBtn.Location = new System.Drawing.Point(9, 57);
+            this.downSampleBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.downSampleBtn.Name = "downSampleBtn";
-            this.downSampleBtn.Size = new System.Drawing.Size(121, 23);
+            this.downSampleBtn.Size = new System.Drawing.Size(91, 19);
             this.downSampleBtn.TabIndex = 23;
             this.downSampleBtn.Text = "DownSample";
             this.downSampleBtn.UseVisualStyleBackColor = true;
@@ -148,25 +150,23 @@
             // 
             // shuffleSeedTbx
             // 
-            this.shuffleSeedTbx.Location = new System.Drawing.Point(140, 12);
-            this.shuffleSeedTbx.Margin = new System.Windows.Forms.Padding(4);
+            this.shuffleSeedTbx.Location = new System.Drawing.Point(105, 10);
             this.shuffleSeedTbx.Name = "shuffleSeedTbx";
-            this.shuffleSeedTbx.Size = new System.Drawing.Size(88, 22);
+            this.shuffleSeedTbx.Size = new System.Drawing.Size(67, 20);
             this.shuffleSeedTbx.TabIndex = 24;
             // 
             // splitTbx
             // 
-            this.splitTbx.Location = new System.Drawing.Point(140, 42);
-            this.splitTbx.Margin = new System.Windows.Forms.Padding(4);
+            this.splitTbx.Location = new System.Drawing.Point(105, 34);
             this.splitTbx.Name = "splitTbx";
-            this.splitTbx.Size = new System.Drawing.Size(88, 22);
+            this.splitTbx.Size = new System.Drawing.Size(67, 20);
             this.splitTbx.TabIndex = 25;
             // 
-            // Form1
+            // MainScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(849, 310);
+            this.ClientSize = new System.Drawing.Size(637, 252);
             this.Controls.Add(this.splitTbx);
             this.Controls.Add(this.shuffleSeedTbx);
             this.Controls.Add(this.downSampleBtn);
@@ -176,8 +176,7 @@
             this.Controls.Add(this.downSampleTbx);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.processBtn);
-            this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "Form1";
+            this.Name = "MainScreen";
             this.Text = "Form1";
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();

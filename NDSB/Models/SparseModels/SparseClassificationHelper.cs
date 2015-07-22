@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace NDSB.Models
 {
     using Point = Dictionary<string, double>;
-    using System.IO;
 
     public static class SparseClassificationHelper
     {
@@ -38,6 +35,5 @@ namespace NDSB.Models
 
             return cvPath;
         }
-
     }
 }

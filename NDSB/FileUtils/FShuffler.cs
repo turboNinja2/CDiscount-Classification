@@ -35,7 +35,6 @@ namespace NDSB.FileUtils
                 if (i < indexesSplitted.Count - 1)
                     File.AppendAllText(outFile, Environment.NewLine);
             }
-
             return outFile;
         }
 

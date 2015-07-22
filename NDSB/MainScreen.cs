@@ -8,12 +8,13 @@ using NDSB.SparseMethods;
 using NDSB.FileUtils;
 using NDSB.SparseMappings;
 using NDSB.Models;
+using NDSB.Models.SparseModels;
 
 namespace NDSB
 {
-    public partial class Form1 : Form
+    public partial class MainScreen : Form
     {
-        public Form1()
+        public MainScreen()
         {
             InitializeComponent();
         }
@@ -37,15 +38,14 @@ namespace NDSB
 
             fdlg = new OpenFileDialog();
             fdlg.Multiselect = true;
-            fdlg.Title = "Train file path";
+            fdlg.Title = "Train file(s) path";
             if (fdlg.ShowDialog() == DialogResult.OK)
                 trainFilePaths = fdlg.FileNames;
 
-
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
-                NearestCentroid[] models = new NearestCentroid[] { new NearestCentroid(new PureInteractions(3, 20)), new NearestCentroid(new PureInteractions(1, 25)) };
-                SparseClassificationHelper.PrepareDataAndValidateModels(models, trainFilePaths[i], validationFilePath);
+                KNNII[] models = new KNNII[] { new KNNII(Distances.Euclide, nbNeighbours, 0.5), new KNNII(Distances.TaxiCab, nbNeighbours, 0.5), new KNNII(Distances.Norm3, nbNeighbours, 0.5), };
+                KNNIIHelper.PrepareDataAndValidateModels(models, new ToSphere(), trainFilePaths[i], validationFilePath);
             }
         }
 
