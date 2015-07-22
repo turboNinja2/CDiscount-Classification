@@ -77,7 +77,7 @@ namespace NDSB.SparseMethods
 
         public string Description()
         {
-            return "NearestCentroid_Map" + _mapping.Description();
+            return "NearCent_" + _mapping.Description();
         }
     }
 }

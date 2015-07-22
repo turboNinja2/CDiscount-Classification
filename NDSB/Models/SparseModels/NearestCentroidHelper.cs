@@ -25,9 +25,9 @@ namespace NDSB.Models.SparseModels
             for (int i = 0; i < models.Length; i++)
             {
                 int[] predicted = ClassificationHelper.TrainAndPredict(models[i], trainSet, trainLabels, validationSet);
-                string desc =  Path.GetFileNameWithoutExtension(trainFilePath) + "_NC_" + models[i].Description() ;
+                string desc =  Path.GetFileNameWithoutExtension(trainFilePath) + models[i].Description() ;
                 string filePath = Path.GetDirectoryName(trainFilePath) + "\\" + desc + ".csv";
-                File.AppendAllText(filePath, desc);
+                File.AppendAllText(filePath, desc + Environment.NewLine);
                 File.AppendAllLines(filePath, predicted.Select(c=> c.ToString()));
             }
             return trainFilePath;

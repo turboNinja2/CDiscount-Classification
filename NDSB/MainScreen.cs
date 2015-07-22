@@ -9,6 +9,7 @@ using NDSB.FileUtils;
 using NDSB.SparseMappings;
 using NDSB.Models;
 using NDSB.Models.SparseModels;
+using DataScienceECom;
 
 namespace NDSB
 {
@@ -133,12 +134,32 @@ namespace NDSB
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
                 List<NearestCentroid> models = new List<NearestCentroid>();
-
                 models.Add(new NearestCentroid(new PureInteractions(2, 20)));
                 models.Add(new NearestCentroid(new PureInteractions(1, 20)));
-
                 NearestCentroidHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
             }
+        }
+
+        private void getHistogramBtn_Click(object sender, EventArgs e)
+        {
+            string trainFilePath = "";
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "Train files path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                trainFilePath = fdlg.FileName;
+
+            int[] labels = DSCdiscountUtils.ReadLabelsFromTraining(trainFilePath);
+
+            EmpiricScore es = new EmpiricScore();
+            for (int i = 0; i < labels.Length; i++)
+                es.UpdateKey(labels[i], 1);
+
+            es = es.Normalize();
+
+            string[] text = es.Scores.OrderBy(c => c.Value).Select(c => c.Key + " " + c.Value).ToArray();
+            File.WriteAllLines(trainFilePath.Split('.')[0] + "_hist.txt", text);
+
+            MessageBox.Show("h");
         }
     }
 }

@@ -42,6 +42,7 @@
             this.splitTbx = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.nearestCentroidPredictBtn = new System.Windows.Forms.Button();
+            this.getHistogramBtn = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -61,7 +62,7 @@
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.nbNeighbTbx);
             this.groupBox3.Controls.Add(this.validateKNNBtn);
-            this.groupBox3.Location = new System.Drawing.Point(11, 123);
+            this.groupBox3.Location = new System.Drawing.Point(11, 145);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
@@ -168,7 +169,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.nearestCentroidPredictBtn);
-            this.groupBox1.Location = new System.Drawing.Point(250, 124);
+            this.groupBox1.Location = new System.Drawing.Point(250, 146);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(200, 100);
             this.groupBox1.TabIndex = 26;
@@ -185,11 +186,22 @@
             this.nearestCentroidPredictBtn.UseVisualStyleBackColor = true;
             this.nearestCentroidPredictBtn.Click += new System.EventHandler(this.nearestCentroidPredictBtn_Click);
             // 
+            // getHistogramBtn
+            // 
+            this.getHistogramBtn.Location = new System.Drawing.Point(9, 104);
+            this.getHistogramBtn.Name = "getHistogramBtn";
+            this.getHistogramBtn.Size = new System.Drawing.Size(162, 23);
+            this.getHistogramBtn.TabIndex = 27;
+            this.getHistogramBtn.Text = "Histogram";
+            this.getHistogramBtn.UseVisualStyleBackColor = true;
+            this.getHistogramBtn.Click += new System.EventHandler(this.getHistogramBtn_Click);
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(637, 252);
+            this.ClientSize = new System.Drawing.Size(637, 286);
+            this.Controls.Add(this.getHistogramBtn);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.splitTbx);
             this.Controls.Add(this.shuffleSeedTbx);
@@ -226,6 +238,7 @@
         private System.Windows.Forms.TextBox splitTbx;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button nearestCentroidPredictBtn;
+        private System.Windows.Forms.Button getHistogramBtn;
     }
 }
 
