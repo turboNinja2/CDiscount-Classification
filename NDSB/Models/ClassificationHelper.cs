@@ -5,11 +5,13 @@ namespace NDSB.Models
 {
     public static class ClassificationHelper
     {
+        private static ParallelOptions _parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = 6 };
+
         public static int[] TrainAndPredict<T>(IModelClassification<T> model, T[] trainPoints, int[] labels, T[] testPoints)
         {
             model.Train(labels, trainPoints);
             int[] predicted = new int[testPoints.Count()];
-            Parallel.For(0, testPoints.Length, i =>
+            Parallel.For(0, testPoints.Length, _parallelOptions, i =>
             {
                 int pred = model.Predict(testPoints[i]);
                 predicted[i] = pred;

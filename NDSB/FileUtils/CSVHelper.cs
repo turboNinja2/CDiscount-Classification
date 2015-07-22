@@ -17,12 +17,12 @@ namespace NDSB.FileUtils
             for (int i = 0; i < enumerators[0].Length; i++)
             {
                 string line = "";
-                for(int j =0 ; j < enumerators.Count; j++)
+                for (int j = 0; j < enumerators.Count; j++)
                     line += enumerators[j][i] + ";";
                 line.Remove(line.Length - 1);
                 toWrite.Add(line);
             }
-            File.WriteAllLines(Path.GetDirectoryName(filePaths[0]) + "\\Merged.csv",toWrite.ToArray());
+            File.WriteAllLines(Path.GetDirectoryName(filePaths[0]) + "\\Merged.csv", toWrite.ToArray());
         }
     }
 }

@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace NDSB.Models
 {
     using Point = Dictionary<string, double>;
-    using System.IO;
 
     public static class SparseClassificationHelper
     {
+
         public static double ValidateAndGetError(IModelClassification<Point> model, string trainFilePath, string validationFilePath, string trainLabelsPath, string validationLabelsPath)
         {
             Point[] trainSet = CSRHelper.ImportPoints(trainFilePath),
@@ -38,6 +36,5 @@ namespace NDSB.Models
 
             return cvPath;
         }
-
     }
 }

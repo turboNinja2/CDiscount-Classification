@@ -40,7 +40,7 @@ namespace NDSB.SparseMappings
 
         public string Description()
         {
-            return "PI_" + _minSize + "_" + _maxSize;
+            return "PureInt_" + _minSize + "_" + _maxSize;
         }
     }
 }
