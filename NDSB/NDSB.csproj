@@ -71,6 +71,7 @@
     <Compile Include="FileUtils\FSplitter.cs" />
     <Compile Include="FileUtils\GeneralFileUtils.cs" />
     <Compile Include="Models\SparseModels\KNNIIHelper.cs" />
+    <Compile Include="Models\SparseModels\NearestCentroidHelper.cs" />
     <Compile Include="Models\SparseModels\SparseClassificationHelper.cs" />
     <Compile Include="Models\Streaming\EmpiricScore.cs" />
     <Compile Include="Models\Streaming\Models\GenericModel1.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="FileUtils\CSVHelper.cs" />
     <Compile Include="Models\IModelClassification.cs" />
     <Compile Include="Models\ClassificationHelper.cs" />
+    <Compile Include="SparseMappings\ToInteractionSphere.cs" />
     <Compile Include="SparseMappings\Interactions.cs" />
     <Compile Include="SparseMappings\Identity.cs" />
     <Compile Include="SparseMappings\IMapping.cs" />

@@ -40,12 +40,15 @@
             this.downSampleBtn = new System.Windows.Forms.Button();
             this.shuffleSeedTbx = new System.Windows.Forms.TextBox();
             this.splitTbx = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.nearestCentroidPredictBtn = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // processBtn
             // 
-            this.processBtn.Location = new System.Drawing.Point(474, 29);
+            this.processBtn.Location = new System.Drawing.Point(550, 8);
             this.processBtn.Name = "processBtn";
             this.processBtn.Size = new System.Drawing.Size(75, 23);
             this.processBtn.TabIndex = 11;
@@ -58,11 +61,11 @@
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.nbNeighbTbx);
             this.groupBox3.Controls.Add(this.validateKNNBtn);
-            this.groupBox3.Location = new System.Drawing.Point(250, 112);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Location = new System.Drawing.Point(11, 123);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox3.Size = new System.Drawing.Size(299, 103);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox3.Size = new System.Drawing.Size(203, 103);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "KNN";
@@ -81,17 +84,17 @@
             // nbNeighbTbx
             // 
             this.nbNeighbTbx.Location = new System.Drawing.Point(116, 23);
-            this.nbNeighbTbx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.nbNeighbTbx.Margin = new System.Windows.Forms.Padding(2);
             this.nbNeighbTbx.Name = "nbNeighbTbx";
             this.nbNeighbTbx.Size = new System.Drawing.Size(76, 20);
             this.nbNeighbTbx.TabIndex = 2;
             // 
             // validateKNNBtn
             // 
-            this.validateKNNBtn.Location = new System.Drawing.Point(194, 23);
-            this.validateKNNBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.validateKNNBtn.Location = new System.Drawing.Point(4, 42);
+            this.validateKNNBtn.Margin = new System.Windows.Forms.Padding(2);
             this.validateKNNBtn.Name = "validateKNNBtn";
-            this.validateKNNBtn.Size = new System.Drawing.Size(98, 20);
+            this.validateKNNBtn.Size = new System.Drawing.Size(188, 20);
             this.validateKNNBtn.TabIndex = 0;
             this.validateKNNBtn.Text = "CV";
             this.validateKNNBtn.UseVisualStyleBackColor = true;
@@ -100,7 +103,7 @@
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(9, 80);
-            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(162, 19);
             this.button6.TabIndex = 5;
@@ -118,7 +121,7 @@
             // shuffleBtn
             // 
             this.shuffleBtn.Location = new System.Drawing.Point(9, 10);
-            this.shuffleBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.shuffleBtn.Margin = new System.Windows.Forms.Padding(2);
             this.shuffleBtn.Name = "shuffleBtn";
             this.shuffleBtn.Size = new System.Drawing.Size(91, 19);
             this.shuffleBtn.TabIndex = 21;
@@ -129,7 +132,7 @@
             // splitBtn
             // 
             this.splitBtn.Location = new System.Drawing.Point(9, 33);
-            this.splitBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitBtn.Margin = new System.Windows.Forms.Padding(2);
             this.splitBtn.Name = "splitBtn";
             this.splitBtn.Size = new System.Drawing.Size(91, 19);
             this.splitBtn.TabIndex = 22;
@@ -140,7 +143,7 @@
             // downSampleBtn
             // 
             this.downSampleBtn.Location = new System.Drawing.Point(9, 57);
-            this.downSampleBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.downSampleBtn.Margin = new System.Windows.Forms.Padding(2);
             this.downSampleBtn.Name = "downSampleBtn";
             this.downSampleBtn.Size = new System.Drawing.Size(91, 19);
             this.downSampleBtn.TabIndex = 23;
@@ -162,11 +165,32 @@
             this.splitTbx.Size = new System.Drawing.Size(67, 20);
             this.splitTbx.TabIndex = 25;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.nearestCentroidPredictBtn);
+            this.groupBox1.Location = new System.Drawing.Point(250, 124);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(200, 100);
+            this.groupBox1.TabIndex = 26;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Nearest Centroids";
+            // 
+            // nearestCentroidPredictBtn
+            // 
+            this.nearestCentroidPredictBtn.Location = new System.Drawing.Point(6, 38);
+            this.nearestCentroidPredictBtn.Name = "nearestCentroidPredictBtn";
+            this.nearestCentroidPredictBtn.Size = new System.Drawing.Size(75, 23);
+            this.nearestCentroidPredictBtn.TabIndex = 0;
+            this.nearestCentroidPredictBtn.Text = "Predict";
+            this.nearestCentroidPredictBtn.UseVisualStyleBackColor = true;
+            this.nearestCentroidPredictBtn.Click += new System.EventHandler(this.nearestCentroidPredictBtn_Click);
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(637, 252);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.splitTbx);
             this.Controls.Add(this.shuffleSeedTbx);
             this.Controls.Add(this.downSampleBtn);
@@ -180,6 +204,7 @@
             this.Text = "Form1";
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -199,6 +224,8 @@
         private System.Windows.Forms.Button downSampleBtn;
         private System.Windows.Forms.TextBox shuffleSeedTbx;
         private System.Windows.Forms.TextBox splitTbx;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button nearestCentroidPredictBtn;
     }
 }
 

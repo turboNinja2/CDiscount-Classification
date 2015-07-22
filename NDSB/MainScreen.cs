@@ -26,7 +26,7 @@ namespace NDSB
 
         private void button5_Click(object sender, EventArgs e)
         {
-            int[] nbNeighboursArray = nbNeighbTbx.Text.Split(';').Select(c=> Convert.ToInt32(c)).ToArray();
+            int[] nbNeighboursArray = nbNeighbTbx.Text.Split(';').Select(c => Convert.ToInt32(c)).ToArray();
 
             string[] trainFilePaths = new string[1];
             string validationFilePath = "";
@@ -42,7 +42,7 @@ namespace NDSB
             if (fdlg.ShowDialog() == DialogResult.OK)
                 trainFilePaths = fdlg.FileNames;
 
-            double minTfIdf = 0.25;
+            double minTfIdf = 0.4;
 
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
@@ -53,7 +53,7 @@ namespace NDSB
                     models.Add(new KNNII(Distances.TaxiCab, nbNeighboursArray[j], minTfIdf));
                     models.Add(new KNNII(Distances.Norm3, nbNeighboursArray[j], minTfIdf));
                 }
-                KNNIIHelper.PrepareDataAndValidateModels(models.ToArray(), new ToSphere(), trainFilePaths[i], validationFilePath);
+                KNNIIHelper.PrepareDataAndValidateModels(models.ToArray(), new ToInteractionSphere(), trainFilePaths[i], validationFilePath);
             }
         }
 
@@ -69,29 +69,13 @@ namespace NDSB
             CSVHelper.ColumnBind(filePaths);
         }
 
-        private void shuffleAndSplitBtn_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fdlg = new OpenFileDialog();
-            fdlg.Multiselect = true;
-            fdlg.Title = "Files to merge";
-            string[] filePaths = new string[1];
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                filePaths = fdlg.FileNames;
-
-            for (int i = 0; i < filePaths.Length; i++)
-            {
-                string shuffledFilePath = FShuffler.Shuffle(filePaths[i], 0);
-                FSplitter.SplitAbsolute(shuffledFilePath, 15700000);
-            }
-        }
-
         private void shuffleBtn_Click(object sender, EventArgs e)
         {
             OpenFileDialog fdlg = new OpenFileDialog();
             int seed = Convert.ToInt32(shuffleSeedTbx.Text);
-            
+
             fdlg.Multiselect = true;
-            fdlg.Title = "Files to merge";
+            fdlg.Title = "Files to shuffle";
             string[] filePaths = new string[1];
             if (fdlg.ShowDialog() == DialogResult.OK)
                 filePaths = fdlg.FileNames;
@@ -106,7 +90,7 @@ namespace NDSB
             double part = Convert.ToDouble(splitTbx.Text);
 
             fdlg.Multiselect = true;
-            fdlg.Title = "Files to merge";
+            fdlg.Title = "Files to split";
             string[] filePaths = new string[1];
             if (fdlg.ShowDialog() == DialogResult.OK)
                 filePaths = fdlg.FileNames;
@@ -119,7 +103,7 @@ namespace NDSB
         {
             OpenFileDialog fdlg = new OpenFileDialog();
             fdlg.Multiselect = true;
-            fdlg.Title = "Files to merge";
+            fdlg.Title = "Files to down sample";
             string[] filePaths = new string[1];
             if (fdlg.ShowDialog() == DialogResult.OK)
                 filePaths = fdlg.FileNames;
@@ -128,6 +112,33 @@ namespace NDSB
             for (int i = 0; i < eltsPerClass.Length; i++)
                 for (int j = 0; j < filePaths.Length; j++)
                     DownSample.Run(filePaths[j], eltsPerClass[i], DSCdiscountUtils.GetLabelCDiscountDB);
+        }
+
+        private void nearestCentroidPredictBtn_Click(object sender, EventArgs e)
+        {
+            string[] trainFilePaths = new string[1];
+            string testFilePath = "";
+
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "Test file path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                testFilePath = fdlg.FileName;
+
+            fdlg = new OpenFileDialog();
+            fdlg.Multiselect = true;
+            fdlg.Title = "Train file(s) path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                trainFilePaths = fdlg.FileNames;
+
+            for (int i = 0; i < trainFilePaths.Length; i++)
+            {
+                List<NearestCentroid> models = new List<NearestCentroid>();
+
+                models.Add(new NearestCentroid(new PureInteractions(2, 20)));
+                models.Add(new NearestCentroid(new PureInteractions(1, 20)));
+
+                NearestCentroidHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
+            }
         }
     }
 }
