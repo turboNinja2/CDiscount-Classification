@@ -9,7 +9,7 @@ namespace NDSB.FileUtils
     {
         public static string Shuffle(string file, int seed)
         {
-            int numberOfLines = NumberOfLines(file);
+            int numberOfLines = GeneralFileUtils.NumberOfLines(file);
 
             List<int> indexes = new List<int>();
             for (int i = 1; i < numberOfLines; i++)
@@ -39,13 +39,7 @@ namespace NDSB.FileUtils
             return outFile;
         }
 
-        private static int NumberOfLines(string file)
-        {
-            int numberOfLines = 0;
-            foreach (string line in LinesEnumerator.YieldLines(file))
-                numberOfLines++;
-            return numberOfLines;
-        }
+
 
         private static List<string> ReadLinesWithIndex(string file, List<int> indexes)
         {
