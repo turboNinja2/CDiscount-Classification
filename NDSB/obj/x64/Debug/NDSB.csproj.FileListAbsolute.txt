@@ -1,8 +1,9 @@
 C:\Users\JUJulien\Desktop\KAGGLE\Competitions\DSEC\DataScienceECom\SparseKNN\NDSB\bin\x64\Debug\NDSB.exe.config
 C:\Users\JUJulien\Desktop\KAGGLE\Competitions\DSEC\DataScienceECom\SparseKNN\NDSB\bin\x64\Debug\NDSB.exe
 C:\Users\JUJulien\Desktop\KAGGLE\Competitions\DSEC\DataScienceECom\SparseKNN\NDSB\bin\x64\Debug\NDSB.pdb
-C:\Users\JUJulien\Desktop\KAGGLE\Competitions\DSEC\DataScienceECom\SparseKNN\NDSB\obj\x64\Debug\NDSB.Form1.resources
 C:\Users\JUJulien\Desktop\KAGGLE\Competitions\DSEC\DataScienceECom\SparseKNN\NDSB\obj\x64\Debug\NDSB.Properties.Resources.resources
 C:\Users\JUJulien\Desktop\KAGGLE\Competitions\DSEC\DataScienceECom\SparseKNN\NDSB\obj\x64\Debug\NDSB.csproj.GenerateResource.Cache
 C:\Users\JUJulien\Desktop\KAGGLE\Competitions\DSEC\DataScienceECom\SparseKNN\NDSB\obj\x64\Debug\NDSB.exe
 C:\Users\JUJulien\Desktop\KAGGLE\Competitions\DSEC\DataScienceECom\SparseKNN\NDSB\obj\x64\Debug\NDSB.pdb
+C:\Users\JUJulien\Desktop\KAGGLE\Competitions\DSEC\DataScienceECom\SparseKNN\NDSB\obj\x64\Debug\NDSB.csprojResolveAssemblyReference.cache
+C:\Users\JUJulien\Desktop\KAGGLE\Competitions\DSEC\DataScienceECom\SparseKNN\NDSB\obj\x64\Debug\NDSB.MainScreen.resources

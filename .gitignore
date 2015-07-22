@@ -64,3 +64,4 @@ NDSB/obj/x86/Debug/DesignTimeResolveAssemblyReferences.cache
 *.manifest
 NDSB/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 NDSB.suo
+*.suo
