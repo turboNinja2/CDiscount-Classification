@@ -26,7 +26,7 @@ namespace NDSB
 
         private void button5_Click(object sender, EventArgs e)
         {
-            int nbNeighbours = Convert.ToInt32(nbNeighbTbx.Text);
+            int[] nbNeighboursArray = nbNeighbTbx.Text.Split(';').Select(c=> Convert.ToInt32(c)).ToArray();
 
             string[] trainFilePaths = new string[1];
             string validationFilePath = "";
@@ -42,10 +42,18 @@ namespace NDSB
             if (fdlg.ShowDialog() == DialogResult.OK)
                 trainFilePaths = fdlg.FileNames;
 
+            double minTfIdf = 0.25;
+
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
-                KNNII[] models = new KNNII[] { new KNNII(Distances.Euclide, nbNeighbours, 0.5), new KNNII(Distances.TaxiCab, nbNeighbours, 0.5), new KNNII(Distances.Norm3, nbNeighbours, 0.5), };
-                KNNIIHelper.PrepareDataAndValidateModels(models, new ToSphere(), trainFilePaths[i], validationFilePath);
+                List<KNNII> models = new List<KNNII>();
+                for (int j = 0; j < nbNeighboursArray.Length; j++)
+                {
+                    models.Add(new KNNII(Distances.Euclide, nbNeighboursArray[j], minTfIdf));
+                    models.Add(new KNNII(Distances.TaxiCab, nbNeighboursArray[j], minTfIdf));
+                    models.Add(new KNNII(Distances.Norm3, nbNeighboursArray[j], minTfIdf));
+                }
+                KNNIIHelper.PrepareDataAndValidateModels(models.ToArray(), new ToSphere(), trainFilePaths[i], validationFilePath);
             }
         }
 

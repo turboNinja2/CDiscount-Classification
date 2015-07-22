@@ -29,14 +29,14 @@ namespace NDSB
             foreach (KeyValuePair<string, double> kvp1 in sp1)
             {
                 if (sp2.ContainsKey(kvp1.Key))
-                    distance += Math.Pow((kvp1.Value - sp2[kvp1.Key]), 3);
+                    distance += Math.Pow(Math.Abs(kvp1.Value - sp2[kvp1.Key]), 3);
                 else
-                    distance += Math.Pow((kvp1.Value), 3);
+                    distance += Math.Pow(Math.Abs(kvp1.Value), 3);
             }
 
             foreach (KeyValuePair<string, double> kvp2 in sp2)
                 if (!sp1.ContainsKey(kvp2.Key))
-                    distance += Math.Pow((kvp2.Value), 3);
+                    distance += Math.Pow(Math.Abs(kvp2.Value), 3);
 
             return distance;
         }

@@ -7,6 +7,7 @@ using NDSB.SparseMappings;
 namespace NDSB.Models.SparseModels
 {
     using Point = Dictionary<string, double>;
+    using System;
 
     public static class KNNIIHelper
     {
@@ -28,7 +29,7 @@ namespace NDSB.Models.SparseModels
         public static double ValidateAndGetError(KNNII model, IMapping<Point> map, string trainFilePath, string validationFilePath, string trainLabelsPath, string validationLabelsPath)
         {
             int[] validationLabels = DSCdiscountUtils.ReadLabelsFromTraining(validationLabelsPath);
-            return ClassificationHelper.Accuracy(GetPredictions(model, map, trainFilePath, validationFilePath, trainFilePath), validationLabels);
+            return ClassificationHelper.Accuracy(GetPredictions(model, map, trainFilePath, validationFilePath, trainLabelsPath), validationLabels);
         }
 
 
@@ -42,7 +43,7 @@ namespace NDSB.Models.SparseModels
             for (int i = 0; i < models.Length; i++)
             {
                 double currentError = ValidateAndGetError(models[i], map, tfidfTrainFile, tfidfValidationFile, trainFilePath, validationFilePath);
-                string desc = "KNN " + trainFilePath + ";" + map.Description() + ";" + models[i].Description() + ";" + currentError;
+                string desc = "KNN " + Path.GetFileNameWithoutExtension(trainFilePath) + ";" + map.Description() + ";" + models[i].Description() + ";" + currentError + Environment.NewLine;
                 File.AppendAllText(cvPath, desc);
             }
             return cvPath;
