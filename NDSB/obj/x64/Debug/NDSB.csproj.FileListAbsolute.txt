@@ -7,3 +7,11 @@ C:\Users\JUJulien\Desktop\KAGGLE\Competitions\DSEC\DataScienceECom\SparseKNN\NDS
 C:\Users\JUJulien\Desktop\KAGGLE\Competitions\DSEC\DataScienceECom\SparseKNN\NDSB\obj\x64\Debug\NDSB.pdb
 C:\Users\JUJulien\Desktop\KAGGLE\Competitions\DSEC\DataScienceECom\SparseKNN\NDSB\obj\x64\Debug\NDSB.csprojResolveAssemblyReference.cache
 C:\Users\JUJulien\Desktop\KAGGLE\Competitions\DSEC\DataScienceECom\SparseKNN\NDSB\obj\x64\Debug\NDSB.MainScreen.resources
+C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\bin\x64\Debug\NDSB.exe.config
+C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\bin\x64\Debug\NDSB.exe
+C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\bin\x64\Debug\NDSB.pdb
+C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x64\Debug\NDSB.MainScreen.resources
+C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x64\Debug\NDSB.Properties.Resources.resources
+C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x64\Debug\NDSB.csproj.GenerateResource.Cache
+C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x64\Debug\NDSB.exe
+C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x64\Debug\NDSB.pdb
