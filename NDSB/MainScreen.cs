@@ -53,10 +53,8 @@ namespace NDSB
                 for (int j = 0; j < nbNeighboursArray.Length; j++)
                 {
                     models.Add(new KNNII(Distances.Euclide, nbNeighboursArray[j], minTfIdf));
-                    models.Add(new KNNII(Distances.TaxiCab, nbNeighboursArray[j], minTfIdf));
-                    models.Add(new KNNII(Distances.Norm3, nbNeighboursArray[j], minTfIdf));
                 }
-                KNNIIHelper.PrepareDataAndValidateModels(models.ToArray(), new ToInteractionSphere(), trainFilePaths[i], validationFilePath);
+                KNNIIHelper.PrepareDataAndValidateModels(models.ToArray(), new ToSphere(), trainFilePaths[i], validationFilePath);
             }
         }
 
@@ -250,6 +248,11 @@ namespace NDSB
                 }
                 KNNIIHelper.PrepareDataAndWritePredictions(models.ToArray(), new ToSphere(), trainFilePaths[i], testFilePath);
             }
+        }
+
+        private void splitTbx_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

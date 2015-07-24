@@ -123,6 +123,7 @@
             this.downSampleTbx.Name = "downSampleTbx";
             this.downSampleTbx.Size = new System.Drawing.Size(67, 20);
             this.downSampleTbx.TabIndex = 20;
+            this.downSampleTbx.Text = "1000";
             // 
             // shuffleBtn
             // 
@@ -163,6 +164,7 @@
             this.shuffleSeedTbx.Name = "shuffleSeedTbx";
             this.shuffleSeedTbx.Size = new System.Drawing.Size(67, 20);
             this.shuffleSeedTbx.TabIndex = 24;
+            this.shuffleSeedTbx.Text = "0";
             // 
             // splitTbx
             // 
@@ -170,6 +172,8 @@
             this.splitTbx.Name = "splitTbx";
             this.splitTbx.Size = new System.Drawing.Size(67, 20);
             this.splitTbx.TabIndex = 25;
+            this.splitTbx.Text = "0.9";
+            this.splitTbx.TextChanged += new System.EventHandler(this.splitTbx_TextChanged);
             // 
             // groupBox1
             // 
