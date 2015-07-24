@@ -10,6 +10,8 @@ using NDSB.SparseMappings;
 using NDSB.Models;
 using NDSB.Models.SparseModels;
 using DataScienceECom;
+using DataScienceECom.Phis;
+using DataScienceECom.Models;
 
 namespace NDSB
 {
@@ -144,7 +146,7 @@ namespace NDSB
         {
             string trainFilePath = "";
             OpenFileDialog fdlg = new OpenFileDialog();
-            fdlg.Title = "Train files path";
+           
             if (fdlg.ShowDialog() == DialogResult.OK)
                 trainFilePath = fdlg.FileName;
 
@@ -160,6 +162,61 @@ namespace NDSB
             File.WriteAllLines(trainFilePath.Split('.')[0] + "_hist.txt", text);
 
             MessageBox.Show("h");
+        }
+
+        private void predictSGDBtn_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog trainingFilesOFD = new OpenFileDialog();
+            trainingFilesOFD.Multiselect = true;
+            trainingFilesOFD.Title = "Train files path";
+            trainingFilesOFD.ShowDialog();
+            if (!trainingFilesOFD.CheckFileExists) return;
+
+            OpenFileDialog validationFilesOFD = new OpenFileDialog();
+            validationFilesOFD.Multiselect = true;
+            trainingFilesOFD.Title = "Validation files path";
+            validationFilesOFD.ShowDialog();
+
+            if (!validationFilesOFD.CheckFileExists) return;
+
+            string currentDirectory = Path.GetDirectoryName(trainingFilesOFD.FileNames[0]),
+                testFilePath = currentDirectory + "\\test.csv",
+                cvFilePath = currentDirectory + "\\CrossValidation.csv";
+
+            List<Phi> phis = new List<Phi> { Phis.phi13 };
+
+            string[] learningFiles = trainingFilesOFD.FileNames;
+            Array.Sort(learningFiles);
+            string[] validationFiles = validationFilesOFD.FileNames;
+            Array.Sort(validationFiles);
+
+            foreach (IStreamingModel model in ModelGenerators.Entropia4())
+                for (int i = 0; i < learningFiles.Length; i++)
+                    foreach (Phi phi in phis)
+                    {
+                        string file = learningFiles[i];
+                        model.ClearModel();
+                        TrainModels.TrainStreamingModel(model, phi, file);
+                        string modelString = Path.GetFileNameWithoutExtension(file) + ";" + Path.GetFileNameWithoutExtension(validationFiles[i]) +
+                            phi.Method.Name + ";" + model.ToString();
+
+                        List<int> testModelPredictions = TrainModels.Predict(model, phi, testFilePath);
+
+                        File.WriteAllLines(Path.GetDirectoryName(file) + "\\submissions\\" +
+                            modelString + "_pred.csv",
+                            testModelPredictions.Select(t => t.ToString()));
+
+                        string validationFileName = validationFiles[i];//file.Replace("_tr.", "_val.");
+
+
+                        var validationModelPredictions = TrainModels.Validate(model, phi, validationFileName);
+
+                        File.WriteAllLines(Path.GetDirectoryName(file) + "\\validations\\" +
+                            modelString + "_val.csv",
+                            validationModelPredictions.Item1.Select(t => t.ToString()));
+
+                        File.AppendAllText(cvFilePath, modelString + ";" + (validationModelPredictions.Item2 * 100f).ToString() + Environment.NewLine);
+                    }
         }
     }
 }
