@@ -136,8 +136,8 @@ namespace NDSB
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
                 List<NearestCentroid> models = new List<NearestCentroid>();
-                models.Add(new NearestCentroid(new PureInteractions(2, 20)));
                 models.Add(new NearestCentroid(new PureInteractions(1, 20)));
+                models.Add(new NearestCentroid(new PureInteractions(2, 20)));
                 NearestCentroidHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
             }
         }
@@ -217,6 +217,39 @@ namespace NDSB
 
                         File.AppendAllText(cvFilePath, modelString + ";" + (validationModelPredictions.Item2 * 100f).ToString() + Environment.NewLine);
                     }
+        }
+
+        private void predictKNNBtn_Click(object sender, EventArgs e)
+        {
+            int[] nbNeighboursArray = nbNeighbTbx.Text.Split(';').Select(c => Convert.ToInt32(c)).ToArray();
+
+            string[] trainFilePaths = new string[1];
+            string testFilePath = "";
+
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "Test file path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                testFilePath = fdlg.FileName;
+
+            fdlg = new OpenFileDialog();
+            fdlg.Multiselect = true;
+            fdlg.Title = "Train file(s) path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                trainFilePaths = fdlg.FileNames;
+
+            double minTfIdf = 0.4;
+
+            for (int i = 0; i < trainFilePaths.Length; i++)
+            {
+                List<KNNII> models = new List<KNNII>();
+                for (int j = 0; j < nbNeighboursArray.Length; j++)
+                {
+                    models.Add(new KNNII(Distances.Euclide, nbNeighboursArray[j], minTfIdf));
+                    models.Add(new KNNII(Distances.TaxiCab, nbNeighboursArray[j], minTfIdf));
+                    models.Add(new KNNII(Distances.Norm3, nbNeighboursArray[j], minTfIdf));
+                }
+                KNNIIHelper.PrepareDataAndWritePredictions(models.ToArray(), new ToSphere(), trainFilePaths[i], testFilePath);
+            }
         }
     }
 }

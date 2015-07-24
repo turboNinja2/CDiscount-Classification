@@ -15,3 +15,4 @@ C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x64\Debug\NDSB.Properties.Res
 C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x64\Debug\NDSB.csproj.GenerateResource.Cache
 C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x64\Debug\NDSB.exe
 C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x64\Debug\NDSB.pdb
+C:\Users\Windows\Desktop\BenchmarkC#\NDSB\NDSB\obj\x64\Debug\NDSB.csprojResolveAssemblyReference.cache

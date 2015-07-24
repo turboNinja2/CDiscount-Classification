@@ -23,15 +23,17 @@ namespace NDSB.SparseMappings
             for (int i = 0; i < point.Count; i++)
                 for (int j = i; j < point.Count; j++)
                 {
+                    string ki = keys[i],
+                        kj = keys[j];
                     if (i == j) continue; //res.Add(keys[i], values[i]);
-                    else // poor man dimension reduction...
-                        if (keys[i].Length < _maxSize && keys[i].Length > _minSize && keys[j].Length < _maxSize && keys[j].Length > _minSize)
+                    else // interactions only
+                        if (ki.Length < _maxSize && ki.Length > _minSize && kj.Length < _maxSize && kj.Length > _minSize)
                         {
                             double coef = values[i] * values[j];
-                            if(keys[i].Length < keys[j].Length)
-                                res.Add(keys[i] + "_" + keys[j], coef);
+                            if (string.Compare(ki, kj) > 0) //dimension reduction ;)
+                                res.Add(ki + "_" + kj, coef);
                             else
-                                res.Add(keys[j] + "_" + keys[i], coef);
+                                res.Add(kj + "_" + ki, coef);
                         }
                 }
 

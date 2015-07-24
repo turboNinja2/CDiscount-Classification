@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using NDSB.SparseMappings;
-
+using System.Linq;
 
 namespace NDSB.Models.SparseModels
 {
@@ -49,6 +49,20 @@ namespace NDSB.Models.SparseModels
             return cvPath;
         }
 
+        public static void PrepareDataAndWritePredictions(KNNII[] models, IMapping<Point> map, string trainFilePath, string validationFilePath)
+        {
+            string tfidfValidationFile = TFIDF.TextToTFIDFCSR(validationFilePath),
+                tfidfTrainFile = TFIDF.TextToTFIDFCSR(trainFilePath);
 
+            for (int i = 0; i < models.Length; i++)
+            {
+                string desc = Path.GetFileNameWithoutExtension(trainFilePath) + models[i].Description() + "_" + map.Description();
+                int[] pred = GetPredictions(models[i], map, tfidfTrainFile, tfidfValidationFile, trainFilePath);
+                List<string> toWrite = new List<string>();
+                toWrite.Add(desc + Environment.NewLine);
+                toWrite.AddRange(pred.Select(c => c.ToString()));
+                File.WriteAllLines(Path.GetDirectoryName(trainFilePath) + "\\" + desc + ".csv", toWrite);
+            }
+        }
     }
 }
