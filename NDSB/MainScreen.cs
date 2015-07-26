@@ -31,7 +31,7 @@ namespace NDSB
         {
             int[] nbNeighboursArray = nbNeighbTbx.Text.Split(';').Select(c => Convert.ToInt32(c)).ToArray();
 
-            string[] trainFilePaths = new string[1];
+            string trainFilePath = "";
             string validationFilePath = "";
 
             OpenFileDialog fdlg = new OpenFileDialog();
@@ -40,22 +40,17 @@ namespace NDSB
                 validationFilePath = fdlg.FileName;
 
             fdlg = new OpenFileDialog();
-            fdlg.Multiselect = true;
             fdlg.Title = "Train file(s) path";
             if (fdlg.ShowDialog() == DialogResult.OK)
-                trainFilePaths = fdlg.FileNames;
+                trainFilePath = fdlg.FileName;
 
             double minTfIdf = 0.4;
 
-            for (int i = 0; i < trainFilePaths.Length; i++)
-            {
-                List<KNNII> models = new List<KNNII>();
-                for (int j = 0; j < nbNeighboursArray.Length; j++)
-                {
-                    models.Add(new KNNII(Distances.Euclide, nbNeighboursArray[j], minTfIdf));
-                }
-                KNNIIHelper.PrepareDataAndValidateModels(models.ToArray(), new ToSphere(), trainFilePaths[i], validationFilePath);
-            }
+            List<KNNII> models = new List<KNNII>();
+            for (int j = 0; j < nbNeighboursArray.Length; j++)
+                models.Add(new KNNII(Distances.Euclide, nbNeighboursArray[j], minTfIdf));
+
+            KNNIIHelper.PrepareDataAndValidateModels(models.ToArray(), new ToSphere(), trainFilePath, validationFilePath);
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -73,7 +68,7 @@ namespace NDSB
         private void shuffleBtn_Click(object sender, EventArgs e)
         {
             OpenFileDialog fdlg = new OpenFileDialog();
-            int seed = Convert.ToInt32(shuffleSeedTbx.Text);
+            int[] seeds = shuffleSeedTbx.Text.Split(';').Select(c => Convert.ToInt32(c)).ToArray();
 
             fdlg.Multiselect = true;
             fdlg.Title = "Files to shuffle";
@@ -81,8 +76,9 @@ namespace NDSB
             if (fdlg.ShowDialog() == DialogResult.OK)
                 filePaths = fdlg.FileNames;
 
-            for (int i = 0; i < filePaths.Length; i++)
-                FShuffler.Shuffle(filePaths[i], seed);
+            foreach (int seed in seeds)
+                for (int i = 0; i < filePaths.Length; i++)
+                    FShuffler.Shuffle(filePaths[i], seed);
         }
 
         private void splitBtn_Click(object sender, EventArgs e)
@@ -135,8 +131,8 @@ namespace NDSB
             {
                 List<NearestCentroid> models = new List<NearestCentroid>();
                 models.Add(new NearestCentroid(new PureInteractions(1, 20)));
-                models.Add(new NearestCentroid(new PureInteractions(2, 20)));
                 NearestCentroidHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
+                models.Clear();
             }
         }
 
@@ -144,7 +140,7 @@ namespace NDSB
         {
             string trainFilePath = "";
             OpenFileDialog fdlg = new OpenFileDialog();
-           
+
             if (fdlg.ShowDialog() == DialogResult.OK)
                 trainFilePath = fdlg.FileName;
 
@@ -188,7 +184,7 @@ namespace NDSB
             string[] validationFiles = validationFilesOFD.FileNames;
             Array.Sort(validationFiles);
 
-            foreach (IStreamingModel model in ModelGenerators.Entropia4())
+            foreach (IStreamingModel model in ModelGenerators.Entropia5())
                 for (int i = 0; i < learningFiles.Length; i++)
                     foreach (Phi phi in phis)
                     {
@@ -204,8 +200,7 @@ namespace NDSB
                             modelString + "_pred.csv",
                             testModelPredictions.Select(t => t.ToString()));
 
-                        string validationFileName = validationFiles[i];//file.Replace("_tr.", "_val.");
-
+                        string validationFileName = validationFiles[i];
 
                         var validationModelPredictions = TrainModels.Validate(model, phi, validationFileName);
 
@@ -241,11 +236,7 @@ namespace NDSB
             {
                 List<KNNII> models = new List<KNNII>();
                 for (int j = 0; j < nbNeighboursArray.Length; j++)
-                {
                     models.Add(new KNNII(Distances.Euclide, nbNeighboursArray[j], minTfIdf));
-                    models.Add(new KNNII(Distances.TaxiCab, nbNeighboursArray[j], minTfIdf));
-                    models.Add(new KNNII(Distances.Norm3, nbNeighboursArray[j], minTfIdf));
-                }
                 KNNIIHelper.PrepareDataAndWritePredictions(models.ToArray(), new ToSphere(), trainFilePaths[i], testFilePath);
             }
         }

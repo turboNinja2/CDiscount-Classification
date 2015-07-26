@@ -23,7 +23,7 @@ namespace DataScienceECom.Models
 
         public static IEnumerable<IStreamingModel> Entropia3()
         {
-            for (int i = 6; i < 9; i+=1)
+            for (int i = 6; i < 9; i += 1)
                 for (double j = 0.7; j < 1.2; j += 0.1)
                     yield return new GMEntropia(j, 4, i);
         }
@@ -34,6 +34,12 @@ namespace DataScienceECom.Models
                 for (double j = 0.5; j < 0.9; j += 0.2)
                     yield return new GMEntropia(j, 4, i);
         }
+
+        public static IEnumerable<IStreamingModel> Entropia5()
+        {
+            yield return new GMEntropia(0.5, 4, 6);
+        }
+
 
     }
 }
