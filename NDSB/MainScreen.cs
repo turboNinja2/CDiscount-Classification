@@ -230,7 +230,7 @@ namespace NDSB
             if (fdlg.ShowDialog() == DialogResult.OK)
                 trainFilePaths = fdlg.FileNames;
 
-            double minTfIdf = 0.4;
+            double minTfIdf = 0.25;
 
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
