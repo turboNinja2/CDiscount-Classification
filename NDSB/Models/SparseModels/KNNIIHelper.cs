@@ -59,7 +59,7 @@ namespace NDSB.Models.SparseModels
                 string desc = Path.GetFileNameWithoutExtension(trainFilePath) + models[i].Description() + "_" + map.Description();
                 int[] pred = GetPredictions(models[i], map, tfidfTrainFile, tfidfValidationFile, trainFilePath);
                 List<string> toWrite = new List<string>();
-                toWrite.Add(desc + Environment.NewLine);
+                toWrite.Add(desc);
                 toWrite.AddRange(pred.Select(c => c.ToString()));
                 File.WriteAllLines(Path.GetDirectoryName(trainFilePath) + "\\" + desc + ".csv", toWrite);
             }
