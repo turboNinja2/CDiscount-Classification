@@ -44,7 +44,7 @@ namespace NDSB
             if (fdlg.ShowDialog() == DialogResult.OK)
                 trainFilePath = fdlg.FileName;
 
-            double minTfIdf = 0.4;
+            double minTfIdf = 0.2;
 
             List<KNNII> models = new List<KNNII>();
             for (int j = 0; j < nbNeighboursArray.Length; j++)
