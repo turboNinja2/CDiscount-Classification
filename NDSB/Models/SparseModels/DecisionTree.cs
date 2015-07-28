@@ -26,7 +26,7 @@ namespace NDSB.Models.SparseModels
         private BinaryTree<string> _rules;
         private Dictionary<string, List<int>> _invertedIndexes = new Dictionary<string, List<int>>(_INVERTED_INDEXES_PREALLOC_);
 
-        public DecisionTree(int maxDepth, double minTFIDF, int minElementsPerLeaf = 25)
+        public DecisionTree(int maxDepth, int minElementsPerLeaf = 30)
         {
             _maxDepth = maxDepth;
             _minElementsPerLeaf = minElementsPerLeaf;
