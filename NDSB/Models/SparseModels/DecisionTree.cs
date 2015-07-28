@@ -19,7 +19,6 @@ namespace NDSB.Models.SparseModels
         // Parameters
         private int _minElementsPerLeaf;
         private int _maxDepth;
-        private double _minTFIDF;
 
         // Model
         private List<string> _splitters = new List<string>();
@@ -30,7 +29,6 @@ namespace NDSB.Models.SparseModels
         public DecisionTree(int maxDepth, double minTFIDF, int minElementsPerLeaf = 25)
         {
             _maxDepth = maxDepth;
-            _minTFIDF = minTFIDF;
             _minElementsPerLeaf = minElementsPerLeaf;
         }
 
@@ -38,8 +36,8 @@ namespace NDSB.Models.SparseModels
         {
             _labels = labels;
             _points = points;
-            _invertedIndexes = DataIndexer.InverseKeysAndSort(_points, _minTFIDF);
-            _splitters = _invertedIndexes.Keys.ToList();
+            _invertedIndexes = DataIndexer.InverseKeysAndSort(_points);
+            _splitters = _invertedIndexes.Where(kvp => kvp.Value.Count > _minElementsPerLeaf).Select(k => k.Key).ToList();
 
             int[] allIndexes = new int[labels.Length];
             for (int i = 0; i < allIndexes.Length; i++)
@@ -90,7 +88,7 @@ namespace NDSB.Models.SparseModels
 
         public string Description()
         {
-            return "Nope";
+            return "DTree_leafSize" + _minElementsPerLeaf + "md_" + _maxDepth;
         }
 
         public static int[] GetElementsAt(int[] labels, int[] indexes)
@@ -100,15 +98,6 @@ namespace NDSB.Models.SparseModels
                 result.Add(labels[indexes[i]]);
             return result.ToArray();
         }
-
-        public static int[] GetElementsNotAt(int[] labels, int[] indexes)
-        {
-            List<int> result = new List<int>();
-            for (int i = 0; i < indexes.Length; i++)
-                result.Add(labels[indexes[i]]);
-            return result.ToArray();
-        }
-
 
         public string FindeBestSplit(int[] subSelectedIndexes)
         {

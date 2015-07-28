@@ -21,6 +21,7 @@ namespace NDSB.Models.SparseModels
         {
             Point[] trainSet = CSRHelper.ImportPoints(tfidfTrainFile),
                 validationSet = CSRHelper.ImportPoints(tfidfTestFile);
+
             int[] trainLabels = DSCdiscountUtils.ReadLabelsFromTraining(trainFilePath);
 
             for (int i = 0; i < models.Length; i++)

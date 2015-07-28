@@ -296,7 +296,7 @@ namespace NDSB
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
                 List<DecisionTree> models = new List<DecisionTree>();
-                models.Add(new DecisionTree(3, 2));
+                models.Add(new DecisionTree(60, 0, 50));
                 GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
                 models.Clear();
             }

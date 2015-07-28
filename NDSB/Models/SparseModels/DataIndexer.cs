@@ -31,7 +31,7 @@ namespace NDSB.Models.SparseModels
             return invertedIndexes;
         }
 
-        public static Dictionary<T, List<int>> InverseKeysAndSort<T>(Dictionary<T, double>[] sample, double minValue, int preAlloc = 1000000)
+        public static Dictionary<T, List<int>> InverseKeysAndSort<T>(Dictionary<T, double>[] sample, double minValue = 0, int preAlloc = 1000000)
         {
             Dictionary<T, List<int>> invertedIndexes = InverseKeys<T>(sample, minValue, preAlloc);
             for (int i = 0; i < invertedIndexes.Count; i++)
