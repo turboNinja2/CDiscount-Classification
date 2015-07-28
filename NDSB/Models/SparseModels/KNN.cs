@@ -7,14 +7,16 @@ using System.Reflection;
 namespace NDSB
 {
     using Point = Dictionary<string, double>;
+    using NDSB.Models.SparseModels;
 
-    public class KNNII : IModelClassification<Point>
+    public class KNN : IModelClassification<Point>
     {
         public delegate double Distance(Dictionary<string, double> sp1, Dictionary<string, double> sp2);
 
         private const int _INVERTED_INDEXES_PREALLOC_ = 1000000;
 
         #region Private attributes
+
         private int[] _labels;
         private Point[] _points;
 
@@ -23,20 +25,26 @@ namespace NDSB
         private Distance _distance;
         private double _minTFIDF;
         private int _nbNeighbours;
+
         #endregion
 
-        public KNNII(Distance distance, int nbNeighbours, double minTFIDF)
+        public KNN(Distance distance, int nbNeighbours, double minTFIDF)
         {
             _distance = distance;
             _minTFIDF = minTFIDF;
             _nbNeighbours = nbNeighbours;
         }
 
+        /// <summary>
+        /// Creates a shallow copy of the data and creates an inverted dictionary
+        /// </summary>
+        /// <param name="labels"></param>
+        /// <param name="points"></param>
         public void Train(int[] labels, Point[] points)
         {
             _labels = labels;
             _points = points;
-            StampInverseDictionary(points, _minTFIDF);
+            _invertedIndexes = DataIndexer.InverseKeys(points, _minTFIDF);
         }
 
         public int Predict(Point pt)
@@ -74,32 +82,7 @@ namespace NDSB
             return neighboursLabels;
         }
 
-        /// <summary>
-        /// Creates an inverse dictionnary and stamps it.
-        /// </summary>
-        /// <param name="sample"></param>
-        private void StampInverseDictionary(Dictionary<string, double>[] sample, double minTFIDF)
-        {
-            if (_invertedIndexes.Count == 0)
-            {
-                for (int i = 0; i < sample.Length; i++)
-                {
-                    Dictionary<string, double> sparsePoint = sample[i];
-                    foreach (KeyValuePair<string, double> kvp in sparsePoint)
-                    {
-                        string currentKey = kvp.Key;
-                        if (kvp.Value < minTFIDF) continue;
-                        if (_invertedIndexes.ContainsKey(currentKey))
-                            _invertedIndexes[currentKey].Add(i);
-                        else
-                        {
-                            _invertedIndexes.Add(currentKey, new List<int>(100));
-                            _invertedIndexes[currentKey].Add(i);
-                        }
-                    }
-                }
-            }
-        }
+
 
         /// <summary>
         /// Performs k iterations of the bubble sort algorithm 

@@ -86,7 +86,7 @@ namespace DataScienceECom.Models
                     continue;
                 }
 
-                if (_w[currentKey].Entropy() > _maxEntropy)
+                if (_w[currentKey].NormalizedEntropy() > _maxEntropy)
                 {
                     _w.Remove(currentKey);
                     _n.Remove(currentKey);

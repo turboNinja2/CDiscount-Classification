@@ -9,10 +9,10 @@ namespace NDSB.Models.SparseModels
     using Point = Dictionary<string, double>;
     using System;
 
-    public static class KNNIIHelper
+    public static class KNNHelper
     {
 
-        public static int[] GetPredictions(KNNII model, IMapping<Point> map, string trainFilePath, string testFilePath, string trainLabelsPath)
+        public static int[] GetPredictions(KNN model, IMapping<Point> map, string trainFilePath, string testFilePath, string trainLabelsPath)
         {
             Point[] trainSet = CSRHelper.ImportPoints(trainFilePath),
                 testSet = CSRHelper.ImportPoints(testFilePath);
@@ -26,14 +26,14 @@ namespace NDSB.Models.SparseModels
             return predicted;
         }
 
-        public static double ValidateAndGetError(KNNII model, IMapping<Point> map, string trainFilePath, string validationFilePath, string trainLabelsPath, string validationLabelsPath)
+        public static double ValidateAndGetError(KNN model, IMapping<Point> map, string trainFilePath, string validationFilePath, string trainLabelsPath, string validationLabelsPath)
         {
             int[] validationLabels = DSCdiscountUtils.ReadLabelsFromTraining(validationLabelsPath);
             return ClassificationHelper.Accuracy(GetPredictions(model, map, trainFilePath, validationFilePath, trainLabelsPath), validationLabels);
         }
 
 
-        public static string PrepareDataAndValidateModels(KNNII[] models, IMapping<Point> map, string trainFilePath, string validationFilePath)
+        public static string PrepareDataAndValidateModels(KNN[] models, IMapping<Point> map, string trainFilePath, string validationFilePath)
         {
             string tfidfValidationFile = TFIDF.TextToTFIDFCSR(validationFilePath),
                 tfidfTrainFile = TFIDF.TextToTFIDFCSR(trainFilePath);
@@ -49,7 +49,7 @@ namespace NDSB.Models.SparseModels
             return cvPath;
         }
 
-        public static void PrepareDataAndWritePredictions(KNNII[] models, IMapping<Point> map, string trainFilePath, string validationFilePath)
+        public static void PrepareDataAndWritePredictions(KNN[] models, IMapping<Point> map, string trainFilePath, string validationFilePath)
         {
             string tfidfValidationFile = TFIDF.TextToTFIDFCSR(validationFilePath),
                 tfidfTrainFile = TFIDF.TextToTFIDFCSR(trainFilePath);

@@ -36,7 +36,6 @@ namespace NDSB.SparseMappings
                                 res.Add(kj + "_" + ki, coef);
                         }
                 }
-
             return res;
         }
 

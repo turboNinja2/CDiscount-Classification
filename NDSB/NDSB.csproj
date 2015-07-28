@@ -67,11 +67,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\SparseModels\BinaryTree.cs" />
     <Compile Include="FileUtils\FShuffler.cs" />
     <Compile Include="FileUtils\FSplitter.cs" />
     <Compile Include="FileUtils\GeneralFileUtils.cs" />
-    <Compile Include="Models\SparseModels\KNNIIHelper.cs" />
-    <Compile Include="Models\SparseModels\NearestCentroidHelper.cs" />
+    <Compile Include="Models\SparseModels\DataIndexer.cs" />
+    <Compile Include="Models\SparseModels\DecisionTree.cs" />
+    <Compile Include="Models\SparseModels\KNNHelper.cs" />
+    <Compile Include="Models\SparseModels\GenericHelper.cs" />
     <Compile Include="Models\SparseModels\SparseClassificationHelper.cs" />
     <Compile Include="Models\Streaming\EmpiricScore.cs" />
     <Compile Include="Models\Streaming\Models\GenericModel1.cs" />
@@ -99,7 +102,7 @@
     <Compile Include="TextUtils\DSCdiscountUtils.cs" />
     <Compile Include="FileUtils\CSRHelper.cs" />
     <Compile Include="SparseSpaces\Distances.cs" />
-    <Compile Include="Models\SparseModels\KNNII.cs" />
+    <Compile Include="Models\SparseModels\KNN.cs" />
     <Compile Include="TextUtils\TFIDF.cs" />
     <Compile Include="MainScreen.cs">
       <SubType>Form</SubType>

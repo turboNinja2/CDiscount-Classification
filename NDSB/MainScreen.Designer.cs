@@ -30,6 +30,7 @@
         {
             this.processBtn = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.predictKNNBtn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.nbNeighbTbx = new System.Windows.Forms.TextBox();
             this.validateKNNBtn = new System.Windows.Forms.Button();
@@ -45,10 +46,13 @@
             this.getHistogramBtn = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.predictSGDBtn = new System.Windows.Forms.Button();
-            this.predictKNNBtn = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.decisionTreeToTFPredictBtn = new System.Windows.Forms.Button();
+            this.decisionTreePredictBtn = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // processBtn
@@ -68,14 +72,25 @@
             this.groupBox3.Controls.Add(this.nbNeighbTbx);
             this.groupBox3.Controls.Add(this.validateKNNBtn);
             this.groupBox3.Location = new System.Drawing.Point(11, 145);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox3.Size = new System.Drawing.Size(203, 103);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "KNN";
             this.groupBox3.UseCompatibleTextRendering = true;
+            // 
+            // predictKNNBtn
+            // 
+            this.predictKNNBtn.Location = new System.Drawing.Point(4, 66);
+            this.predictKNNBtn.Margin = new System.Windows.Forms.Padding(2);
+            this.predictKNNBtn.Name = "predictKNNBtn";
+            this.predictKNNBtn.Size = new System.Drawing.Size(188, 20);
+            this.predictKNNBtn.TabIndex = 5;
+            this.predictKNNBtn.Text = "Predict";
+            this.predictKNNBtn.UseVisualStyleBackColor = true;
+            this.predictKNNBtn.Click += new System.EventHandler(this.predictKNNBtn_Click);
             // 
             // label3
             // 
@@ -90,7 +105,7 @@
             // nbNeighbTbx
             // 
             this.nbNeighbTbx.Location = new System.Drawing.Point(116, 23);
-            this.nbNeighbTbx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.nbNeighbTbx.Margin = new System.Windows.Forms.Padding(2);
             this.nbNeighbTbx.Name = "nbNeighbTbx";
             this.nbNeighbTbx.Size = new System.Drawing.Size(76, 20);
             this.nbNeighbTbx.TabIndex = 2;
@@ -98,7 +113,7 @@
             // validateKNNBtn
             // 
             this.validateKNNBtn.Location = new System.Drawing.Point(4, 42);
-            this.validateKNNBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.validateKNNBtn.Margin = new System.Windows.Forms.Padding(2);
             this.validateKNNBtn.Name = "validateKNNBtn";
             this.validateKNNBtn.Size = new System.Drawing.Size(188, 20);
             this.validateKNNBtn.TabIndex = 0;
@@ -109,7 +124,7 @@
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(9, 80);
-            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(162, 19);
             this.button6.TabIndex = 5;
@@ -128,7 +143,7 @@
             // shuffleBtn
             // 
             this.shuffleBtn.Location = new System.Drawing.Point(9, 10);
-            this.shuffleBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.shuffleBtn.Margin = new System.Windows.Forms.Padding(2);
             this.shuffleBtn.Name = "shuffleBtn";
             this.shuffleBtn.Size = new System.Drawing.Size(91, 19);
             this.shuffleBtn.TabIndex = 21;
@@ -139,7 +154,7 @@
             // splitBtn
             // 
             this.splitBtn.Location = new System.Drawing.Point(9, 33);
-            this.splitBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitBtn.Margin = new System.Windows.Forms.Padding(2);
             this.splitBtn.Name = "splitBtn";
             this.splitBtn.Size = new System.Drawing.Size(91, 19);
             this.splitBtn.TabIndex = 22;
@@ -150,7 +165,7 @@
             // downSampleBtn
             // 
             this.downSampleBtn.Location = new System.Drawing.Point(9, 57);
-            this.downSampleBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.downSampleBtn.Margin = new System.Windows.Forms.Padding(2);
             this.downSampleBtn.Name = "downSampleBtn";
             this.downSampleBtn.Size = new System.Drawing.Size(91, 19);
             this.downSampleBtn.TabIndex = 23;
@@ -225,22 +240,43 @@
             this.predictSGDBtn.UseVisualStyleBackColor = true;
             this.predictSGDBtn.Click += new System.EventHandler(this.predictSGDBtn_Click);
             // 
-            // predictKNNBtn
+            // groupBox4
             // 
-            this.predictKNNBtn.Location = new System.Drawing.Point(4, 66);
-            this.predictKNNBtn.Margin = new System.Windows.Forms.Padding(2);
-            this.predictKNNBtn.Name = "predictKNNBtn";
-            this.predictKNNBtn.Size = new System.Drawing.Size(188, 20);
-            this.predictKNNBtn.TabIndex = 5;
-            this.predictKNNBtn.Text = "Predict";
-            this.predictKNNBtn.UseVisualStyleBackColor = true;
-            this.predictKNNBtn.Click += new System.EventHandler(this.predictKNNBtn_Click);
+            this.groupBox4.Controls.Add(this.decisionTreeToTFPredictBtn);
+            this.groupBox4.Controls.Add(this.decisionTreePredictBtn);
+            this.groupBox4.Location = new System.Drawing.Point(426, 148);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(200, 100);
+            this.groupBox4.TabIndex = 27;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Decision Tree";
+            // 
+            // decisionTreeToTFPredictBtn
+            // 
+            this.decisionTreeToTFPredictBtn.Location = new System.Drawing.Point(6, 13);
+            this.decisionTreeToTFPredictBtn.Name = "decisionTreeToTFPredictBtn";
+            this.decisionTreeToTFPredictBtn.Size = new System.Drawing.Size(163, 23);
+            this.decisionTreeToTFPredictBtn.TabIndex = 1;
+            this.decisionTreeToTFPredictBtn.Text = "Translate and predict";
+            this.decisionTreeToTFPredictBtn.UseVisualStyleBackColor = true;
+            this.decisionTreeToTFPredictBtn.Click += new System.EventHandler(this.decisionTreeToTFPredictBtn_Click);
+            // 
+            // decisionTreePredictBtn
+            // 
+            this.decisionTreePredictBtn.Location = new System.Drawing.Point(20, 42);
+            this.decisionTreePredictBtn.Name = "decisionTreePredictBtn";
+            this.decisionTreePredictBtn.Size = new System.Drawing.Size(75, 23);
+            this.decisionTreePredictBtn.TabIndex = 0;
+            this.decisionTreePredictBtn.Text = "Predict";
+            this.decisionTreePredictBtn.UseVisualStyleBackColor = true;
+            this.decisionTreePredictBtn.Click += new System.EventHandler(this.decisionTreePredictBtn_Click);
             // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(637, 286);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.getHistogramBtn);
             this.Controls.Add(this.groupBox1);
@@ -259,6 +295,7 @@
             this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -284,6 +321,9 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button predictSGDBtn;
         private System.Windows.Forms.Button predictKNNBtn;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button decisionTreePredictBtn;
+        private System.Windows.Forms.Button decisionTreeToTFPredictBtn;
     }
 }
 

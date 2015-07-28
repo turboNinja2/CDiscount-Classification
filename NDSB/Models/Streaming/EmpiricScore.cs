@@ -13,6 +13,17 @@ namespace DataScienceECom
             get { return _scores; }
         }
 
+        public EmpiricScore()
+        {
+
+        }
+
+        public EmpiricScore(int[] rawLabels)
+        {
+            for (int i = 0; i < rawLabels.Length; i++)
+                UpdateKey(rawLabels[i], 1);
+        }
+
         public int MostLikelyElement()
         {
             if (_scores.Count == 0) return -1;
@@ -48,7 +59,7 @@ namespace DataScienceECom
             return result;
         }
 
-        public double Entropy()
+        public double NormalizedEntropy()
         {
             double entropy = 0;
             EmpiricScore normalized = this.Normalize();

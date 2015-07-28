@@ -46,11 +46,11 @@ namespace NDSB
 
             double minTfIdf = 0.2;
 
-            List<KNNII> models = new List<KNNII>();
+            List<KNN> models = new List<KNN>();
             for (int j = 0; j < nbNeighboursArray.Length; j++)
-                models.Add(new KNNII(Distances.Euclide, nbNeighboursArray[j], minTfIdf));
+                models.Add(new KNN(Distances.Euclide, nbNeighboursArray[j], minTfIdf));
 
-            KNNIIHelper.PrepareDataAndValidateModels(models.ToArray(), new ToSphere(), trainFilePath, validationFilePath);
+            KNNHelper.PrepareDataAndValidateModels(models.ToArray(), new ToSphere(), trainFilePath, validationFilePath);
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -131,7 +131,7 @@ namespace NDSB
             {
                 List<NearestCentroid> models = new List<NearestCentroid>();
                 models.Add(new NearestCentroid(new PureInteractions(1, 20)));
-                NearestCentroidHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
+                GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
                 models.Clear();
             }
         }
@@ -234,16 +234,72 @@ namespace NDSB
 
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
-                List<KNNII> models = new List<KNNII>();
+                List<KNN> models = new List<KNN>();
                 for (int j = 0; j < nbNeighboursArray.Length; j++)
-                    models.Add(new KNNII(Distances.Euclide, nbNeighboursArray[j], minTfIdf));
-                KNNIIHelper.PrepareDataAndWritePredictions(models.ToArray(), new ToSphere(), trainFilePaths[i], testFilePath);
+                    models.Add(new KNN(Distances.Euclide, nbNeighboursArray[j], minTfIdf));
+                KNNHelper.PrepareDataAndWritePredictions(models.ToArray(), new ToSphere(), trainFilePaths[i], testFilePath);
             }
         }
 
         private void splitTbx_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void decisionTreePredictBtn_Click(object sender, EventArgs e)
+        {
+            string[] trainFilePaths = new string[1];
+            string testFilePath = "";
+
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "Test file path (TFIDF)";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                testFilePath = fdlg.FileName;
+
+            fdlg = new OpenFileDialog();
+            fdlg.Multiselect = true;
+            fdlg.Title = "Train file(s) path (TFIDF)";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                trainFilePaths = fdlg.FileNames;
+
+            string trainFilePath = "";
+            fdlg = new OpenFileDialog();
+            fdlg.Title = "Train file(s) path (labels)";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                trainFilePath = fdlg.FileName;
+
+            for (int i = 0; i < trainFilePaths.Length; i++)
+            {
+                List<DecisionTree> models = new List<DecisionTree>();
+                models.Add(new DecisionTree(15, 2, 40));
+                GenericMLHelper.TrainPredictAndWriteFromTFIDF(models.ToArray(), trainFilePath, trainFilePaths[i], testFilePath);
+                models.Clear();
+            }
+        }
+
+        private void decisionTreeToTFPredictBtn_Click(object sender, EventArgs e)
+        {
+            string[] trainFilePaths = new string[1];
+            string testFilePath = "";
+
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "Test file path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                testFilePath = fdlg.FileName;
+
+            fdlg = new OpenFileDialog();
+            fdlg.Multiselect = true;
+            fdlg.Title = "Train file(s) path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                trainFilePaths = fdlg.FileNames;
+
+            for (int i = 0; i < trainFilePaths.Length; i++)
+            {
+                List<DecisionTree> models = new List<DecisionTree>();
+                models.Add(new DecisionTree(3, 2));
+                GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
+                models.Clear();
+            }
         }
     }
 }
