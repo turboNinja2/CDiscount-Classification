@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace NDSB.Models.SparseModels
 {
@@ -84,6 +85,40 @@ namespace NDSB.Models.SparseModels
             }
         }
 
-   
+        public static List<T> ExceptSorted<T>(T[] m, T[] n) where T : IComparable<T>
+        {
+            var result = new List<T>();
+            int i = 0, j = 0;
+            if (n.Length == 0)
+            {
+                result.AddRange(m);
+                return result;
+            }
+            while (i < m.Length)
+            {
+                if (m[i].CompareTo(n[j]) < 0)
+                {
+                    result.Add(m[i]);
+                    i++;
+                }
+                else if (m[i].CompareTo(n[j]) > 0)
+                {
+                    j++;
+                }
+                else
+                {
+                    i++;
+                }
+                if (j >= n.Length)
+                {
+                    for (; i < m.Length; i++)
+                    {
+                        result.Add(m[i]);
+                    }
+                    break;
+                }
+            }
+            return result;
+        }
     }
 }

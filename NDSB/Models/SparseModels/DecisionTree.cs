@@ -24,7 +24,9 @@ namespace NDSB.Models.SparseModels
         private BinaryTree<string> _rules;
         private Dictionary<string, List<int>> _invertedIndexes;
 
-        public DecisionTree(int maxDepth, int minElementsPerLeaf = 20)
+        private double _earlyStopEntropy = 3.5f;
+
+        public DecisionTree(int maxDepth, int minElementsPerLeaf = 8)
         {
             _maxDepth = maxDepth;
             _minElementsPerLeaf = minElementsPerLeaf;
@@ -49,10 +51,9 @@ namespace NDSB.Models.SparseModels
         private void TrainTree(BinaryTree<string> rules, int currentDepth, int[] subIndexes)
         {
             currentDepth--;
+            string currentSplitter = FindeBestSplit(subIndexes);
 
-            string currentSplitter = RandomSplit(subIndexes);//FindeBestSplit(subIndexes);
-
-            if (currentDepth == 0 || subIndexes.Length < _minElementsPerLeaf || currentSplitter == "")
+            if (currentDepth == 0 || currentSplitter == "")
             {
                 int[] currentLabels = GetElementsAt(_labels, subIndexes);
                 int mostLikelyElement = new EmpiricScore(currentLabels).MostLikelyElement();
@@ -61,7 +62,6 @@ namespace NDSB.Models.SparseModels
             }
 
             rules.Node = currentSplitter;
-
             int[] indexesLeft = DataIndexer.IntersectSorted<int>(_invertedIndexes[currentSplitter], subIndexes, Comparer<int>.Default).ToArray(),
                 indexesRight = subIndexes.Except(_invertedIndexes[currentSplitter]).ToArray();
 
@@ -100,22 +100,28 @@ namespace NDSB.Models.SparseModels
 
         public string FindeBestSplit(int[] subSelectedIndexes)
         {
-            double lowestEntropy = double.MaxValue;
+            int[] associatedLabels = GetElementsAt(_labels, subSelectedIndexes);
+
+            double lowestEntropy = (new EmpiricScore(associatedLabels)).NormalizedEntropy() * 2; // what if I randomly splitted the data set 
             string bestSplitter = "";
 
-            for (int i = 0; i < _splitters.Count; i++)
-            {
-                if (_rnd.Next(100) < 95) continue;
+            if (lowestEntropy < _earlyStopEntropy * 2) return ""; // early stopping
 
-                string splitter = _splitters[i];
+            List<string> splitters = GetSubsetOfCommonFeatures(subSelectedIndexes);
+
+            for (int i = 0; i < splitters.Count; i++)
+            {
+                string splitter = splitters[i];
 
                 int[] relevantIndexes = DataIndexer.IntersectSorted<int>(_invertedIndexes[splitter], subSelectedIndexes, Comparer<int>.Default).ToArray();
                 if (relevantIndexes.Length < _minElementsPerLeaf) continue; // note that relevantIndexes and associatedLabels ahve the same length
 
-                int[] associatedLabels = GetElementsAt(_labels, relevantIndexes);
-                int[] complementaryLabels = GetElementsAt(_labels, subSelectedIndexes.Except(relevantIndexes).ToArray());
+                associatedLabels = GetElementsAt(_labels, relevantIndexes);
 
-                if (complementaryLabels.Length < _minElementsPerLeaf) continue;
+                int[] complementaryIndexes = DataIndexer.ExceptSorted<int>(subSelectedIndexes, relevantIndexes).ToArray();
+                if (complementaryIndexes.Length < _minElementsPerLeaf) continue;
+
+                int[] complementaryLabels = GetElementsAt(_labels, complementaryIndexes);
 
                 double associatedEntropy = (new EmpiricScore(associatedLabels)).NormalizedEntropy() + (new EmpiricScore(complementaryLabels)).NormalizedEntropy();
                 if (associatedEntropy < lowestEntropy)
@@ -127,13 +133,30 @@ namespace NDSB.Models.SparseModels
             return bestSplitter;
         }
 
+        public List<string> GetSubsetOfCommonFeatures(int[] subSelectedIndexes)
+        {
+            HashSet<string> commonSplitters = new HashSet<string>();
+            for (int i = 0; i < Math.Min(50, subSelectedIndexes.Length); i++)
+                for (int j = 0; j < _points[subSelectedIndexes[i]].Count; j++)
+                {
+                    string candidateSplitter = _points[subSelectedIndexes[i]].ElementAt(j).Key;
+                    if (_splitters.Contains(candidateSplitter))
+                        commonSplitters.Add(candidateSplitter);
+                }
+            return commonSplitters.ToList();
+        }
+
+        /*
         public string RandomSplit(int[] subSelectedIndexes)
         {
             HashSet<string> commonSplitters = new HashSet<string>();
-            for (int i = 0; i < subSelectedIndexes.Length; i++)
+            for (int i = 0; i < Math.Min(100, subSelectedIndexes.Length); i++)
                 for (int j = 0; j < _points[subSelectedIndexes[i]].Count; j++)
-                    if (_splitters.Contains(_points[subSelectedIndexes[i]].ElementAt(j).Key))
-                        commonSplitters.Add(_points[subSelectedIndexes[i]].ElementAt(j).Key);
+                {
+                    string candidateSplitter = _points[subSelectedIndexes[i]].ElementAt(j).Key;
+                    if (_splitters.Contains(candidateSplitter))
+                        commonSplitters.Add(candidateSplitter);
+                }
 
             int n = commonSplitters.Count;
             if (n == 0) return "";
@@ -143,7 +166,7 @@ namespace NDSB.Models.SparseModels
             _splitters.Remove(result);
             return result;
         }
-
+        */
 
     }
 
