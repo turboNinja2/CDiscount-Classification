@@ -24,7 +24,7 @@ namespace NDSB.Models.SparseModels
         private BinaryTree<string> _rules;
         private Dictionary<string, List<int>> _invertedIndexes;
 
-        public DecisionTree(int maxDepth, int minElementsPerLeaf = 30)
+        public DecisionTree(int maxDepth, int minElementsPerLeaf = 20)
         {
             _maxDepth = maxDepth;
             _minElementsPerLeaf = minElementsPerLeaf;
@@ -50,7 +50,8 @@ namespace NDSB.Models.SparseModels
         {
             currentDepth--;
 
-            string currentSplitter = FindeBestSplit(subIndexes);
+            string currentSplitter = RandomSplit(subIndexes);//FindeBestSplit(subIndexes);
+
             if (currentDepth == 0 || subIndexes.Length < _minElementsPerLeaf || currentSplitter == "")
             {
                 int[] currentLabels = GetElementsAt(_labels, subIndexes);
@@ -93,7 +94,7 @@ namespace NDSB.Models.SparseModels
         {
             int[] result = new int[indexes.Length];
             for (int i = 0; i < indexes.Length; i++)
-                result[i]= labels[indexes[i]];
+                result[i] = labels[indexes[i]];
             return result;
         }
 
@@ -113,8 +114,8 @@ namespace NDSB.Models.SparseModels
 
                 int[] associatedLabels = GetElementsAt(_labels, relevantIndexes);
                 int[] complementaryLabels = GetElementsAt(_labels, subSelectedIndexes.Except(relevantIndexes).ToArray());
-                
-                if (complementaryLabels.Length < _minElementsPerLeaf) continue; 
+
+                if (complementaryLabels.Length < _minElementsPerLeaf) continue;
 
                 double associatedEntropy = (new EmpiricScore(associatedLabels)).NormalizedEntropy() + (new EmpiricScore(complementaryLabels)).NormalizedEntropy();
                 if (associatedEntropy < lowestEntropy)
@@ -123,8 +124,28 @@ namespace NDSB.Models.SparseModels
                     bestSplitter = splitter;
                 }
             }
-
             return bestSplitter;
         }
+
+        public string RandomSplit(int[] subSelectedIndexes)
+        {
+            HashSet<string> commonSplitters = new HashSet<string>();
+            for (int i = 0; i < subSelectedIndexes.Length; i++)
+                for (int j = 0; j < _points[subSelectedIndexes[i]].Count; j++)
+                    if (_splitters.Contains(_points[subSelectedIndexes[i]].ElementAt(j).Key))
+                        commonSplitters.Add(_points[subSelectedIndexes[i]].ElementAt(j).Key);
+
+            int n = commonSplitters.Count;
+            if (n == 0) return "";
+
+            int index = _rnd.Next(n);
+            string result = commonSplitters.ElementAt(index);
+            _splitters.Remove(result);
+            return result;
+        }
+
+
     }
+
+
 }
