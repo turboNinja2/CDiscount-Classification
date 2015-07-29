@@ -7,3 +7,5 @@ The Nearest Centroids follows a streaming calibration (everything is expanded ac
 The KNN implements an inverted index and the lookup has a parameter (if the parameter is set to double.MinValue, a genuine KNN with inverted indexes is performed).
 
 The SGD does not follow the exact implementation of a SGD and implements various regularizations.
+
+Now a decision tree is also available. It relies on index inversion, fast sorted intersections but it is still very slow (benchmarked on 1 000 000 lines, 25 000 predictors)
