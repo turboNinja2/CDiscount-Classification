@@ -10,8 +10,6 @@ namespace NDSB.Models.SparseModels
 
     public class DecisionTree : IModelClassification<Point>
     {
-        private const int _INVERTED_INDEXES_PREALLOC_ = 1000000;
-
         // Shallow copy of the data
         private int[] _labels = new int[0];
         private Point[] _points = new Point[0];
@@ -24,7 +22,7 @@ namespace NDSB.Models.SparseModels
         private List<string> _splitters = new List<string>();
         private Random _rnd = new Random(1);
         private BinaryTree<string> _rules;
-        private Dictionary<string, List<int>> _invertedIndexes = new Dictionary<string, List<int>>(_INVERTED_INDEXES_PREALLOC_);
+        private Dictionary<string, List<int>> _invertedIndexes;
 
         public DecisionTree(int maxDepth, int minElementsPerLeaf = 30)
         {
@@ -36,7 +34,7 @@ namespace NDSB.Models.SparseModels
         {
             _labels = labels;
             _points = points;
-            _invertedIndexes = DataIndexer.InverseKeysAndSort(_points);
+            _invertedIndexes = DataIndexer.InverseKeysAndSort(_points); // sorting it allows performance improvement later
             _splitters = _invertedIndexes.Where(kvp => kvp.Value.Count > _minElementsPerLeaf).Select(k => k.Key).ToList();
 
             int[] allIndexes = new int[labels.Length];
@@ -63,7 +61,7 @@ namespace NDSB.Models.SparseModels
 
             rules.Node = currentSplitter;
 
-            int[] indexesLeft = DataIndexer.IntersectSorted<int>(_invertedIndexes[currentSplitter], subIndexes, Comparer<int>.Default).ToArray(), //_invertedIndexes[currentSplitter].Intersect(subIndexes).ToArray(),
+            int[] indexesLeft = DataIndexer.IntersectSorted<int>(_invertedIndexes[currentSplitter], subIndexes, Comparer<int>.Default).ToArray(),
                 indexesRight = subIndexes.Except(_invertedIndexes[currentSplitter]).ToArray();
 
             rules.LeftChild = new BinaryTree<string>();
@@ -93,10 +91,10 @@ namespace NDSB.Models.SparseModels
 
         public static int[] GetElementsAt(int[] labels, int[] indexes)
         {
-            List<int> result = new List<int>();
+            int[] result = new int[indexes.Length];
             for (int i = 0; i < indexes.Length; i++)
-                result.Add(labels[indexes[i]]);
-            return result.ToArray();
+                result[i]= labels[indexes[i]];
+            return result;
         }
 
         public string FindeBestSplit(int[] subSelectedIndexes)
@@ -111,11 +109,12 @@ namespace NDSB.Models.SparseModels
                 string splitter = _splitters[i];
 
                 int[] relevantIndexes = DataIndexer.IntersectSorted<int>(_invertedIndexes[splitter], subSelectedIndexes, Comparer<int>.Default).ToArray();
+                if (relevantIndexes.Length < _minElementsPerLeaf) continue; // note that relevantIndexes and associatedLabels ahve the same length
 
                 int[] associatedLabels = GetElementsAt(_labels, relevantIndexes);
                 int[] complementaryLabels = GetElementsAt(_labels, subSelectedIndexes.Except(relevantIndexes).ToArray());
-
-                if (associatedLabels.Length < _minElementsPerLeaf || complementaryLabels.Length < _minElementsPerLeaf) continue; // impose to have enough elements per leaf
+                
+                if (complementaryLabels.Length < _minElementsPerLeaf) continue; 
 
                 double associatedEntropy = (new EmpiricScore(associatedLabels)).NormalizedEntropy() + (new EmpiricScore(complementaryLabels)).NormalizedEntropy();
                 if (associatedEntropy < lowestEntropy)
