@@ -67,12 +67,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\SparseModels\BinaryTree.cs" />
+    <Compile Include="DataStructures\BinaryTree.cs" />
     <Compile Include="FileUtils\FShuffler.cs" />
     <Compile Include="FileUtils\FSplitter.cs" />
     <Compile Include="FileUtils\GeneralFileUtils.cs" />
-    <Compile Include="Models\SparseModels\DataIndexer.cs" />
+    <Compile Include="DataStructures\SmartIndexes.cs" />
     <Compile Include="Models\SparseModels\DecisionTree.cs" />
+    <Compile Include="Models\SparseModels\EnsembleTrees.cs" />
     <Compile Include="Models\SparseModels\KNNHelper.cs" />
     <Compile Include="Models\SparseModels\GenericHelper.cs" />
     <Compile Include="Models\SparseModels\SparseClassificationHelper.cs" />

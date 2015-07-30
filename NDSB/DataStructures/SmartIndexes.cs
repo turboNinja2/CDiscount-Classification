@@ -4,7 +4,7 @@ using System;
 
 namespace NDSB.Models.SparseModels
 {
-    public static class DataIndexer
+    public static class SmartIndexes
     {
         /// <summary>
         /// Returns an inverted dictionnary of the keys.

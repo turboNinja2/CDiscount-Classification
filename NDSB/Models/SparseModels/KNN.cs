@@ -44,7 +44,7 @@ namespace NDSB
         {
             _labels = labels;
             _points = points;
-            _invertedIndexes = DataIndexer.InverseKeys(points, _minTFIDF);
+            _invertedIndexes = SmartIndexes.InverseKeys(points, _minTFIDF);
         }
 
         public int Predict(Point pt)

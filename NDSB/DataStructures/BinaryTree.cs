@@ -35,15 +35,5 @@
             get { return _leftChild; }
             set { _leftChild = value; }
         }
-
-        public void AddRight(T rightLeaf)
-        {
-            _rightChild = new BinaryTree<T>(rightLeaf);
-        }
-
-        public void AddLeft(T leftLeaf)
-        {
-            _leftChild = new BinaryTree<T>(leftLeaf);
-        }
     }
 }

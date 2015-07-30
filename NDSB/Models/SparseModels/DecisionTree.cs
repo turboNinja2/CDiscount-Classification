@@ -27,17 +27,22 @@ namespace NDSB.Models.SparseModels
 
         private double _earlyStopEntropy = 3.5f;
 
-        public DecisionTree(int maxDepth, int minElementsPerLeaf = 8)
+        public DecisionTree(int maxDepth, int minElementsPerLeaf = 8, int seed = 0)
         {
             _maxDepth = maxDepth;
             _minElementsPerLeaf = minElementsPerLeaf;
+            _rnd = new Random(seed);
         }
 
         public void Train(int[] labels, Point[] points)
         {
             _labels = labels;
             _points = points;
-            _invertedIndexes = DataIndexer.InverseKeysAndSort(_points); // sorting it allows performance improvement later
+
+            // sorting it allows performance improvement later
+            _invertedIndexes = SmartIndexes.InverseKeysAndSort(_points);
+
+            // only the following splitters are relevant
             _splitters = _invertedIndexes.Where(kvp => kvp.Value.Count > _minElementsPerLeaf).Select(k => k.Key).ToList();
 
             int[] allIndexes = new int[labels.Length];
@@ -45,7 +50,6 @@ namespace NDSB.Models.SparseModels
                 allIndexes[i] = i;
 
             _rules = new BinaryTree<string>();
-
             TrainTree(_rules, _maxDepth, allIndexes);
         }
 
@@ -65,7 +69,7 @@ namespace NDSB.Models.SparseModels
             rules.Node = currentSplitter;
             _splittersUsed.Add(currentSplitter);
 
-            int[] indexesLeft = DataIndexer.IntersectSorted<int>(_invertedIndexes[currentSplitter], subIndexes, Comparer<int>.Default).ToArray(),
+            int[] indexesLeft = SmartIndexes.IntersectSorted<int>(_invertedIndexes[currentSplitter], subIndexes, Comparer<int>.Default).ToArray(),
                 indexesRight = subIndexes.Except(_invertedIndexes[currentSplitter]).ToArray();
 
             rules.LeftChild = new BinaryTree<string>();
@@ -116,12 +120,12 @@ namespace NDSB.Models.SparseModels
             {
                 string splitter = splitters[i];
 
-                int[] relevantIndexes = DataIndexer.IntersectSorted<int>(_invertedIndexes[splitter], subSelectedIndexes, Comparer<int>.Default).ToArray();
+                int[] relevantIndexes = SmartIndexes.IntersectSorted<int>(_invertedIndexes[splitter], subSelectedIndexes, Comparer<int>.Default).ToArray();
                 if (relevantIndexes.Length < _minElementsPerLeaf) continue; // note that relevantIndexes and associatedLabels ahve the same length
 
                 associatedLabels = GetElementsAt(_labels, relevantIndexes);
 
-                int[] complementaryIndexes = DataIndexer.ExceptSorted<int>(subSelectedIndexes, relevantIndexes).ToArray();
+                int[] complementaryIndexes = SmartIndexes.ExceptSorted<int>(subSelectedIndexes, relevantIndexes).ToArray();
                 if (complementaryIndexes.Length < _minElementsPerLeaf) continue;
 
                 int[] complementaryLabels = GetElementsAt(_labels, complementaryIndexes);
@@ -143,38 +147,11 @@ namespace NDSB.Models.SparseModels
                 for (int j = 0; j < _points[subSelectedIndexes[i]].Count; j++)
                 {
                     string candidateSplitter = _points[subSelectedIndexes[i]].ElementAt(j).Key;
-                    if (_splitters.Contains(candidateSplitter) && !_splittersUsed.Contains(candidateSplitter))
-                    {
+                    if (_splitters.Contains(candidateSplitter) && !_splittersUsed.Contains(candidateSplitter) && _rnd.Next(2) == 1)
                         commonSplitters.Add(candidateSplitter);
-                    }
                     if (commonSplitters.Count > 200) return commonSplitters.ToList();
                 }
             return commonSplitters.ToList();
         }
-
-        /*
-        public string RandomSplit(int[] subSelectedIndexes)
-        {
-            HashSet<string> commonSplitters = new HashSet<string>();
-            for (int i = 0; i < Math.Min(100, subSelectedIndexes.Length); i++)
-                for (int j = 0; j < _points[subSelectedIndexes[i]].Count; j++)
-                {
-                    string candidateSplitter = _points[subSelectedIndexes[i]].ElementAt(j).Key;
-                    if (_splitters.Contains(candidateSplitter))
-                        commonSplitters.Add(candidateSplitter);
-                }
-
-            int n = commonSplitters.Count;
-            if (n == 0) return "";
-
-            int index = _rnd.Next(n);
-            string result = commonSplitters.ElementAt(index);
-            _splitters.Remove(result);
-            return result;
-        }
-        */
-
     }
-
-
 }

@@ -248,7 +248,8 @@ namespace NDSB
 
         private void decisionTreePredictBtn_Click(object sender, EventArgs e)
         {
-            int maxDepth = Convert.ToInt32(maxDepthTbx.Text);
+            int maxDepth = Convert.ToInt32(maxDepthTbx.Text),
+                minEltsPerLeaf = Convert.ToInt32(minEltsLeafTbx.Text);
             
             string[] trainFilePaths = new string[1];
             string testFilePath = "";
@@ -272,8 +273,8 @@ namespace NDSB
 
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
-                List<DecisionTree> models = new List<DecisionTree>();
-                models.Add(new DecisionTree(maxDepth,20));
+                List<EnsembleTrees> models = new List<EnsembleTrees>();
+                models.Add(new EnsembleTrees(maxDepth, minEltsPerLeaf, 7));
                 GenericMLHelper.TrainPredictAndWriteFromTFIDF(models.ToArray(), trainFilePath, trainFilePaths[i], testFilePath);
                 models.Clear();
             }
