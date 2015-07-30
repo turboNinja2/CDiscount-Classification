@@ -124,50 +124,19 @@ namespace NDSB.Models.SparseModels
             {
                 string splitter = splitters[i];
 
-                Stopwatch sw1 = new Stopwatch();
-
-                sw1.Start();
                 int[] relevantIndexes = SmartIndexes.IntersectSorted<int>(_invertedIndexes[splitter], subSelectedIndexes).ToArray();
-                long method1 = sw1.ElapsedMilliseconds;
-
-                /*
-                sw1.Restart();
-                int[] relevantIndexes2 = SmartIndexes.IntersectSortedDichotomy<int>(_invertedIndexes[splitter], subSelectedIndexes);
-                long method2 = sw1.ElapsedMilliseconds;
-                */
-
                 if (relevantIndexes.Length < _minElementsPerLeaf) continue; // note that relevantIndexes and associatedLabels ahve the same length
 
                 associatedLabels = GetElementsAt(_labels, relevantIndexes);
 
-                /*
-                sw1.Restart();
-                int[] complementaryIndexes = SmartIndexes.ExceptSorted<int>(subSelectedIndexes, relevantIndexes).ToArray();
-                long method3 = sw1.ElapsedMilliseconds;
-
-                if (complementaryIndexes.Length < _minElementsPerLeaf) continue;
- 
-                int[] complementaryLabels = GetElementsAt(_labels, complementaryIndexes);
-                */
-
                 if (subSelectedIndexes.Length - associatedLabels.Length < _minElementsPerLeaf) continue;
 
-                sw1.Restart();
-                EmpiricScore<int> histLeft=new EmpiricScore<int>(associatedLabels); 
+                EmpiricScore<int> histLeft = new EmpiricScore<int>(associatedLabels);
                 double entropyLeft = histLeft.NormalizedEntropy();
-                long method4 = sw1.ElapsedMilliseconds;
 
-                /*
-                sw1.Restart();
-                double entropyDistRigth = (new EmpiricScore<int>(complementaryLabels)).NormalizedEntropy();
-                long method5 = sw1.ElapsedMilliseconds;
-                */ 
-
-                sw1.Restart();
                 EmpiricScore<int> histRight = initalLabelsDistribution.Except(histLeft);
                 double entropyRight2 = histRight.NormalizedEntropy();
-                long method6 = sw1.ElapsedMilliseconds;
-
+                
                 double associatedEntropy = entropyLeft + entropyRight2;
 
                 if (associatedEntropy < totalEntropy)
