@@ -49,12 +49,12 @@ namespace NDSB
 
         public int Predict(Point pt)
         {
-            return NearestLabels(_labels, _points, pt, 1, _distance).GroupBy(item => item).OrderByDescending(g => g.Count()).Select(g => g.Key).First();
+            return NearestLabels(_labels, _points, pt, _nbNeighbours, _distance).GroupBy(item => item).OrderByDescending(g => g.Count()).Select(g => g.Key).First();
         }
 
         public string Description()
         {
-            return "KNNII_MinTFIDF" + _minTFIDF + "_k" + _nbNeighbours + "_distance" + _distance.Method.Name;
+            return "KNN_MinTFIDF" + _minTFIDF + "_k" + _nbNeighbours + "_distance" + _distance.Method.Name;
         }
 
         /// <summary>
