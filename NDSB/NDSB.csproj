@@ -77,7 +77,7 @@
     <Compile Include="Models\SparseModels\KNNHelper.cs" />
     <Compile Include="Models\SparseModels\GenericHelper.cs" />
     <Compile Include="Models\SparseModels\SparseClassificationHelper.cs" />
-    <Compile Include="Models\Streaming\EmpiricScore.cs" />
+    <Compile Include="DataStructures\EmpiricScore.cs" />
     <Compile Include="Models\Streaming\Models\GenericModel1.cs" />
     <Compile Include="Models\Streaming\Models\GMEntropia.cs" />
     <Compile Include="Models\Streaming\Models\IStreamingModel.cs" />

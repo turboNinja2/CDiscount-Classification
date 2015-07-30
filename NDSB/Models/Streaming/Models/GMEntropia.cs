@@ -9,7 +9,7 @@ namespace DataScienceECom.Models
     {
         private static int preallocSize = 2000000;
 
-        Dictionary<string, EmpiricScore> _w = new Dictionary<string, EmpiricScore>(preallocSize);
+        Dictionary<string, EmpiricScore<int>> _w = new Dictionary<string, EmpiricScore<int>>(preallocSize);
         Dictionary<string, int> _n = new Dictionary<string, int>(preallocSize);
         Dictionary<string, bool> _forbidden = new Dictionary<string, bool>(preallocSize);
 
@@ -50,7 +50,7 @@ namespace DataScienceECom.Models
 
                 if (!_w.ContainsKey(x))
                 {
-                    _w.Add(x, new EmpiricScore());
+                    _w.Add(x, new EmpiricScore<int>());
                     _n.Add(x, 0);
                 }
                 _n[x] += 1;
@@ -60,15 +60,15 @@ namespace DataScienceECom.Models
 
         public int Predict(string[] xs)
         {
-            EmpiricScore[] ess = new EmpiricScore[xs.Length];
+            EmpiricScore<int>[] ess = new EmpiricScore<int>[xs.Length];
             for (int i = 0; i < ess.Length; i++)
             {
                 if (_w.ContainsKey(xs[i]))
                     ess[i] = _w[xs[i]];
                 else
-                    ess[i] = new EmpiricScore();
+                    ess[i] = new EmpiricScore<int>();
             }
-            EmpiricScore es = EmpiricScore.Merge(ess);
+            EmpiricScore<int> es = EmpiricScore<int>.Merge(ess);
             return es.MostLikelyElement();
         }
 

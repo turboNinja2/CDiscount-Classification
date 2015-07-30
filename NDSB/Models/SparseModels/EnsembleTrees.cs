@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DataScienceECom;
 
 namespace NDSB.Models.SparseModels
 {
     using Point = Dictionary<string, double>;
-    using DataScienceECom;
 
     public class EnsembleTrees : IModelClassification<Point>
     {
         private DecisionTree[] _trees = new DecisionTree[0];
         private int _maxDepth;
-        private int _minElementsPerLeaf = 8;
-        private int _nTrees = 5;
+        private int _minElementsPerLeaf;
+        private int _nTrees;
 
         public EnsembleTrees(int maxDepth, int minElementsPerLeaf, int nTrees)
         {
@@ -36,14 +33,12 @@ namespace NDSB.Models.SparseModels
             int[] responses = new int[_nTrees];
             for (int i = 0; i < _nTrees; i++)
                 responses[i] = _trees[i].Predict(pt);
-            return (new EmpiricScore(responses)).MostLikelyElement();
+            return (new EmpiricScore<int>(responses)).MostLikelyElement();
         }
 
         public string Description()
         {
             return "RF_" + _maxDepth + "_" + _minElementsPerLeaf + "_" + _nTrees;
-
         }
-
     }
 }

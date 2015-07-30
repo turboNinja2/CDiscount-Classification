@@ -4,15 +4,18 @@ using System;
 
 namespace NDSB.Models.SparseModels
 {
+    /// <summary>
+    /// Implements various helpers to access data.
+    /// </summary>
     public static class SmartIndexes
     {
         /// <summary>
         /// Returns an inverted dictionnary of the keys.
         /// </summary>
         /// <param name="sample"></param>
-        public static Dictionary<T, List<int>> InverseKeys<T>(Dictionary<T, double>[] sample, double minValue, int preAlloc = 1000000)
+        public static Dictionary<T, int[]> InverseKeys<T>(Dictionary<T, double>[] sample, double minValue, int preAlloc1 = 1000000, int preAlloc2 = 100)
         {
-            Dictionary<T, List<int>> invertedIndexes = new Dictionary<T, List<int>>(preAlloc);
+            Dictionary<T, List<int>> invertedIndexes = new Dictionary<T, List<int>>(preAlloc1);
             for (int i = 0; i < sample.Length; i++)
             {
                 Dictionary<T, double> sparsePoint = sample[i];
@@ -24,23 +27,41 @@ namespace NDSB.Models.SparseModels
                         invertedIndexes[currentKey].Add(i);
                     else
                     {
-                        invertedIndexes.Add(currentKey, new List<int>(100));
+                        invertedIndexes.Add(currentKey, new List<int>(preAlloc2));
                         invertedIndexes[currentKey].Add(i);
                     }
                 }
             }
-            return invertedIndexes;
-        }
 
-        public static Dictionary<T, List<int>> InverseKeysAndSort<T>(Dictionary<T, double>[] sample, double minValue = 0, int preAlloc = 1000000)
-        {
-            Dictionary<T, List<int>> invertedIndexes = InverseKeys<T>(sample, minValue, preAlloc);
+            Dictionary<T,int[]> invertedIndexesArray = new Dictionary<T,int[]>(invertedIndexes.Count); // this dictionnary enjoys a better pre-allocation
             for (int i = 0; i < invertedIndexes.Count; i++)
-                invertedIndexes[invertedIndexes.Keys.ElementAt(i)].Sort();
+                invertedIndexesArray.Add(invertedIndexes.ElementAt(i).Key, invertedIndexes.ElementAt(i).Value.ToArray());
+
+            return invertedIndexesArray;
+        }
+
+        public static Dictionary<T, int[]> InverseKeysAndSort<T>(Dictionary<T, double>[] sample, double minValue = 0, int preAlloc1 = 1000000, int preAlloc2 = 100)
+        {
+            Dictionary<T, int[]> invertedIndexes = InverseKeys<T>(sample, minValue, preAlloc1, preAlloc2);
+            for (int i = 0; i < invertedIndexes.Count; i++)
+                Array.Sort(invertedIndexes[invertedIndexes.Keys.ElementAt(i)]);
             return invertedIndexes;
         }
 
-        public static IEnumerable<T> IntersectSorted<T>(IEnumerable<T> sequence1, IEnumerable<T> sequence2, IComparer<T> comparer)
+        public static int[] IntersectSortedDichotomy<T>(int[] seq1, int[] seq2)
+        {
+            List<int> res = new List<int>(seq2.Length);
+            for (int i = 0; i < seq2.Length; i++)
+            {
+                int element = seq2[i];
+                int pos = Array.BinarySearch(seq1, element);
+                if (pos > -1)
+                    res.Add(element);
+            }
+            return res.ToArray();
+        }
+
+        public static IEnumerable<T> IntersectSorted<T>(IEnumerable<T> sequence1, IEnumerable<T> sequence2) where T : IComparable<T>
         {
             using (var cursor1 = sequence1.GetEnumerator())
             using (var cursor2 = sequence2.GetEnumerator())
@@ -54,7 +75,7 @@ namespace NDSB.Models.SparseModels
 
                 while (true)
                 {
-                    int comparison = comparer.Compare(value1, value2);
+                    int comparison = value1.CompareTo(value2);
                     if (comparison < 0)
                     {
                         if (!cursor1.MoveNext())

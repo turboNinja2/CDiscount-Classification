@@ -7,6 +7,7 @@ namespace NDSB.Models.SparseModels
 {
     using Point = Dictionary<string, double>;
     using DataScienceECom;
+    using System.Diagnostics;
 
     public class DecisionTree : IModelClassification<Point>
     {
@@ -19,15 +20,16 @@ namespace NDSB.Models.SparseModels
         private int _maxDepth;
 
         // Model
-        private List<string> _splitters = new List<string>();
-        private Random _rnd = new Random(1);
-        private BinaryTree<string> _rules;
-        private Dictionary<string, List<int>> _invertedIndexes;
+        private HashSet<string> _splitters = new HashSet<string>();
         private HashSet<string> _splittersUsed = new HashSet<string>();
+
+        private Random _rnd;
+        private BinaryTree<string> _rules;
+        private Dictionary<string, int[]> _invertedIndexes;
 
         private double _earlyStopEntropy = 3.5f;
 
-        public DecisionTree(int maxDepth, int minElementsPerLeaf = 8, int seed = 0)
+        public DecisionTree(int maxDepth, int minElementsPerLeaf, int seed = 0)
         {
             _maxDepth = maxDepth;
             _minElementsPerLeaf = minElementsPerLeaf;
@@ -43,7 +45,7 @@ namespace NDSB.Models.SparseModels
             _invertedIndexes = SmartIndexes.InverseKeysAndSort(_points);
 
             // only the following splitters are relevant
-            _splitters = _invertedIndexes.Where(kvp => kvp.Value.Count > _minElementsPerLeaf).Select(k => k.Key).ToList();
+            _splitters = new HashSet<string>(_invertedIndexes.Where(kvp => kvp.Value.Length > _minElementsPerLeaf).Select(k => k.Key));
 
             int[] allIndexes = new int[labels.Length];
             for (int i = 0; i < allIndexes.Length; i++)
@@ -61,7 +63,7 @@ namespace NDSB.Models.SparseModels
             if (currentDepth == 0 || currentSplitter == "")
             {
                 int[] currentLabels = GetElementsAt(_labels, subIndexes);
-                int mostLikelyElement = new EmpiricScore(currentLabels).MostLikelyElement();
+                int mostLikelyElement = new EmpiricScore<int>(currentLabels).MostLikelyElement();
                 rules.Node = mostLikelyElement.ToString();
                 return;
             }
@@ -69,8 +71,8 @@ namespace NDSB.Models.SparseModels
             rules.Node = currentSplitter;
             _splittersUsed.Add(currentSplitter);
 
-            int[] indexesLeft = SmartIndexes.IntersectSorted<int>(_invertedIndexes[currentSplitter], subIndexes, Comparer<int>.Default).ToArray(),
-                indexesRight = subIndexes.Except(_invertedIndexes[currentSplitter]).ToArray();
+            int[] indexesLeft = SmartIndexes.IntersectSorted<int>(_invertedIndexes[currentSplitter], subIndexes).ToArray(),
+                indexesRight = subIndexes.Except(_invertedIndexes[currentSplitter]).ToArray(); // this except cannot be avoided
 
             rules.LeftChild = new BinaryTree<string>();
             rules.RightChild = new BinaryTree<string>();
@@ -109,10 +111,12 @@ namespace NDSB.Models.SparseModels
         {
             int[] associatedLabels = GetElementsAt(_labels, subSelectedIndexes);
 
-            double lowestEntropy = (new EmpiricScore(associatedLabels)).NormalizedEntropy() * 2; // what if I randomly splitted the data set 
+            EmpiricScore<int> initalLabelsDistribution = new EmpiricScore<int>(associatedLabels);
+
+            double totalEntropy = (initalLabelsDistribution).NormalizedEntropy() * 2; // what if I randomly splitted the data set 
             string bestSplitter = "";
 
-            if (lowestEntropy < _earlyStopEntropy * 2) return ""; // early stopping
+            if (totalEntropy < _earlyStopEntropy * 2) return ""; // early stopping
 
             List<string> splitters = GetSubsetOfCommonFeatures(subSelectedIndexes);
 
@@ -120,20 +124,55 @@ namespace NDSB.Models.SparseModels
             {
                 string splitter = splitters[i];
 
-                int[] relevantIndexes = SmartIndexes.IntersectSorted<int>(_invertedIndexes[splitter], subSelectedIndexes, Comparer<int>.Default).ToArray();
+                Stopwatch sw1 = new Stopwatch();
+
+                sw1.Start();
+                int[] relevantIndexes = SmartIndexes.IntersectSorted<int>(_invertedIndexes[splitter], subSelectedIndexes).ToArray();
+                long method1 = sw1.ElapsedMilliseconds;
+
+                /*
+                sw1.Restart();
+                int[] relevantIndexes2 = SmartIndexes.IntersectSortedDichotomy<int>(_invertedIndexes[splitter], subSelectedIndexes);
+                long method2 = sw1.ElapsedMilliseconds;
+                */
+
                 if (relevantIndexes.Length < _minElementsPerLeaf) continue; // note that relevantIndexes and associatedLabels ahve the same length
 
                 associatedLabels = GetElementsAt(_labels, relevantIndexes);
 
+                /*
+                sw1.Restart();
                 int[] complementaryIndexes = SmartIndexes.ExceptSorted<int>(subSelectedIndexes, relevantIndexes).ToArray();
+                long method3 = sw1.ElapsedMilliseconds;
+
                 if (complementaryIndexes.Length < _minElementsPerLeaf) continue;
-
+ 
                 int[] complementaryLabels = GetElementsAt(_labels, complementaryIndexes);
+                */
 
-                double associatedEntropy = (new EmpiricScore(associatedLabels)).NormalizedEntropy() + (new EmpiricScore(complementaryLabels)).NormalizedEntropy();
-                if (associatedEntropy < lowestEntropy)
+                if (subSelectedIndexes.Length - associatedLabels.Length < _minElementsPerLeaf) continue;
+
+                sw1.Restart();
+                EmpiricScore<int> histLeft=new EmpiricScore<int>(associatedLabels); 
+                double entropyLeft = histLeft.NormalizedEntropy();
+                long method4 = sw1.ElapsedMilliseconds;
+
+                /*
+                sw1.Restart();
+                double entropyDistRigth = (new EmpiricScore<int>(complementaryLabels)).NormalizedEntropy();
+                long method5 = sw1.ElapsedMilliseconds;
+                */ 
+
+                sw1.Restart();
+                EmpiricScore<int> histRight = initalLabelsDistribution.Except(histLeft);
+                double entropyRight2 = histRight.NormalizedEntropy();
+                long method6 = sw1.ElapsedMilliseconds;
+
+                double associatedEntropy = entropyLeft + entropyRight2;
+
+                if (associatedEntropy < totalEntropy)
                 {
-                    lowestEntropy = associatedEntropy;
+                    totalEntropy = associatedEntropy;
                     bestSplitter = splitter;
                 }
             }

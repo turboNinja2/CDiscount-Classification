@@ -146,7 +146,7 @@ namespace NDSB
 
             int[] labels = DSCdiscountUtils.ReadLabelsFromTraining(trainFilePath);
 
-            EmpiricScore es = new EmpiricScore();
+            EmpiricScore<int> es = new EmpiricScore<int>();
             for (int i = 0; i < labels.Length; i++)
                 es.UpdateKey(labels[i], 1);
 
@@ -274,7 +274,7 @@ namespace NDSB
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
                 List<EnsembleTrees> models = new List<EnsembleTrees>();
-                models.Add(new EnsembleTrees(maxDepth, minEltsPerLeaf, 7));
+                models.Add(new EnsembleTrees(maxDepth, minEltsPerLeaf, 1));
                 GenericMLHelper.TrainPredictAndWriteFromTFIDF(models.ToArray(), trainFilePath, trainFilePaths[i], testFilePath);
                 models.Clear();
             }

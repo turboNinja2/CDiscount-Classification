@@ -2,9 +2,11 @@
 {
     public class BinaryTree<T>
     {
+        #region Private attributes
         private T _nodeValue;
         private BinaryTree<T> _leftChild;
         private BinaryTree<T> _rightChild;
+        #endregion
 
         public BinaryTree(T node)
         {

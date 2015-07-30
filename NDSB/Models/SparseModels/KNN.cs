@@ -1,26 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NDSB.SparseMethods;
-using System.Reflection;
 
 namespace NDSB
 {
-    using Point = Dictionary<string, double>;
     using NDSB.Models.SparseModels;
+    using Point = Dictionary<string, double>;
 
     public class KNN : IModelClassification<Point>
     {
         public delegate double Distance(Dictionary<string, double> sp1, Dictionary<string, double> sp2);
 
-        private const int _INVERTED_INDEXES_PREALLOC_ = 1000000;
+        private const int _INVERTED_INDEXES_PREALLOC_ = 100000;
 
         #region Private attributes
 
         private int[] _labels;
         private Point[] _points;
 
-        private Dictionary<string, List<int>> _invertedIndexes = new Dictionary<string, List<int>>(_INVERTED_INDEXES_PREALLOC_);
+        private Dictionary<string, int[]> _invertedIndexes = new Dictionary<string, int[]>();
 
         private Distance _distance;
         private double _minTFIDF;
@@ -44,7 +42,7 @@ namespace NDSB
         {
             _labels = labels;
             _points = points;
-            _invertedIndexes = SmartIndexes.InverseKeys(points, _minTFIDF);
+            _invertedIndexes = SmartIndexes.InverseKeys(points, _minTFIDF, _INVERTED_INDEXES_PREALLOC_);
         }
 
         public int Predict(Point pt)
@@ -121,7 +119,7 @@ namespace NDSB
         /// </summary>
         /// <param name="keywords"></param>
         /// <returns></returns>
-        private static int[] PreselectNeighbours(string[] keywords, Dictionary<string, List<int>> invertedIndexes)
+        private static int[] PreselectNeighbours(string[] keywords, Dictionary<string, int[]> invertedIndexes)
         {
             List<int> candidateIndexes = new List<int>();
             for (int i = 0; i < keywords.Length; i++)
@@ -129,7 +127,5 @@ namespace NDSB
                     candidateIndexes.AddRange(invertedIndexes[keywords[i]]);
             return candidateIndexes.Distinct().ToArray();
         }
-
-
     }
 }

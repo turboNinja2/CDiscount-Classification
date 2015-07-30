@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace DataScienceECom.Models
 {
@@ -39,7 +36,5 @@ namespace DataScienceECom.Models
         {
             yield return new GMEntropia(0.5, 4, 6);
         }
-
-
     }
 }
