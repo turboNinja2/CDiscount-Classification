@@ -273,7 +273,7 @@ namespace NDSB
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
                 List<DecisionTree> models = new List<DecisionTree>();
-                models.Add(new DecisionTree(maxDepth));
+                models.Add(new DecisionTree(maxDepth,20));
                 GenericMLHelper.TrainPredictAndWriteFromTFIDF(models.ToArray(), trainFilePath, trainFilePaths[i], testFilePath);
                 models.Clear();
             }
@@ -300,7 +300,7 @@ namespace NDSB
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
                 List<DecisionTree> models = new List<DecisionTree>();
-                models.Add(new DecisionTree(maxDepth));
+                models.Add(new DecisionTree(maxDepth,20));
                 GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
                 models.Clear();
             }

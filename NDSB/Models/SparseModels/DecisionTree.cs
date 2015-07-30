@@ -23,6 +23,7 @@ namespace NDSB.Models.SparseModels
         private Random _rnd = new Random(1);
         private BinaryTree<string> _rules;
         private Dictionary<string, List<int>> _invertedIndexes;
+        private HashSet<string> _splittersUsed = new HashSet<string>();
 
         private double _earlyStopEntropy = 3.5f;
 
@@ -62,6 +63,8 @@ namespace NDSB.Models.SparseModels
             }
 
             rules.Node = currentSplitter;
+            _splittersUsed.Add(currentSplitter);
+
             int[] indexesLeft = DataIndexer.IntersectSorted<int>(_invertedIndexes[currentSplitter], subIndexes, Comparer<int>.Default).ToArray(),
                 indexesRight = subIndexes.Except(_invertedIndexes[currentSplitter]).ToArray();
 
@@ -87,7 +90,7 @@ namespace NDSB.Models.SparseModels
 
         public string Description()
         {
-            return "DTree_leafSize" + _minElementsPerLeaf + "md_" + _maxDepth;
+            return "DTree_leafSize" + _minElementsPerLeaf + "md_" + _maxDepth + "bis";
         }
 
         public static int[] GetElementsAt(int[] labels, int[] indexes)
@@ -136,12 +139,15 @@ namespace NDSB.Models.SparseModels
         public List<string> GetSubsetOfCommonFeatures(int[] subSelectedIndexes)
         {
             HashSet<string> commonSplitters = new HashSet<string>();
-            for (int i = 0; i < Math.Min(50, subSelectedIndexes.Length); i++)
+            for (int i = 0; i < subSelectedIndexes.Length; i++)
                 for (int j = 0; j < _points[subSelectedIndexes[i]].Count; j++)
                 {
                     string candidateSplitter = _points[subSelectedIndexes[i]].ElementAt(j).Key;
-                    if (_splitters.Contains(candidateSplitter))
+                    if (_splitters.Contains(candidateSplitter) && !_splittersUsed.Contains(candidateSplitter))
+                    {
                         commonSplitters.Add(candidateSplitter);
+                    }
+                    if (commonSplitters.Count > 200) return commonSplitters.ToList();
                 }
             return commonSplitters.ToList();
         }
