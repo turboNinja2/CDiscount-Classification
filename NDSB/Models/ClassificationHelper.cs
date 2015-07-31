@@ -11,12 +11,11 @@ namespace NDSB.Models
         {
             model.Train(labels, trainPoints);
             int[] predicted = new int[testPoints.Count()];
-            //Parallel.For(0, testPoints.Length, _parallelOptions, i =>
-            for(int i =0; i < testPoints.Length; i++)
+            Parallel.For(0, testPoints.Length, _parallelOptions, i =>
             {
                 int pred = model.Predict(testPoints[i]);
                 predicted[i] = pred;
-            }//);
+            });
             return predicted;
         }
 
