@@ -105,6 +105,91 @@ namespace NDSB.Models.SparseModels
                 }
             }
         }
+        
+        /// <summary>
+        /// Optimized code found on SO.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static int[] IntersectSortedInt(int[] source, int[] target)
+        {
+            // Set initial capacity to a "full-intersection" size
+            // This prevents multiple re-allocations
+            var ints = new List<int>(Math.Min(source.Length, target.Length));
+
+            var i = 0;
+            var j = 0;
+
+            while (i < source.Length && j < target.Length)
+            {
+                // Compare only once and let compiler optimize the switch-case
+                switch (source[i].CompareTo(target[j]))
+                {
+                    case -1:
+                        i++;
+
+                        // Saves us a JMP instruction
+                        continue;
+                    case 1:
+                        j++;
+
+                        // Saves us a JMP instruction
+                        continue;
+                    default:
+                        ints.Add(source[i++]);
+                        j++;
+
+                        // Saves us a JMP instruction
+                        continue;
+                }
+            }
+
+            // Free unused memory (sets capacity to actual count)
+            //ints.TrimExcess();
+
+            return ints.ToArray();
+        }
+
+        public static unsafe int[] IntersectSortedIntUnsafe(int[] source, int[] target)
+        {
+            var ints = new List<int>(Math.Min(source.Length, target.Length));
+
+            fixed (int* ptSrc = source)
+            {
+                var maxSrcAdr = ptSrc + source.Length;
+
+                fixed (int* ptTar = target)
+                {
+                    var maxTarAdr = ptTar + target.Length;
+
+                    var currSrc = ptSrc;
+                    var currTar = ptTar;
+
+                    while (currSrc < maxSrcAdr && currTar < maxTarAdr)
+                    {
+                        switch ((*currSrc).CompareTo(*currTar))
+                        {
+                            case -1:
+                                currSrc++;
+                                continue;
+                            case 1:
+                                currTar++;
+                                continue;
+                            default:
+                                ints.Add(*currSrc);
+                                currSrc++;
+                                currTar++;
+                                continue;
+                        }
+                    }
+                }
+            }
+
+            //ints.TrimExcess();
+            return ints.ToArray();
+        }
+
 
         public static List<T> ExceptSorted<T>(T[] m, T[] n) where T : IComparable<T>
         {

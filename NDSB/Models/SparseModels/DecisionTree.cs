@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using DataScienceECom;
 
 namespace NDSB.Models.SparseModels
 {
     using Point = Dictionary<string, double>;
-    using DataScienceECom;
     using System.Diagnostics;
 
     public class DecisionTree : IModelClassification<Point>
@@ -58,7 +57,8 @@ namespace NDSB.Models.SparseModels
             currentDepth--;
             string currentSplitter = FindeBestSplit(subIndexes);
 
-            if (currentDepth == 0 || currentSplitter == "")
+            // more likely than no splitter is found rather than max depth reached...
+            if (currentSplitter == "" || currentDepth == 0)
             {
                 int[] currentLabels = GetElementsAt(_labels, subIndexes);
                 int mostLikelyElement = new EmpiricScore<int>(currentLabels).MostLikelyElement();
@@ -109,9 +109,8 @@ namespace NDSB.Models.SparseModels
 
         public string FindeBestSplit(int[] subSelectedIndexes)
         {
-            int[] associatedLabels = GetElementsAt(_labels, subSelectedIndexes);
-
-            EmpiricScore<int> initalLabelsDistribution = new EmpiricScore<int>(associatedLabels);
+            int[] initialLabels = GetElementsAt(_labels, subSelectedIndexes);
+            EmpiricScore<int> initalLabelsDistribution = new EmpiricScore<int>(initialLabels);
 
             double totalEntropy = (initalLabelsDistribution).NormalizedEntropy() * 2; // what if I randomly splitted the data set 
             string bestSplitter = "";
@@ -121,20 +120,20 @@ namespace NDSB.Models.SparseModels
             for (int i = 0; i < splitters.Count; i++)
             {
                 string splitter = splitters[i];
-
-                int[] relevantIndexes = SmartIndexes.IntersectSorted<int>(_invertedIndexes[splitter], subSelectedIndexes).ToArray();
+                int[] relevantIndexes = SmartIndexes.IntersectSortedIntUnsafe(_invertedIndexes[splitter], subSelectedIndexes);
+                
                 if (relevantIndexes.Length < _minElementsPerLeaf) continue; // note that relevantIndexes and associatedLabels ahve the same length
 
-                associatedLabels = GetElementsAt(_labels, relevantIndexes);
+                initialLabels = GetElementsAt(_labels, relevantIndexes);
 
-                if (subSelectedIndexes.Length - associatedLabels.Length < _minElementsPerLeaf) continue;
+                if (subSelectedIndexes.Length - initialLabels.Length < _minElementsPerLeaf) continue;
 
-                EmpiricScore<int> histLeft = new EmpiricScore<int>(associatedLabels);
+                EmpiricScore<int> histLeft = new EmpiricScore<int>(initialLabels);
                 double GiniLeft = histLeft.NormalizedEntropy();
 
                 EmpiricScore<int> histRight = initalLabelsDistribution.Except(histLeft);
                 double GiniRight = histRight.NormalizedEntropy();
-                
+
                 double associatedGini = GiniLeft + GiniRight;
 
                 if (associatedGini < totalEntropy)
