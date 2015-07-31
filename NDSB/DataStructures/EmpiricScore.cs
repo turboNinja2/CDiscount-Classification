@@ -87,6 +87,18 @@ namespace DataScienceECom
             return -entropy;
         }
 
+        public double Gini()
+        {
+            double gini = 0;
+            EmpiricScore<T> normalized = this.Normalize();
+            foreach (KeyValuePair<T, double> kvp in normalized._scores)
+            {
+                double p = kvp.Value;
+                gini += p * (1 - p);
+            }
+            return gini;
+        }
+
         public static EmpiricScore<T> Merge(IList<EmpiricScore<T>> empiricScores)
         {
             EmpiricScore<T> result = new EmpiricScore<T>();
@@ -99,7 +111,7 @@ namespace DataScienceECom
         public EmpiricScore<T> Except(EmpiricScore<T> b)
         {
             EmpiricScore<T> diff = new EmpiricScore<T>(this);
-            foreach(KeyValuePair<T,double> kvp in b._scores)
+            foreach (KeyValuePair<T, double> kvp in b._scores)
                 if (diff._scores.ContainsKey(kvp.Key))
                 {
                     diff._scores[kvp.Key] -= kvp.Value;

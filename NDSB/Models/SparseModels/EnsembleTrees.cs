@@ -25,7 +25,9 @@ namespace NDSB.Models.SparseModels
             _trees = new DecisionTree[_nTrees];
             for (int i = 0; i < _nTrees; i++)
                 _trees[i] = new DecisionTree(_maxDepth, _minElementsPerLeaf, i);
-            Parallel.For(0, _nTrees, i => { _trees[i].Train(labels, points); });
+            //Parallel.For(0, _nTrees, i => { _trees[i].Train(labels, points); });
+            for (int i = 0; i < _nTrees; i++)
+                _trees[i].Train(labels, points);
         }
 
         public int Predict(Point pt)
