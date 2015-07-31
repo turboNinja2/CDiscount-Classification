@@ -57,7 +57,6 @@ namespace NDSB.Models.SparseModels
             currentDepth--;
             string currentSplitter = FindeBestSplit(subIndexes);
 
-            // more likely than no splitter is found rather than max depth reached...
             if (currentSplitter == "" || currentDepth == 0)
             {
                 int[] currentLabels = GetElementsAt(_labels, subIndexes);
@@ -69,14 +68,13 @@ namespace NDSB.Models.SparseModels
             rules.Node = currentSplitter;
             _splittersUsed.Add(currentSplitter);
 
-            int[] indexesLeft = SmartIndexes.IntersectSorted<int>(_invertedIndexes[currentSplitter], subIndexes).ToArray();
+            int[] indexesLeft = SmartIndexes.IntersectSortedIntUnsafe(_invertedIndexes[currentSplitter], subIndexes);
             rules.LeftChild = new BinaryTree<string>();
             rules.RightChild = new BinaryTree<string>();
 
             TrainTree(rules.LeftChild, currentDepth, indexesLeft);
             indexesLeft = new int[0];
 
-            // this except cannot be avoided
             int[] indexesRight = subIndexes.Except(_invertedIndexes[currentSplitter]).ToArray();
             TrainTree(rules.RightChild, currentDepth, indexesRight);
         }
