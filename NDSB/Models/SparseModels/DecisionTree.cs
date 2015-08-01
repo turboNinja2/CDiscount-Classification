@@ -20,17 +20,14 @@ namespace NDSB.Models.SparseModels
 
         // Model
         private HashSet<string> _splitters = new HashSet<string>();
-        private HashSet<string> _splittersUsed = new HashSet<string>();
 
-        private Random _rnd;
         private BinaryTree<string> _rules;
         private Dictionary<string, int[]> _invertedIndexes;
 
-        public DecisionTree(int maxDepth, int minElementsPerLeaf, int seed = 0)
+        public DecisionTree(int maxDepth, int minElementsPerLeaf)
         {
             _maxDepth = maxDepth;
             _minElementsPerLeaf = minElementsPerLeaf;
-            _rnd = new Random(seed);
         }
 
         public void Train(int[] labels, Point[] points)
@@ -66,8 +63,6 @@ namespace NDSB.Models.SparseModels
             }
 
             rules.Node = currentSplitter;
-            _splittersUsed.Add(currentSplitter);
-
             int[] indexesLeft = SmartIndexes.IntersectSortedIntUnsafe(_invertedIndexes[currentSplitter], subIndexes);
             rules.LeftChild = new BinaryTree<string>();
             rules.RightChild = new BinaryTree<string>();
@@ -155,9 +150,9 @@ namespace NDSB.Models.SparseModels
                 for (int j = 0; j < _points[subSelectedIndexes[i]].Count; j++)
                 {
                     string candidateSplitter = _points[subSelectedIndexes[i]].ElementAt(j).Key;
-                    if (_splitters.Contains(candidateSplitter) && !_splittersUsed.Contains(candidateSplitter) && _rnd.Next(2) == 1)
+                    if (_splitters.Contains(candidateSplitter))
                         commonSplitters.Add(candidateSplitter);
-                    if (commonSplitters.Count > 200) return commonSplitters.ToList();
+                    if (commonSplitters.Count > 600) return commonSplitters.ToList();
                 }
             return commonSplitters.ToList();
         }
