@@ -110,7 +110,7 @@ namespace NDSB.Models.SparseModels
             int[] initialLabels = GetElementsAt(_labels, subSelectedIndexes);
             EmpiricScore<int> initalLabelsDistribution = new EmpiricScore<int>(initialLabels);
 
-            double totalEntropy = (initalLabelsDistribution).NormalizedEntropy() * 2; // what if I randomly splitted the data set 
+            double totalGini = (initalLabelsDistribution).NormalizedEntropy() * 2; // what if I randomly splitted the data set 
             string bestSplitter = "";
 
             List<string> splitters = GetSubsetOfCommonFeatures(subSelectedIndexes);
@@ -119,27 +119,32 @@ namespace NDSB.Models.SparseModels
             {
                 string splitter = splitters[i];
                 int[] relevantIndexes = SmartIndexes.IntersectSortedIntUnsafe(_invertedIndexes[splitter], subSelectedIndexes);
-                
-                if (relevantIndexes.Length < _minElementsPerLeaf) continue; // note that relevantIndexes and associatedLabels ahve the same length
+
+                int nLeft = relevantIndexes.Length;
+                if (nLeft < _minElementsPerLeaf) continue; // note that relevantIndexes and associatedLabels ahve the same length
 
                 initialLabels = GetElementsAt(_labels, relevantIndexes);
 
-                if (subSelectedIndexes.Length - initialLabels.Length < _minElementsPerLeaf) continue;
+                int nRight = subSelectedIndexes.Length - initialLabels.Length;
+                if (nRight < _minElementsPerLeaf) continue;
 
                 EmpiricScore<int> histLeft = new EmpiricScore<int>(initialLabels);
-                double GiniLeft = histLeft.NormalizedEntropy();
+                double GiniLeft = histLeft.Gini();
 
                 EmpiricScore<int> histRight = initalLabelsDistribution.Except(histLeft);
-                double GiniRight = histRight.NormalizedEntropy();
+                double GiniRight = histRight.Gini();
 
-                double associatedGini = GiniLeft + GiniRight;
+                double associatedGini = (nLeft * GiniLeft + nRight * GiniRight) / (nRight + nLeft);
 
-                if (associatedGini < totalEntropy)
+                if (associatedGini < totalGini)
                 {
-                    totalEntropy = associatedGini;
+                    totalGini = associatedGini;
                     bestSplitter = splitter;
                 }
             }
+
+            if (totalGini < 0.1) return "";
+
             return bestSplitter;
         }
 
