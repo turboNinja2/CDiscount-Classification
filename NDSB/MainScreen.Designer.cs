@@ -54,6 +54,7 @@
             this.maxDepthLbl = new System.Windows.Forms.Label();
             this.maxDepthTbx = new System.Windows.Forms.TextBox();
             this.decisionTreePredictBtn = new System.Windows.Forms.Button();
+            this.translateAndPredictRFBtn = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -257,6 +258,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.translateAndPredictRFBtn);
             this.groupBox4.Controls.Add(this.nTreesTbx);
             this.groupBox4.Controls.Add(this.nTreesLbl);
             this.groupBox4.Controls.Add(this.minEltsLeafTbx);
@@ -333,7 +335,7 @@
             // 
             // decisionTreePredictBtn
             // 
-            this.decisionTreePredictBtn.Location = new System.Drawing.Point(97, 124);
+            this.decisionTreePredictBtn.Location = new System.Drawing.Point(97, 143);
             this.decisionTreePredictBtn.Margin = new System.Windows.Forms.Padding(4);
             this.decisionTreePredictBtn.Name = "decisionTreePredictBtn";
             this.decisionTreePredictBtn.Size = new System.Drawing.Size(100, 28);
@@ -341,6 +343,17 @@
             this.decisionTreePredictBtn.Text = "Predict";
             this.decisionTreePredictBtn.UseVisualStyleBackColor = true;
             this.decisionTreePredictBtn.Click += new System.EventHandler(this.decisionTreePredictBtn_Click);
+            // 
+            // translateAndPredictRFBtn
+            // 
+            this.translateAndPredictRFBtn.Location = new System.Drawing.Point(97, 107);
+            this.translateAndPredictRFBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.translateAndPredictRFBtn.Name = "translateAndPredictRFBtn";
+            this.translateAndPredictRFBtn.Size = new System.Drawing.Size(100, 28);
+            this.translateAndPredictRFBtn.TabIndex = 8;
+            this.translateAndPredictRFBtn.Text = "Translate and predict";
+            this.translateAndPredictRFBtn.UseVisualStyleBackColor = true;
+            this.translateAndPredictRFBtn.Click += new System.EventHandler(this.translateAndPredictRFBtn_Click);
             // 
             // MainScreen
             // 
@@ -402,6 +415,7 @@
         private System.Windows.Forms.Label maxDepthLbl;
         private System.Windows.Forms.TextBox nTreesTbx;
         private System.Windows.Forms.Label nTreesLbl;
+        private System.Windows.Forms.Button translateAndPredictRFBtn;
     }
 }
 

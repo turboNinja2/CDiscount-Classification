@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using NDSB.SparseMappings;
-using System.Linq;
 
 namespace NDSB.Models.SparseModels
 {
-    using Point = Dictionary<string, double>;
     using System;
+    using Point = Dictionary<string, double>;
 
     public static class KNNHelper
     {

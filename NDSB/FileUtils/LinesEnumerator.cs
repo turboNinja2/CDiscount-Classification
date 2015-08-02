@@ -16,7 +16,6 @@ namespace NDSB
         {
             string line;
             int lineNumber = 0;
-
             using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (StreamReader sr = new StreamReader(fs))
             {

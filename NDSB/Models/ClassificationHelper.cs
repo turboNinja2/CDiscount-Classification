@@ -27,5 +27,7 @@ namespace NDSB.Models
                     acc++;
             return acc * 1f / validationLabels.Length;
         }
+
+
     }
 }

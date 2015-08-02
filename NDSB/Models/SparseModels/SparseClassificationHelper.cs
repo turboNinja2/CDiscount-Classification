@@ -7,7 +7,6 @@ namespace NDSB.Models
 
     public static class SparseClassificationHelper
     {
-
         public static double ValidateAndGetError(IModelClassification<Point> model, string trainFilePath, string validationFilePath, string trainLabelsPath, string validationLabelsPath)
         {
             Point[] trainSet = CSRHelper.ImportPoints(trainFilePath),
