@@ -246,13 +246,18 @@ namespace NDSB
 
         }
 
+        private static int[] ToIntArray(TextBox tbx)
+        {
+            return tbx.Text.Split(';').Select(c => Convert.ToInt32(c)).ToArray();
+        }
+
         private void decisionTreePredictBtn_Click(object sender, EventArgs e)
         {
-            int maxDepth = Convert.ToInt32(maxDepthTbx.Text),
-                minEltsPerLeaf = Convert.ToInt32(minEltsLeafTbx.Text),
-                nTrees = Convert.ToInt32(nTreesTbx.Text);
-            
-            string[] trainFilePaths = new string[1];
+            int[] maxDepths = ToIntArray(maxDepthTbx),
+                minEltsPerLeafs = ToIntArray(minEltsLeafTbx),
+                nTreess = ToIntArray(nTreesTbx);
+
+            string trainTFIDFFilePath = "";
             string testFilePath = "";
 
             OpenFileDialog fdlg = new OpenFileDialog();
@@ -261,24 +266,25 @@ namespace NDSB
                 testFilePath = fdlg.FileName;
 
             fdlg = new OpenFileDialog();
-            fdlg.Multiselect = true;
-            fdlg.Title = "Train file(s) path (TFIDF)";
+            fdlg.Title = "Train file path (TFIDF)";
             if (fdlg.ShowDialog() == DialogResult.OK)
-                trainFilePaths = fdlg.FileNames;
+                trainTFIDFFilePath = fdlg.FileName;
 
             string trainFilePath = "";
             fdlg = new OpenFileDialog();
-            fdlg.Title = "Train file(s) path (labels)";
+            fdlg.Title = "Train file path (labels)";
             if (fdlg.ShowDialog() == DialogResult.OK)
                 trainFilePath = fdlg.FileName;
 
-            for (int i = 0; i < trainFilePaths.Length; i++)
-            {
-                List<EnsembleTrees> models = new List<EnsembleTrees>();
-                models.Add(new EnsembleTrees(maxDepth, minEltsPerLeaf, nTrees));
-                GenericMLHelper.TrainPredictAndWriteFromTFIDF(models.ToArray(), trainFilePath, trainFilePaths[i], testFilePath);
-                models.Clear();
-            }
+            foreach (int maxDepth in maxDepths)
+                foreach (int minElementsPerLeaf in minEltsPerLeafs)
+                    foreach (int nTrees in nTreess)
+                    {
+                        List<EnsembleTrees> models = new List<EnsembleTrees>();
+                        models.Add(new EnsembleTrees(maxDepth, minElementsPerLeaf, nTrees));
+                        GenericMLHelper.TrainPredictAndWriteFromTFIDF(models.ToArray(), trainFilePath, trainTFIDFFilePath, testFilePath);
+                        models.Clear();
+                    }
         }
 
         private void decisionTreeToTFPredictBtn_Click(object sender, EventArgs e)
@@ -302,7 +308,7 @@ namespace NDSB
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
                 List<DecisionTree> models = new List<DecisionTree>();
-                models.Add(new DecisionTree(maxDepth,20));
+                models.Add(new DecisionTree(maxDepth, 20));
                 GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
                 models.Clear();
             }

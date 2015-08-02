@@ -47,13 +47,13 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.predictSGDBtn = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.nTreesTbx = new System.Windows.Forms.TextBox();
+            this.nTreesLbl = new System.Windows.Forms.Label();
             this.minEltsLeafTbx = new System.Windows.Forms.TextBox();
             this.minEltLeafLbl = new System.Windows.Forms.Label();
             this.maxDepthLbl = new System.Windows.Forms.Label();
             this.maxDepthTbx = new System.Windows.Forms.TextBox();
             this.decisionTreePredictBtn = new System.Windows.Forms.Button();
-            this.nTreesTbx = new System.Windows.Forms.TextBox();
-            this.nTreesLbl = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -62,8 +62,8 @@
             // 
             // processBtn
             // 
-            this.processBtn.Location = new System.Drawing.Point(735, 25);
-            this.processBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.processBtn.Location = new System.Drawing.Point(653, 42);
+            this.processBtn.Margin = new System.Windows.Forms.Padding(4);
             this.processBtn.Name = "processBtn";
             this.processBtn.Size = new System.Drawing.Size(100, 28);
             this.processBtn.TabIndex = 11;
@@ -140,7 +140,7 @@
             // downSampleTbx
             // 
             this.downSampleTbx.Location = new System.Drawing.Point(140, 70);
-            this.downSampleTbx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.downSampleTbx.Margin = new System.Windows.Forms.Padding(4);
             this.downSampleTbx.Name = "downSampleTbx";
             this.downSampleTbx.Size = new System.Drawing.Size(88, 22);
             this.downSampleTbx.TabIndex = 20;
@@ -182,7 +182,7 @@
             // shuffleSeedTbx
             // 
             this.shuffleSeedTbx.Location = new System.Drawing.Point(140, 12);
-            this.shuffleSeedTbx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.shuffleSeedTbx.Margin = new System.Windows.Forms.Padding(4);
             this.shuffleSeedTbx.Name = "shuffleSeedTbx";
             this.shuffleSeedTbx.Size = new System.Drawing.Size(88, 22);
             this.shuffleSeedTbx.TabIndex = 24;
@@ -191,7 +191,7 @@
             // splitTbx
             // 
             this.splitTbx.Location = new System.Drawing.Point(140, 42);
-            this.splitTbx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitTbx.Margin = new System.Windows.Forms.Padding(4);
             this.splitTbx.Name = "splitTbx";
             this.splitTbx.Size = new System.Drawing.Size(88, 22);
             this.splitTbx.TabIndex = 25;
@@ -202,9 +202,9 @@
             // 
             this.groupBox1.Controls.Add(this.nearestCentroidPredictBtn);
             this.groupBox1.Location = new System.Drawing.Point(293, 178);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(267, 123);
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
@@ -213,7 +213,7 @@
             // nearestCentroidPredictBtn
             // 
             this.nearestCentroidPredictBtn.Location = new System.Drawing.Point(8, 52);
-            this.nearestCentroidPredictBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nearestCentroidPredictBtn.Margin = new System.Windows.Forms.Padding(4);
             this.nearestCentroidPredictBtn.Name = "nearestCentroidPredictBtn";
             this.nearestCentroidPredictBtn.Size = new System.Drawing.Size(100, 28);
             this.nearestCentroidPredictBtn.TabIndex = 0;
@@ -224,7 +224,7 @@
             // getHistogramBtn
             // 
             this.getHistogramBtn.Location = new System.Drawing.Point(12, 128);
-            this.getHistogramBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.getHistogramBtn.Margin = new System.Windows.Forms.Padding(4);
             this.getHistogramBtn.Name = "getHistogramBtn";
             this.getHistogramBtn.Size = new System.Drawing.Size(216, 28);
             this.getHistogramBtn.TabIndex = 27;
@@ -236,9 +236,9 @@
             // 
             this.groupBox2.Controls.Add(this.predictSGDBtn);
             this.groupBox2.Location = new System.Drawing.Point(293, 25);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(267, 130);
             this.groupBox2.TabIndex = 27;
             this.groupBox2.TabStop = false;
@@ -247,7 +247,7 @@
             // predictSGDBtn
             // 
             this.predictSGDBtn.Location = new System.Drawing.Point(8, 52);
-            this.predictSGDBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.predictSGDBtn.Margin = new System.Windows.Forms.Padding(4);
             this.predictSGDBtn.Name = "predictSGDBtn";
             this.predictSGDBtn.Size = new System.Drawing.Size(100, 28);
             this.predictSGDBtn.TabIndex = 0;
@@ -265,13 +265,33 @@
             this.groupBox4.Controls.Add(this.maxDepthTbx);
             this.groupBox4.Controls.Add(this.decisionTreePredictBtn);
             this.groupBox4.Location = new System.Drawing.Point(568, 116);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox4.Size = new System.Drawing.Size(267, 190);
             this.groupBox4.TabIndex = 27;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Decision Tree";
+            // 
+            // nTreesTbx
+            // 
+            this.nTreesTbx.Location = new System.Drawing.Point(97, 74);
+            this.nTreesTbx.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.nTreesTbx.Name = "nTreesTbx";
+            this.nTreesTbx.Size = new System.Drawing.Size(100, 22);
+            this.nTreesTbx.TabIndex = 7;
+            // 
+            // nTreesLbl
+            // 
+            this.nTreesLbl.AutoSize = true;
+            this.nTreesLbl.Location = new System.Drawing.Point(32, 77);
+            this.nTreesLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.nTreesLbl.Name = "nTreesLbl";
+            this.nTreesLbl.Size = new System.Drawing.Size(47, 20);
+            this.nTreesLbl.TabIndex = 6;
+            this.nTreesLbl.Text = "nTrees";
+            this.nTreesLbl.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.nTreesLbl.UseCompatibleTextRendering = true;
             // 
             // minEltsLeafTbx
             // 
@@ -314,33 +334,13 @@
             // decisionTreePredictBtn
             // 
             this.decisionTreePredictBtn.Location = new System.Drawing.Point(97, 124);
-            this.decisionTreePredictBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.decisionTreePredictBtn.Margin = new System.Windows.Forms.Padding(4);
             this.decisionTreePredictBtn.Name = "decisionTreePredictBtn";
             this.decisionTreePredictBtn.Size = new System.Drawing.Size(100, 28);
             this.decisionTreePredictBtn.TabIndex = 0;
             this.decisionTreePredictBtn.Text = "Predict";
             this.decisionTreePredictBtn.UseVisualStyleBackColor = true;
             this.decisionTreePredictBtn.Click += new System.EventHandler(this.decisionTreePredictBtn_Click);
-            // 
-            // nTreesTbx
-            // 
-            this.nTreesTbx.Location = new System.Drawing.Point(97, 74);
-            this.nTreesTbx.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.nTreesTbx.Name = "nTreesTbx";
-            this.nTreesTbx.Size = new System.Drawing.Size(100, 22);
-            this.nTreesTbx.TabIndex = 7;
-            // 
-            // nTreesLbl
-            // 
-            this.nTreesLbl.AutoSize = true;
-            this.nTreesLbl.Location = new System.Drawing.Point(32, 77);
-            this.nTreesLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.nTreesLbl.Name = "nTreesLbl";
-            this.nTreesLbl.Size = new System.Drawing.Size(47, 20);
-            this.nTreesLbl.TabIndex = 6;
-            this.nTreesLbl.Text = "nTrees";
-            this.nTreesLbl.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.nTreesLbl.UseCompatibleTextRendering = true;
             // 
             // MainScreen
             // 
@@ -360,7 +360,7 @@
             this.Controls.Add(this.downSampleTbx);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.processBtn);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainScreen";
             this.Text = "Form1";
             this.groupBox3.ResumeLayout(false);
