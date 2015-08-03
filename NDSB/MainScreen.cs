@@ -232,7 +232,15 @@ namespace NDSB
             for (int i = 0; i < trainFilePath.Length; i++)
             {
                 List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
-                models.Add(new KNN(Distances.Euclide,1,0.1,new ToSphere()));
+                
+                models.Add(new DecisionTree(4500, 10));
+
+                models.Add(new NearestCentroid(new PureInteractions(1,20)));
+                
+                models.Add(new KNN(Distances.Euclide, 1, 0.2, new ToSphere()));
+                
+                models.Add(new KNN(Distances.Euclide, 4, 0.2, new ToSphere()));
+                
                 GenericMLHelper.TrainPredictAndValidate(models.ToArray(), testFilePath, trainFilePath[i], validationFilePath);
             }
 
