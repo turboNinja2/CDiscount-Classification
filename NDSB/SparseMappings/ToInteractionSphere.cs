@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace NDSB.SparseMappings
 {
-    using Point = Dictionary<string, double>;
-
     public class ToInteractionSphere : IMapping<Dictionary<string, double>>
     {
         private static ToSphere _map1 = new ToSphere();
@@ -21,6 +16,5 @@ namespace NDSB.SparseMappings
         {
             return "ToInteractionSphere";
         }
-
     }
 }

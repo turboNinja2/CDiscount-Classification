@@ -87,5 +87,13 @@ namespace NDSB.Models.SparseModels
             return ints.ToArray();
         }
 
+        public static int[] GetElementsAt(int[] labels, int[] indexes)
+        {
+            int[] result = new int[indexes.Length];
+            for (int i = 0; i < indexes.Length; i++)
+                result[i] = labels[indexes[i]];
+            return result;
+        }
+
     }
 }

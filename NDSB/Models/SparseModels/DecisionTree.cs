@@ -9,7 +9,6 @@ namespace NDSB.Models.SparseModels
 
     public class DecisionTree : IModelClassification<Point>
     {
-        // Shallow copy of the data
         private int[] _labels = new int[0];
         private Point[] _points = new Point[0];
 
@@ -43,6 +42,17 @@ namespace NDSB.Models.SparseModels
             TrainTree(_rules, _maxDepth, allIndexes);
         }
 
+        public int Predict(Point pt)
+        {
+            List<string> keywords = pt.Keys.ToList();
+            return Predict(keywords, _rules);
+        }
+
+        public string Description()
+        {
+            return "DTree_leafSize" + _minElementsPerLeaf + "md_" + _maxDepth + "bis";
+        }
+
         private void TrainTree(BinaryTree<string> rules, int currentDepth, int[] subIndexes)
         {
             currentDepth--;
@@ -50,7 +60,7 @@ namespace NDSB.Models.SparseModels
 
             if (currentSplitter == "" || currentDepth == 0)
             {
-                int[] currentLabels = GetElementsAt(_labels, subIndexes);
+                int[] currentLabels = SmartIndexes.GetElementsAt(_labels, subIndexes);
                 int mostLikelyElement = new EmpiricScore<int>(currentLabels).MostLikelyElement();
                 rules.Node = mostLikelyElement.ToString();
                 return;
@@ -67,13 +77,7 @@ namespace NDSB.Models.SparseModels
             int[] indexesRight = subIndexes.Except(_invertedIndexes[currentSplitter]).ToArray();
             TrainTree(rules.RightChild, currentDepth, indexesRight);
         }
-
-        public int Predict(Point pt)
-        {
-            List<string> keywords = pt.Keys.ToList();
-            return Predict(keywords, _rules);
-        }
-
+        
         private int Predict(List<string> keywords, BinaryTree<string> rules)
         {
             if (rules.LeftChild == null && rules.RightChild == null) return Convert.ToInt32(rules.Node);
@@ -81,22 +85,9 @@ namespace NDSB.Models.SparseModels
             else return Predict(keywords, rules.RightChild);
         }
 
-        public string Description()
+        private string FindeBestSplit(int[] subSelectedIndexes)
         {
-            return "DTree_leafSize" + _minElementsPerLeaf + "md_" + _maxDepth + "bis";
-        }
-
-        public static int[] GetElementsAt(int[] labels, int[] indexes)
-        {
-            int[] result = new int[indexes.Length];
-            for (int i = 0; i < indexes.Length; i++)
-                result[i] = labels[indexes[i]];
-            return result;
-        }
-
-        public string FindeBestSplit(int[] subSelectedIndexes)
-        {
-            int[] initialLabels = GetElementsAt(_labels, subSelectedIndexes);
+            int[] initialLabels = SmartIndexes.GetElementsAt(_labels, subSelectedIndexes);
             EmpiricScore<int> initalLabelsDistribution = new EmpiricScore<int>(initialLabels);
 
             double totalGini = initalLabelsDistribution.Gini(); // what if no split happens ?
@@ -112,7 +103,7 @@ namespace NDSB.Models.SparseModels
                 int nLeft = relevantIndexes.Length;
                 if (nLeft < _minElementsPerLeaf) continue; // note that relevantIndexes and associatedLabels ahve the same length
 
-                initialLabels = GetElementsAt(_labels, relevantIndexes);
+                initialLabels = SmartIndexes.GetElementsAt(_labels, relevantIndexes);
 
                 int nRight = subSelectedIndexes.Length - initialLabels.Length;
                 if (nRight < _minElementsPerLeaf) continue;
@@ -137,7 +128,7 @@ namespace NDSB.Models.SparseModels
             return bestSplitter;
         }
 
-        public List<string> GetSubsetOfCommonFeatures(int[] subSelectedIndexes)
+        private List<string> GetSubsetOfCommonFeatures(int[] subSelectedIndexes)
         {
             HashSet<string> commonSplitters = new HashSet<string>();
             for (int i = 0; i < subSelectedIndexes.Length; i++)

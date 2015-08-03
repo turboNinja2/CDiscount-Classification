@@ -220,18 +220,25 @@ namespace DataScienceECom.Phis
             return new Tuple<int, List<string>>(answer, hashedPredictors);
         }
 
-
-
-        public static Tuple<int, List<string>> phi10(string line, string header)
+        private static Tuple<int, List<string>> Stacker(string line, string header)
         {
-            return phiSmart(line, header, StringCleaner.RemoveMorePunctuationAndAccents,
-                3, 15, 35, PriceTransforms.LogPrice);
-        }
+            string[] predictors = (line).Split(';'),            
+                headerElements = header.Split(';');
 
-        public static Tuple<int, List<string>> phi11(string line, string header)
-        {
-            return phiSmart(line, header, StringCleaner.RemoveMorePunctuationAndAccents2,
-                3, 20, 2, PriceTransforms.LogPrice);
+            List<string> hashedPredictors = new List<string>();
+            int answer = 0;
+
+            for (int i = 0; i < headerElements.Length; i++)
+            {
+                string currentHeaderElt = headerElements[i];
+                if (currentHeaderElt == "Categorie3")
+                {
+                    answer = Convert.ToInt32(predictors[i]);
+                    continue;
+                }
+                hashedPredictors.Add(header[i] + "_" + line[i]);
+            }
+            return new Tuple<int, List<string>>(answer, hashedPredictors);
         }
 
         public static Tuple<int, List<string>> phi12(string line, string header)
