@@ -6,6 +6,8 @@ namespace NDSB
 {
     using NDSB.Models.SparseModels;
     using Point = Dictionary<string, double>;
+    using NDSB.SparseMappings;
+    using System.Threading.Tasks;
 
     public class KNN : IModelClassification<Point>
     {
@@ -24,35 +26,43 @@ namespace NDSB
         private double _minTFIDF;
         private int _nbNeighbours;
 
+        private IMapping<Point> _mapping;
+
         #endregion
 
-        public KNN(Distance distance, int nbNeighbours, double minTFIDF)
+        public KNN(Distance distance, int nbNeighbours, double minTFIDF, IMapping<Point> mapping)
         {
             _distance = distance;
             _minTFIDF = minTFIDF;
             _nbNeighbours = nbNeighbours;
+            _mapping = mapping;
         }
 
         /// <summary>
-        /// Creates a shallow copy of the data and creates an inverted dictionary
+        /// Creates a shallow copy of the data and creates an inverted dictionary.
+        /// Be careful, the data is normalized ! Re-import the data after using a KNN (or use it after all the other methods)
         /// </summary>
         /// <param name="labels"></param>
         /// <param name="points"></param>
         public void Train(int[] labels, Point[] points)
         {
             _labels = labels;
+
+            Parallel.For(0, points.Length, i => { points[i] = _mapping.Map(points[i]); });
+
             _points = points;
             _invertedIndexes = SmartIndexes.InverseKeys(points, _minTFIDF, _INVERTED_INDEXES_PREALLOC_);
         }
 
         public int Predict(Point pt)
         {
+            pt = _mapping.Map(pt);
             return NearestLabels(_labels, _points, pt, _nbNeighbours, _distance).GroupBy(item => item).OrderByDescending(g => g.Count()).Select(g => g.Key).First();
         }
 
         public string Description()
         {
-            return "KNN_MinTFIDF" + _minTFIDF + "_k" + _nbNeighbours + "_distance" + _distance.Method.Name;
+            return "KNN_min" + _minTFIDF + "_k" + _nbNeighbours + "_dist" + _distance.Method.Name + "_map" + _mapping.Description() ;
         }
 
         /// <summary>

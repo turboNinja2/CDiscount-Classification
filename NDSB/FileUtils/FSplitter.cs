@@ -21,6 +21,8 @@ namespace NDSB.FileUtils
 
             List<string> buffer = new List<string>();
 
+            string fileToWrite = trainFile;
+
             foreach (string line in LinesEnumerator.YieldLines(file))
             {
                 if (header)
@@ -34,11 +36,14 @@ namespace NDSB.FileUtils
                 numberOfLines++;
                 buffer.Add(line);
 
-                if (numberOfLines % bufferSize == 0 || numberOfLines == linesToSplit)
+                if (numberOfLines % bufferSize == 0)
                 {
-                    File.AppendAllLines(trainFile, buffer);
+                    File.AppendAllLines(fileToWrite, buffer);
                     buffer = new List<string>();
                 }
+
+                if (numberOfLines > linesToSplit)
+                    fileToWrite = validationFile;
             }
             File.AppendAllLines(validationFile, buffer);
         }

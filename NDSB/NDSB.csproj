@@ -74,10 +74,7 @@
     <Compile Include="FileUtils\GeneralFileUtils.cs" />
     <Compile Include="DataStructures\SmartIndexes.cs" />
     <Compile Include="Models\SparseModels\DecisionTree.cs" />
-    <Compile Include="Models\SparseModels\EnsembleTrees.cs" />
-    <Compile Include="Models\SparseModels\KNNHelper.cs" />
     <Compile Include="Models\SparseModels\GenericHelper.cs" />
-    <Compile Include="Models\SparseModels\SparseClassificationHelper.cs" />
     <Compile Include="DataStructures\EmpiricScore.cs" />
     <Compile Include="Models\Streaming\Models\GenericModel1.cs" />
     <Compile Include="Models\Streaming\Models\GMEntropia.cs" />

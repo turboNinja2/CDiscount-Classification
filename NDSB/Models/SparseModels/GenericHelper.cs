@@ -34,5 +34,47 @@ namespace NDSB.Models.SparseModels
             }
             return trainFilePath;
         }
+
+        public static void TrainPredictAndValidateTFIDF(IModelClassification<Point>[] models, string trainFilePath, string tfidfTrainFile, string tfidfTestFile, string tfidfValidationFile)
+        {
+            Point[] trainSet = CSRHelper.ImportPoints(tfidfTrainFile),
+                testSet = CSRHelper.ImportPoints(tfidfTestFile),
+                validationSet = CSRHelper.ImportPoints(tfidfValidationFile);
+
+            int[] trainLabels = DSCdiscountUtils.ReadLabelsFromTraining(trainFilePath);
+
+            for (int i = 0; i < models.Length; i++)
+            {
+                Tuple<int[], int[]> res = ClassificationHelper.TrainValidateAndPredict(models[i], trainSet, trainLabels, validationSet, testSet);
+
+                string desc = Path.GetFileNameWithoutExtension(trainFilePath) + models[i].Description();
+                
+                Directory.CreateDirectory(Path.GetDirectoryName(trainFilePath) + "\\test");
+                string testFilePath = Path.GetDirectoryName(trainFilePath) + "\\test\\test_" + desc + ".csv";
+
+                int[] predictedTest = res.Item1;
+
+                File.WriteAllText(testFilePath, desc + Environment.NewLine);
+                File.AppendAllLines(testFilePath, predictedTest.Select(c => c.ToString()));
+
+                Directory.CreateDirectory(Path.GetDirectoryName(trainFilePath) + "\\validation");
+                string validationFilePath = Path.GetDirectoryName(trainFilePath) + "\\validation\\" + Path.GetFileNameWithoutExtension(tfidfValidationFile) + "_" + desc + ".csv";
+
+                int[] predictedValidation = res.Item2;
+                File.WriteAllText(validationFilePath, desc + Environment.NewLine);
+                File.AppendAllLines(validationFilePath, predictedValidation.Select(c => c.ToString()));
+            }
+        }
+
+        public static void TrainPredictAndValidate(IModelClassification<Point>[] models, string testFilePath, string trainFilePath, string validationFilePath)
+        {
+            string tfidfTestFile = TFIDF.TextToTFIDFCSR(testFilePath),
+                tfidfTrainFile = TFIDF.TextToTFIDFCSR(trainFilePath),
+                tfidfValidationFile = TFIDF.TextToTFIDFCSR(validationFilePath);
+
+            TFIDF.Clear();
+            TrainPredictAndValidateTFIDF(models, trainFilePath, tfidfTrainFile, tfidfTestFile, tfidfValidationFile);
+        }
+
     }
 }

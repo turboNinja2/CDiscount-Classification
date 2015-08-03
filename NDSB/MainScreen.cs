@@ -27,31 +27,6 @@ namespace NDSB
             MessageBox.Show(IntPtr.Size.ToString());
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            int[] nbNeighboursArray = nbNeighbTbx.Text.Split(';').Select(c => Convert.ToInt32(c)).ToArray();
-
-            string trainFilePath = "";
-            string validationFilePath = "";
-
-            OpenFileDialog fdlg = new OpenFileDialog();
-            fdlg.Title = "Validation file path";
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                validationFilePath = fdlg.FileName;
-
-            fdlg = new OpenFileDialog();
-            fdlg.Title = "Train file(s) path";
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                trainFilePath = fdlg.FileName;
-
-            double minTfIdf = 0.2;
-
-            List<KNN> models = new List<KNN>();
-            for (int j = 0; j < nbNeighboursArray.Length; j++)
-                models.Add(new KNN(Distances.Euclide, nbNeighboursArray[j], minTfIdf));
-
-            KNNHelper.PrepareDataAndValidateModels(models.ToArray(), new ToSphere(), trainFilePath, validationFilePath);
-        }
 
         private void button6_Click(object sender, EventArgs e)
         {
@@ -150,10 +125,10 @@ namespace NDSB
             for (int i = 0; i < labels.Length; i++)
                 es.UpdateKey(labels[i], 1);
 
-            es = es.Normalize();
+            //es = es.Normalize();
 
             string[] text = es.Scores.OrderBy(c => c.Value).Select(c => c.Key + " " + c.Value).ToArray();
-            File.WriteAllLines(trainFilePath.Split('.')[0] + "_hist.txt", text);
+            File.WriteAllLines(Path.GetDirectoryName(trainFilePath) + "\\" + Path.GetFileNameWithoutExtension(trainFilePath) + "_hist.txt", text);
 
             MessageBox.Show("h");
         }
@@ -168,7 +143,7 @@ namespace NDSB
 
             OpenFileDialog validationFilesOFD = new OpenFileDialog();
             validationFilesOFD.Multiselect = true;
-            trainingFilesOFD.Title = "Validation files path";
+            validationFilesOFD.Title = "Validation files path";
             validationFilesOFD.ShowDialog();
 
             if (!validationFilesOFD.CheckFileExists) return;
@@ -177,26 +152,29 @@ namespace NDSB
                 testFilePath = currentDirectory + "\\test.csv",
                 cvFilePath = currentDirectory + "\\CrossValidation.csv";
 
-            List<Phi> phis = new List<Phi> { Phis.phi13 };
+            List<Phi> phis = new List<Phi> { Phis.phi16 };
 
             string[] learningFiles = trainingFilesOFD.FileNames;
             Array.Sort(learningFiles);
             string[] validationFiles = validationFilesOFD.FileNames;
             Array.Sort(validationFiles);
 
-            foreach (IStreamingModel model in ModelGenerators.Entropia5())
+            foreach (IStreamingModel model in ModelGenerators.Entropia6())
                 for (int i = 0; i < learningFiles.Length; i++)
                     foreach (Phi phi in phis)
                     {
                         string file = learningFiles[i];
                         model.ClearModel();
                         TrainModels.TrainStreamingModel(model, phi, file);
-                        string modelString = Path.GetFileNameWithoutExtension(file) + ";" + Path.GetFileNameWithoutExtension(validationFiles[i]) +
+                        string modelString = Path.GetFileNameWithoutExtension(file) + ";" + Path.GetFileNameWithoutExtension(validationFiles[i]) + ";" +
                             phi.Method.Name + ";" + model.ToString();
 
                         List<int> testModelPredictions = TrainModels.Predict(model, phi, testFilePath);
 
-                        File.WriteAllLines(Path.GetDirectoryName(file) + "\\submissions\\" +
+                        File.WriteAllText(Path.GetDirectoryName(file) + "\\submissions\\" +
+                            modelString + "_pred.csv", modelString);
+
+                        File.AppendAllLines(Path.GetDirectoryName(file) + "\\submissions\\" +
                             modelString + "_pred.csv",
                             testModelPredictions.Select(t => t.ToString()));
 
@@ -204,7 +182,11 @@ namespace NDSB
 
                         var validationModelPredictions = TrainModels.Validate(model, phi, validationFileName);
 
-                        File.WriteAllLines(Path.GetDirectoryName(file) + "\\validations\\" +
+                        File.WriteAllText(Path.GetDirectoryName(file) + "\\validations\\" +
+                            modelString + "_val.csv",
+                            modelString);
+
+                        File.AppendAllLines(Path.GetDirectoryName(file) + "\\validations\\" +
                             modelString + "_val.csv",
                             validationModelPredictions.Item1.Select(t => t.ToString()));
 
@@ -212,34 +194,7 @@ namespace NDSB
                     }
         }
 
-        private void predictKNNBtn_Click(object sender, EventArgs e)
-        {
-            int[] nbNeighboursArray = nbNeighbTbx.Text.Split(';').Select(c => Convert.ToInt32(c)).ToArray();
 
-            string[] trainFilePaths = new string[1];
-            string testFilePath = "";
-
-            OpenFileDialog fdlg = new OpenFileDialog();
-            fdlg.Title = "Test file path";
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                testFilePath = fdlg.FileName;
-
-            fdlg = new OpenFileDialog();
-            fdlg.Multiselect = true;
-            fdlg.Title = "Train file(s) path";
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                trainFilePaths = fdlg.FileNames;
-
-            double minTfIdf = 0.25;
-
-            for (int i = 0; i < trainFilePaths.Length; i++)
-            {
-                List<KNN> models = new List<KNN>();
-                for (int j = 0; j < nbNeighboursArray.Length; j++)
-                    models.Add(new KNN(Distances.Euclide, nbNeighboursArray[j], minTfIdf));
-                KNNHelper.PrepareDataAndWritePredictions(models.ToArray(), new ToSphere(), trainFilePaths[i], testFilePath);
-            }
-        }
 
         private void splitTbx_TextChanged(object sender, EventArgs e)
         {
@@ -251,52 +206,12 @@ namespace NDSB
             return tbx.Text.Split(';').Select(c => Convert.ToInt32(c)).ToArray();
         }
 
-        private void decisionTreePredictBtn_Click(object sender, EventArgs e)
+
+        private void NCTrainValidatePredictBtn_Click(object sender, EventArgs e)
         {
-            int[] maxDepths = ToIntArray(maxDepthTbx),
-                minEltsPerLeafs = ToIntArray(minEltsLeafTbx),
-                nTreess = ToIntArray(nTreesTbx);
-
-            string trainTFIDFFilePath = "";
-            string testFilePath = "";
-
-            OpenFileDialog fdlg = new OpenFileDialog();
-            fdlg.Title = "Test file path (TFIDF)";
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                testFilePath = fdlg.FileName;
-
-            fdlg = new OpenFileDialog();
-            fdlg.Title = "Train file path (TFIDF)";
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                trainTFIDFFilePath = fdlg.FileName;
-
-            string trainFilePath = "";
-            fdlg = new OpenFileDialog();
-            fdlg.Title = "Train file path (labels)";
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                trainFilePath = fdlg.FileName;
-
-            foreach (int maxDepth in maxDepths)
-                foreach (int minElementsPerLeaf in minEltsPerLeafs)
-                    foreach (int nTrees in nTreess)
-                    {
-                        List<EnsembleTrees> models = new List<EnsembleTrees>();
-                        models.Add(new EnsembleTrees(maxDepth, minElementsPerLeaf, nTrees));
-                        GenericMLHelper.TrainPredictAndWriteFromTFIDF(models.ToArray(), trainFilePath, trainTFIDFFilePath, testFilePath);
-                        models.Clear();
-                    }
-        }
-
-
-
-        private void translateAndPredictRFBtn_Click(object sender, EventArgs e)
-        {
-            int[] maxDepths = ToIntArray(maxDepthTbx),
-    minEltsPerLeafs = ToIntArray(minEltsLeafTbx),
-    nTreess = ToIntArray(nTreesTbx);
-
-            string trainFilePath = "";
-            string testFilePath = "";
+            string testFilePath = "",
+                validationFilePath = "";
+            string[] trainFilePath = new string[0];
 
             OpenFileDialog fdlg = new OpenFileDialog();
             fdlg.Title = "Test file path";
@@ -304,20 +219,23 @@ namespace NDSB
                 testFilePath = fdlg.FileName;
 
             fdlg = new OpenFileDialog();
-            fdlg.Title = "Train file path";
+            fdlg.Title = "Train file(s) path";
+            fdlg.Multiselect = true;
             if (fdlg.ShowDialog() == DialogResult.OK)
-                trainFilePath = fdlg.FileName;
+                trainFilePath = fdlg.FileNames;
 
-            foreach (int maxDepth in maxDepths)
-                foreach (int minElementsPerLeaf in minEltsPerLeafs)
-                    foreach (int nTrees in nTreess)
-                    {
-                        List<EnsembleTrees> models = new List<EnsembleTrees>();
-                        models.Add(new EnsembleTrees(maxDepth, minElementsPerLeaf, nTrees));
-                        GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePath, testFilePath);
-                        models.Clear();
-                    }
+            fdlg = new OpenFileDialog();
+            fdlg.Title = "Validation file path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                validationFilePath = fdlg.FileName;
+
+            for (int i = 0; i < trainFilePath.Length; i++)
+            {
+                List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
+                models.Add(new KNN(Distances.Euclide,1,0.1,new ToSphere()));
+                GenericMLHelper.TrainPredictAndValidate(models.ToArray(), testFilePath, trainFilePath[i], validationFilePath);
+            }
+
         }
-
     }
 }

@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace DataScienceECom
+﻿namespace DataScienceECom
 {
     public interface IStreamingModel
     {
         void Update(int y, string[] predictors);
 
         int Predict(string[] predictors);
-
-
 
         int Refresh { get; }
 

@@ -6,7 +6,6 @@ using DataScienceECom;
 namespace NDSB.Models.SparseModels
 {
     using Point = Dictionary<string, double>;
-    using System.Diagnostics;
 
     public class DecisionTree : IModelClassification<Point>
     {
@@ -14,11 +13,9 @@ namespace NDSB.Models.SparseModels
         private int[] _labels = new int[0];
         private Point[] _points = new Point[0];
 
-        // Parameters
         private int _minElementsPerLeaf;
         private int _maxDepth;
 
-        // Model
         private HashSet<string> _splitters = new HashSet<string>();
 
         private BinaryTree<string> _rules;
@@ -35,10 +32,7 @@ namespace NDSB.Models.SparseModels
             _labels = labels;
             _points = points;
 
-            // sorting it allows performance improvement later
             _invertedIndexes = SmartIndexes.InverseKeysAndSort(_points);
-
-            // only the following splitters are relevant
             _splitters = new HashSet<string>(_invertedIndexes.Where(kvp => kvp.Value.Length > _minElementsPerLeaf).Select(k => k.Key));
 
             int[] allIndexes = new int[labels.Length];
@@ -63,10 +57,10 @@ namespace NDSB.Models.SparseModels
             }
 
             rules.Node = currentSplitter;
-            int[] indexesLeft = SmartIndexes.IntersectSortedIntUnsafe(_invertedIndexes[currentSplitter], subIndexes);
             rules.LeftChild = new BinaryTree<string>();
             rules.RightChild = new BinaryTree<string>();
 
+            int[] indexesLeft = SmartIndexes.IntersectSortedIntUnsafe(_invertedIndexes[currentSplitter], subIndexes);
             TrainTree(rules.LeftChild, currentDepth, indexesLeft);
             indexesLeft = new int[0];
 
@@ -105,7 +99,7 @@ namespace NDSB.Models.SparseModels
             int[] initialLabels = GetElementsAt(_labels, subSelectedIndexes);
             EmpiricScore<int> initalLabelsDistribution = new EmpiricScore<int>(initialLabels);
 
-            double totalGini = initalLabelsDistribution.Gini(); // what if I randomly splitted the data set 
+            double totalGini = initalLabelsDistribution.Gini(); // what if no split happens ?
             string bestSplitter = "";
 
             List<string> splitters = GetSubsetOfCommonFeatures(subSelectedIndexes);
@@ -123,11 +117,11 @@ namespace NDSB.Models.SparseModels
                 int nRight = subSelectedIndexes.Length - initialLabels.Length;
                 if (nRight < _minElementsPerLeaf) continue;
 
-                EmpiricScore<int> histLeft = new EmpiricScore<int>(initialLabels);
-                double GiniLeft = histLeft.Gini();
+                EmpiricScore<int> countLeft = new EmpiricScore<int>(initialLabels);
+                double GiniLeft = countLeft.Gini();
 
-                EmpiricScore<int> histRight = initalLabelsDistribution.Except(histLeft);
-                double GiniRight = histRight.Gini();
+                EmpiricScore<int> countRight = initalLabelsDistribution.Except(countLeft);
+                double GiniRight = countRight.Gini();
 
                 double associatedGini = (nLeft * GiniLeft + nRight * GiniRight) / (nRight + nLeft);
 

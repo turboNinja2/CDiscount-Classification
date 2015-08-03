@@ -36,5 +36,12 @@ namespace DataScienceECom.Models
         {
             yield return new GMEntropia(0.5, 4, 6);
         }
+
+        public static IEnumerable<IStreamingModel> Entropia6()
+        {
+            yield return new GMEntropia(0.5, 4, 6, 500000); 
+            yield return new GMEntropia(0.5, 4, 7, 500000);
+            yield return new GMEntropia(0.5, 4, 8, 500000);
+        }
     }
 }
