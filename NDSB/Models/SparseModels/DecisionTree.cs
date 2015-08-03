@@ -105,7 +105,7 @@ namespace NDSB.Models.SparseModels
             int[] initialLabels = GetElementsAt(_labels, subSelectedIndexes);
             EmpiricScore<int> initalLabelsDistribution = new EmpiricScore<int>(initialLabels);
 
-            double totalGini = (initalLabelsDistribution).NormalizedEntropy() * 2; // what if I randomly splitted the data set 
+            double totalGini = initalLabelsDistribution.Gini(); // what if I randomly splitted the data set 
             string bestSplitter = "";
 
             List<string> splitters = GetSubsetOfCommonFeatures(subSelectedIndexes);
@@ -152,7 +152,7 @@ namespace NDSB.Models.SparseModels
                     string candidateSplitter = _points[subSelectedIndexes[i]].ElementAt(j).Key;
                     if (_splitters.Contains(candidateSplitter))
                         commonSplitters.Add(candidateSplitter);
-                    if (commonSplitters.Count > 600) return commonSplitters.ToList();
+                    if (commonSplitters.Count > 1000) return commonSplitters.ToList();
                 }
             return commonSplitters.ToList();
         }
