@@ -220,7 +220,7 @@ namespace DataScienceECom.Phis
             return new Tuple<int, List<string>>(answer, hashedPredictors);
         }
 
-        private static Tuple<int, List<string>> Stacker(string line, string header)
+        public static Tuple<int, List<string>> Stacker(string line, string header)
         {
             string[] predictors = (line).Split(';'),            
                 headerElements = header.Split(';');
@@ -236,7 +236,7 @@ namespace DataScienceECom.Phis
                     answer = Convert.ToInt32(predictors[i]);
                     continue;
                 }
-                hashedPredictors.Add(header[i] + "_" + line[i]);
+                hashedPredictors.Add(headerElements[i] + "_" + predictors[i]);
             }
             return new Tuple<int, List<string>>(answer, hashedPredictors);
         }

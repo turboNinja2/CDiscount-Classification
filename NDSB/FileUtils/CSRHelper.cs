@@ -10,9 +10,6 @@ namespace NDSB
         /// <summary>
         /// Imports a complete .csr file to a Dictionary<string, double>[]
         /// </summary>
-        /// <param name="inputFilePath"></param>
-        /// <param name="header"></param>
-        /// <returns></returns>
         public static Point[] ImportPoints(string inputFilePath, bool header = true, int prealloc = 1000000)
         {
             List<Dictionary<string, double>> points = new List<Dictionary<string, double>>(prealloc);
@@ -26,8 +23,6 @@ namespace NDSB
         /// <summary>
         /// Imports a line from a .csr file to a Dictionary<string,double>
         /// </summary>
-        /// <param name="current"></param>
-        /// <returns></returns>
         public static Point SparsePointFromString(string current)
         {
             Point sparseRepresentation = new Dictionary<string, double>(20);

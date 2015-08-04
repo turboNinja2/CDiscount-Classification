@@ -75,7 +75,7 @@ namespace DataScienceECom
             return result;
         }
 
-        public double NormalizedEntropy()
+        public double Entropy()
         {
             double entropy = 0;
             EmpiricScore<T> normalized = this.Normalize();
@@ -101,7 +101,7 @@ namespace DataScienceECom
 
         public static EmpiricScore<T> Merge(IList<EmpiricScore<T>> empiricScores)
         {
-            EmpiricScore<T> result = new EmpiricScore<T>();
+            EmpiricScore<T> result = new EmpiricScore<T>(empiricScores.Select(c => c.Scores.Count).Sum());
             foreach (EmpiricScore<T> empiricScore in empiricScores)
                 foreach (KeyValuePair<T, double> kvp in empiricScore.Scores)
                     result.UpdateKey(kvp.Key, kvp.Value);

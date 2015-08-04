@@ -42,8 +42,8 @@
             this.shuffleSeedTbx = new System.Windows.Forms.TextBox();
             this.splitTbx = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.NCTrainValidatePredictBtn = new System.Windows.Forms.Button();
             this.nearestCentroidPredictBtn = new System.Windows.Forms.Button();
+            this.NCTrainValidatePredictBtn = new System.Windows.Forms.Button();
             this.getHistogramBtn = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.predictSGDBtn = new System.Windows.Forms.Button();
@@ -56,6 +56,8 @@
             this.maxDepthLbl = new System.Windows.Forms.Label();
             this.maxDepthTbx = new System.Windows.Forms.TextBox();
             this.decisionTreePredictBtn = new System.Windows.Forms.Button();
+            this.extractColumnBtn = new System.Windows.Forms.Button();
+            this.extractColumnTbx = new System.Windows.Forms.TextBox();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -64,10 +66,9 @@
             // 
             // processBtn
             // 
-            this.processBtn.Location = new System.Drawing.Point(653, 42);
-            this.processBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.processBtn.Location = new System.Drawing.Point(490, 34);
             this.processBtn.Name = "processBtn";
-            this.processBtn.Size = new System.Drawing.Size(100, 28);
+            this.processBtn.Size = new System.Drawing.Size(75, 23);
             this.processBtn.TabIndex = 11;
             this.processBtn.Text = "32_64btn";
             this.processBtn.UseVisualStyleBackColor = true;
@@ -79,11 +80,11 @@
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.nbNeighbTbx);
             this.groupBox3.Controls.Add(this.validateKNNBtn);
-            this.groupBox3.Location = new System.Drawing.Point(15, 178);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox3.Location = new System.Drawing.Point(7, 152);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox3.Size = new System.Drawing.Size(271, 127);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Size = new System.Drawing.Size(203, 103);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "KNN";
@@ -91,10 +92,10 @@
             // 
             // predictKNNBtn
             // 
-            this.predictKNNBtn.Location = new System.Drawing.Point(5, 81);
-            this.predictKNNBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.predictKNNBtn.Location = new System.Drawing.Point(4, 66);
+            this.predictKNNBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.predictKNNBtn.Name = "predictKNNBtn";
-            this.predictKNNBtn.Size = new System.Drawing.Size(251, 25);
+            this.predictKNNBtn.Size = new System.Drawing.Size(188, 20);
             this.predictKNNBtn.TabIndex = 5;
             this.predictKNNBtn.Text = "Predict";
             this.predictKNNBtn.UseVisualStyleBackColor = true;
@@ -102,36 +103,37 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(5, 33);
+            this.label3.Location = new System.Drawing.Point(4, 27);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(144, 17);
+            this.label3.Size = new System.Drawing.Size(108, 13);
             this.label3.TabIndex = 4;
             this.label3.Text = "Nb neighbours (KNN)";
             // 
             // nbNeighbTbx
             // 
-            this.nbNeighbTbx.Location = new System.Drawing.Point(155, 28);
-            this.nbNeighbTbx.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.nbNeighbTbx.Location = new System.Drawing.Point(116, 23);
+            this.nbNeighbTbx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.nbNeighbTbx.Name = "nbNeighbTbx";
-            this.nbNeighbTbx.Size = new System.Drawing.Size(100, 22);
+            this.nbNeighbTbx.Size = new System.Drawing.Size(76, 20);
             this.nbNeighbTbx.TabIndex = 2;
             // 
             // validateKNNBtn
             // 
-            this.validateKNNBtn.Location = new System.Drawing.Point(5, 52);
-            this.validateKNNBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.validateKNNBtn.Location = new System.Drawing.Point(4, 42);
+            this.validateKNNBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.validateKNNBtn.Name = "validateKNNBtn";
-            this.validateKNNBtn.Size = new System.Drawing.Size(251, 25);
+            this.validateKNNBtn.Size = new System.Drawing.Size(188, 20);
             this.validateKNNBtn.TabIndex = 0;
             this.validateKNNBtn.Text = "CV";
             this.validateKNNBtn.UseVisualStyleBackColor = true;
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(12, 98);
-            this.button6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button6.Location = new System.Drawing.Point(9, 102);
+            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(216, 23);
+            this.button6.Size = new System.Drawing.Size(162, 19);
             this.button6.TabIndex = 5;
             this.button6.Text = "CSVMerger";
             this.button6.UseVisualStyleBackColor = true;
@@ -139,19 +141,18 @@
             // 
             // downSampleTbx
             // 
-            this.downSampleTbx.Location = new System.Drawing.Point(140, 70);
-            this.downSampleTbx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.downSampleTbx.Location = new System.Drawing.Point(105, 57);
             this.downSampleTbx.Name = "downSampleTbx";
-            this.downSampleTbx.Size = new System.Drawing.Size(88, 22);
+            this.downSampleTbx.Size = new System.Drawing.Size(67, 20);
             this.downSampleTbx.TabIndex = 20;
             this.downSampleTbx.Text = "1000";
             // 
             // shuffleBtn
             // 
-            this.shuffleBtn.Location = new System.Drawing.Point(12, 12);
-            this.shuffleBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.shuffleBtn.Location = new System.Drawing.Point(9, 10);
+            this.shuffleBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.shuffleBtn.Name = "shuffleBtn";
-            this.shuffleBtn.Size = new System.Drawing.Size(121, 23);
+            this.shuffleBtn.Size = new System.Drawing.Size(91, 19);
             this.shuffleBtn.TabIndex = 21;
             this.shuffleBtn.Text = "Shuffle";
             this.shuffleBtn.UseVisualStyleBackColor = true;
@@ -159,10 +160,10 @@
             // 
             // splitBtn
             // 
-            this.splitBtn.Location = new System.Drawing.Point(12, 41);
-            this.splitBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.splitBtn.Location = new System.Drawing.Point(9, 33);
+            this.splitBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.splitBtn.Name = "splitBtn";
-            this.splitBtn.Size = new System.Drawing.Size(121, 23);
+            this.splitBtn.Size = new System.Drawing.Size(91, 19);
             this.splitBtn.TabIndex = 22;
             this.splitBtn.Text = "Split";
             this.splitBtn.UseVisualStyleBackColor = true;
@@ -170,10 +171,10 @@
             // 
             // downSampleBtn
             // 
-            this.downSampleBtn.Location = new System.Drawing.Point(12, 70);
-            this.downSampleBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.downSampleBtn.Location = new System.Drawing.Point(9, 57);
+            this.downSampleBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.downSampleBtn.Name = "downSampleBtn";
-            this.downSampleBtn.Size = new System.Drawing.Size(121, 23);
+            this.downSampleBtn.Size = new System.Drawing.Size(91, 19);
             this.downSampleBtn.TabIndex = 23;
             this.downSampleBtn.Text = "DownSample";
             this.downSampleBtn.UseVisualStyleBackColor = true;
@@ -181,19 +182,17 @@
             // 
             // shuffleSeedTbx
             // 
-            this.shuffleSeedTbx.Location = new System.Drawing.Point(140, 12);
-            this.shuffleSeedTbx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.shuffleSeedTbx.Location = new System.Drawing.Point(105, 10);
             this.shuffleSeedTbx.Name = "shuffleSeedTbx";
-            this.shuffleSeedTbx.Size = new System.Drawing.Size(88, 22);
+            this.shuffleSeedTbx.Size = new System.Drawing.Size(67, 20);
             this.shuffleSeedTbx.TabIndex = 24;
             this.shuffleSeedTbx.Text = "0";
             // 
             // splitTbx
             // 
-            this.splitTbx.Location = new System.Drawing.Point(140, 42);
-            this.splitTbx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitTbx.Location = new System.Drawing.Point(105, 34);
             this.splitTbx.Name = "splitTbx";
-            this.splitTbx.Size = new System.Drawing.Size(88, 22);
+            this.splitTbx.Size = new System.Drawing.Size(67, 20);
             this.splitTbx.TabIndex = 25;
             this.splitTbx.Text = "0.9";
             this.splitTbx.TextChanged += new System.EventHandler(this.splitTbx_TextChanged);
@@ -201,43 +200,38 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.nearestCentroidPredictBtn);
-            this.groupBox1.Location = new System.Drawing.Point(293, 178);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Location = new System.Drawing.Point(220, 158);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox1.Size = new System.Drawing.Size(267, 73);
+            this.groupBox1.Size = new System.Drawing.Size(200, 59);
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Nearest Centroids";
             // 
-            // NCTrainValidatePredictBtn
-            // 
-            this.NCTrainValidatePredictBtn.Location = new System.Drawing.Point(301, 259);
-            this.NCTrainValidatePredictBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.NCTrainValidatePredictBtn.Name = "NCTrainValidatePredictBtn";
-            this.NCTrainValidatePredictBtn.Size = new System.Drawing.Size(259, 28);
-            this.NCTrainValidatePredictBtn.TabIndex = 1;
-            this.NCTrainValidatePredictBtn.Text = "Stack";
-            this.NCTrainValidatePredictBtn.UseVisualStyleBackColor = true;
-            this.NCTrainValidatePredictBtn.Click += new System.EventHandler(this.NCTrainValidatePredictBtn_Click);
-            // 
             // nearestCentroidPredictBtn
             // 
-            this.nearestCentroidPredictBtn.Location = new System.Drawing.Point(8, 28);
-            this.nearestCentroidPredictBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nearestCentroidPredictBtn.Location = new System.Drawing.Point(6, 23);
             this.nearestCentroidPredictBtn.Name = "nearestCentroidPredictBtn";
-            this.nearestCentroidPredictBtn.Size = new System.Drawing.Size(259, 28);
+            this.nearestCentroidPredictBtn.Size = new System.Drawing.Size(194, 23);
             this.nearestCentroidPredictBtn.TabIndex = 0;
             this.nearestCentroidPredictBtn.Text = "Predict";
             this.nearestCentroidPredictBtn.UseVisualStyleBackColor = true;
             this.nearestCentroidPredictBtn.Click += new System.EventHandler(this.nearestCentroidPredictBtn_Click);
             // 
+            // NCTrainValidatePredictBtn
+            // 
+            this.NCTrainValidatePredictBtn.Location = new System.Drawing.Point(226, 221);
+            this.NCTrainValidatePredictBtn.Name = "NCTrainValidatePredictBtn";
+            this.NCTrainValidatePredictBtn.Size = new System.Drawing.Size(194, 23);
+            this.NCTrainValidatePredictBtn.TabIndex = 1;
+            this.NCTrainValidatePredictBtn.Text = "Stack";
+            this.NCTrainValidatePredictBtn.UseVisualStyleBackColor = true;
+            this.NCTrainValidatePredictBtn.Click += new System.EventHandler(this.NCTrainValidatePredictBtn_Click);
+            // 
             // getHistogramBtn
             // 
-            this.getHistogramBtn.Location = new System.Drawing.Point(12, 128);
-            this.getHistogramBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.getHistogramBtn.Location = new System.Drawing.Point(9, 126);
             this.getHistogramBtn.Name = "getHistogramBtn";
-            this.getHistogramBtn.Size = new System.Drawing.Size(216, 28);
+            this.getHistogramBtn.Size = new System.Drawing.Size(162, 23);
             this.getHistogramBtn.TabIndex = 27;
             this.getHistogramBtn.Text = "Histogram";
             this.getHistogramBtn.UseVisualStyleBackColor = true;
@@ -246,21 +240,18 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.predictSGDBtn);
-            this.groupBox2.Location = new System.Drawing.Point(293, 25);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Location = new System.Drawing.Point(220, 20);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox2.Size = new System.Drawing.Size(267, 130);
+            this.groupBox2.Size = new System.Drawing.Size(200, 56);
             this.groupBox2.TabIndex = 27;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "SGD";
             // 
             // predictSGDBtn
             // 
-            this.predictSGDBtn.Location = new System.Drawing.Point(8, 23);
-            this.predictSGDBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.predictSGDBtn.Location = new System.Drawing.Point(6, 19);
             this.predictSGDBtn.Name = "predictSGDBtn";
-            this.predictSGDBtn.Size = new System.Drawing.Size(251, 28);
+            this.predictSGDBtn.Size = new System.Drawing.Size(188, 23);
             this.predictSGDBtn.TabIndex = 0;
             this.predictSGDBtn.Text = "Train validate predict";
             this.predictSGDBtn.UseVisualStyleBackColor = true;
@@ -276,40 +267,36 @@
             this.groupBox4.Controls.Add(this.maxDepthLbl);
             this.groupBox4.Controls.Add(this.maxDepthTbx);
             this.groupBox4.Controls.Add(this.decisionTreePredictBtn);
-            this.groupBox4.Location = new System.Drawing.Point(568, 116);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Location = new System.Drawing.Point(426, 94);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox4.Size = new System.Drawing.Size(267, 190);
+            this.groupBox4.Size = new System.Drawing.Size(200, 154);
             this.groupBox4.TabIndex = 27;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Decision Tree";
             // 
             // translateAndPredictRFBtn
             // 
-            this.translateAndPredictRFBtn.Location = new System.Drawing.Point(97, 107);
-            this.translateAndPredictRFBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.translateAndPredictRFBtn.Location = new System.Drawing.Point(73, 87);
             this.translateAndPredictRFBtn.Name = "translateAndPredictRFBtn";
-            this.translateAndPredictRFBtn.Size = new System.Drawing.Size(100, 28);
+            this.translateAndPredictRFBtn.Size = new System.Drawing.Size(75, 23);
             this.translateAndPredictRFBtn.TabIndex = 8;
             this.translateAndPredictRFBtn.Text = "Translate and predict";
             this.translateAndPredictRFBtn.UseVisualStyleBackColor = true;
             // 
             // nTreesTbx
             // 
-            this.nTreesTbx.Location = new System.Drawing.Point(97, 74);
-            this.nTreesTbx.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.nTreesTbx.Location = new System.Drawing.Point(73, 60);
+            this.nTreesTbx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.nTreesTbx.Name = "nTreesTbx";
-            this.nTreesTbx.Size = new System.Drawing.Size(100, 22);
+            this.nTreesTbx.Size = new System.Drawing.Size(76, 20);
             this.nTreesTbx.TabIndex = 7;
             // 
             // nTreesLbl
             // 
             this.nTreesLbl.AutoSize = true;
-            this.nTreesLbl.Location = new System.Drawing.Point(32, 78);
-            this.nTreesLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.nTreesLbl.Location = new System.Drawing.Point(24, 63);
             this.nTreesLbl.Name = "nTreesLbl";
-            this.nTreesLbl.Size = new System.Drawing.Size(47, 20);
+            this.nTreesLbl.Size = new System.Drawing.Size(39, 17);
             this.nTreesLbl.TabIndex = 6;
             this.nTreesLbl.Text = "nTrees";
             this.nTreesLbl.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -317,19 +304,18 @@
             // 
             // minEltsLeafTbx
             // 
-            this.minEltsLeafTbx.Location = new System.Drawing.Point(97, 48);
-            this.minEltsLeafTbx.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.minEltsLeafTbx.Location = new System.Drawing.Point(73, 39);
+            this.minEltsLeafTbx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.minEltsLeafTbx.Name = "minEltsLeafTbx";
-            this.minEltsLeafTbx.Size = new System.Drawing.Size(100, 22);
+            this.minEltsLeafTbx.Size = new System.Drawing.Size(76, 20);
             this.minEltsLeafTbx.TabIndex = 5;
             // 
             // minEltLeafLbl
             // 
             this.minEltLeafLbl.AutoSize = true;
-            this.minEltLeafLbl.Location = new System.Drawing.Point(4, 52);
-            this.minEltLeafLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.minEltLeafLbl.Location = new System.Drawing.Point(3, 42);
             this.minEltLeafLbl.Name = "minEltLeafLbl";
-            this.minEltLeafLbl.Size = new System.Drawing.Size(75, 20);
+            this.minEltLeafLbl.Size = new System.Drawing.Size(63, 17);
             this.minEltLeafLbl.TabIndex = 4;
             this.minEltLeafLbl.Text = "MinEltsLeaf";
             this.minEltLeafLbl.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -338,36 +324,55 @@
             // maxDepthLbl
             // 
             this.maxDepthLbl.AutoSize = true;
-            this.maxDepthLbl.Location = new System.Drawing.Point(15, 25);
-            this.maxDepthLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.maxDepthLbl.Location = new System.Drawing.Point(11, 20);
             this.maxDepthLbl.Name = "maxDepthLbl";
-            this.maxDepthLbl.Size = new System.Drawing.Size(71, 17);
+            this.maxDepthLbl.Size = new System.Drawing.Size(56, 13);
             this.maxDepthLbl.TabIndex = 3;
             this.maxDepthLbl.Text = "MaxDepth";
             // 
             // maxDepthTbx
             // 
-            this.maxDepthTbx.Location = new System.Drawing.Point(97, 21);
-            this.maxDepthTbx.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.maxDepthTbx.Location = new System.Drawing.Point(73, 17);
+            this.maxDepthTbx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.maxDepthTbx.Name = "maxDepthTbx";
-            this.maxDepthTbx.Size = new System.Drawing.Size(100, 22);
+            this.maxDepthTbx.Size = new System.Drawing.Size(76, 20);
             this.maxDepthTbx.TabIndex = 2;
             // 
             // decisionTreePredictBtn
             // 
-            this.decisionTreePredictBtn.Location = new System.Drawing.Point(97, 143);
-            this.decisionTreePredictBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.decisionTreePredictBtn.Location = new System.Drawing.Point(73, 116);
             this.decisionTreePredictBtn.Name = "decisionTreePredictBtn";
-            this.decisionTreePredictBtn.Size = new System.Drawing.Size(100, 28);
+            this.decisionTreePredictBtn.Size = new System.Drawing.Size(75, 23);
             this.decisionTreePredictBtn.TabIndex = 0;
             this.decisionTreePredictBtn.Text = "Predict";
             this.decisionTreePredictBtn.UseVisualStyleBackColor = true;
             // 
+            // extractColumnBtn
+            // 
+            this.extractColumnBtn.Location = new System.Drawing.Point(9, 79);
+            this.extractColumnBtn.Margin = new System.Windows.Forms.Padding(2);
+            this.extractColumnBtn.Name = "extractColumnBtn";
+            this.extractColumnBtn.Size = new System.Drawing.Size(91, 19);
+            this.extractColumnBtn.TabIndex = 29;
+            this.extractColumnBtn.Text = "Extract col";
+            this.extractColumnBtn.UseVisualStyleBackColor = true;
+            this.extractColumnBtn.Click += new System.EventHandler(this.extractColumnBtn_Click);
+            // 
+            // extractColumnTbx
+            // 
+            this.extractColumnTbx.Location = new System.Drawing.Point(105, 79);
+            this.extractColumnTbx.Name = "extractColumnTbx";
+            this.extractColumnTbx.Size = new System.Drawing.Size(67, 20);
+            this.extractColumnTbx.TabIndex = 28;
+            this.extractColumnTbx.Text = "3";
+            // 
             // MainScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(849, 319);
+            this.ClientSize = new System.Drawing.Size(637, 259);
+            this.Controls.Add(this.extractColumnBtn);
+            this.Controls.Add(this.extractColumnTbx);
             this.Controls.Add(this.NCTrainValidatePredictBtn);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
@@ -382,7 +387,6 @@
             this.Controls.Add(this.downSampleTbx);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.processBtn);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainScreen";
             this.Text = "Form1";
             this.groupBox3.ResumeLayout(false);
@@ -426,6 +430,8 @@
         private System.Windows.Forms.Label nTreesLbl;
         private System.Windows.Forms.Button translateAndPredictRFBtn;
         private System.Windows.Forms.Button NCTrainValidatePredictBtn;
+        private System.Windows.Forms.Button extractColumnBtn;
+        private System.Windows.Forms.TextBox extractColumnTbx;
     }
 }
 

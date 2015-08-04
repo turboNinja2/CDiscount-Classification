@@ -75,7 +75,7 @@ namespace DataScienceECom
                 if (predicted != received.Item1)
                     error++;
             }
-            return new Tuple<List<int>, double>(result, error / currentLine);
+            return new Tuple<List<int>, double>(result, 1 - error / currentLine);
         }
     }
 }

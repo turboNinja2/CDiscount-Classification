@@ -6,7 +6,7 @@ namespace NDSB.FileUtils
 {
     public static class CSVHelper
     {
-        public static void ColumnBind(string[] filePaths)
+        public static string ColumnBind(string[] filePaths)
         {
             List<string[]> enumerators = new List<string[]>();
             for (int i = 0; i < filePaths.Length; i++)
@@ -22,7 +22,21 @@ namespace NDSB.FileUtils
                 line.Remove(line.Length - 1);
                 toWrite.Add(line);
             }
-            File.WriteAllLines(Path.GetDirectoryName(filePaths[0]) + "\\Merged.csv", toWrite.ToArray());
+            string outFilePath = Path.GetDirectoryName(filePaths[0]) + "\\Merged.csv";
+            File.WriteAllLines(outFilePath, toWrite.ToArray());
+
+            return outFilePath;
+        }
+
+        public static string ExtractColumn(string filePath, int columnIndex)
+        {
+            List<string> col = new List<string>();
+            foreach(string line in LinesEnumerator.YieldLines(filePath))
+                col.Add(line.Split(';')[columnIndex]);
+
+            string outFilePath = Path.GetDirectoryName(filePath) + "\\" + Path.GetFileNameWithoutExtension(filePath) + "c_" + columnIndex + ".csv";
+            File.WriteAllLines(outFilePath, col.ToArray());
+            return outFilePath;
         }
     }
 }

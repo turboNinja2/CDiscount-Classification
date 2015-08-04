@@ -75,7 +75,7 @@
     <Compile Include="DataStructures\SmartIndexes.cs" />
     <Compile Include="Models\SparseModels\DecisionTree.cs" />
     <Compile Include="Models\SparseModels\GenericHelper.cs" />
-    <Compile Include="DataStructures\EmpiricScore.cs" />
+    <Compile Include="DataStructures\EmpriricScore.cs" />
     <Compile Include="Models\Streaming\Models\GenericModel1.cs" />
     <Compile Include="Models\Streaming\Models\GMEntropia.cs" />
     <Compile Include="Models\Streaming\Models\IStreamingModel.cs" />

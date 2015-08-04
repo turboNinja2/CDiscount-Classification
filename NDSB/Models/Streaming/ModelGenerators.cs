@@ -28,7 +28,7 @@ namespace DataScienceECom.Models
         public static IEnumerable<IStreamingModel> Entropia4()
         {
             for (int i = 6; i < 9; i += 1)
-                for (double j = 0.5; j < 0.9; j += 0.2)
+                for (double j = 0.1; j < 0.9; j += 0.1)
                     yield return new GMEntropia(j, 4, i);
         }
 
@@ -42,6 +42,19 @@ namespace DataScienceECom.Models
             yield return new GMEntropia(0.5, 4, 6, 500000); 
             yield return new GMEntropia(0.5, 4, 7, 500000);
             yield return new GMEntropia(0.5, 4, 8, 500000);
+        }
+
+        public static IEnumerable<IStreamingModel> Entropia7()
+        {
+            yield return new GMEntropia(0.5, 4, 7, 500000);
+            yield return new GMEntropia(0.7, 4, 7, 500000);
+            yield return new GMEntropia(0.9, 4, 7, 500000);
+            yield return new GMEntropia(1.1, 4, 7, 500000);
+
+            yield return new GMEntropia(0.5, 4, 6, 500000);
+            yield return new GMEntropia(0.7, 4, 6, 500000);
+            yield return new GMEntropia(0.9, 4, 6, 500000);
+            yield return new GMEntropia(1.1, 4, 6, 500000);
         }
     }
 }

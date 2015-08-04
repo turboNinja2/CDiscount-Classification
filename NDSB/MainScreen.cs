@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using NDSB.SparseMethods;
-using NDSB.FileUtils;
-using NDSB.SparseMappings;
-using NDSB.Models;
-using NDSB.Models.SparseModels;
 using DataScienceECom;
-using DataScienceECom.Phis;
 using DataScienceECom.Models;
+using DataScienceECom.Phis;
+using NDSB.FileUtils;
+using NDSB.Models.SparseModels;
+using NDSB.SparseMappings;
+using NDSB.SparseMethods;
 
 namespace NDSB
 {
@@ -148,11 +146,15 @@ namespace NDSB
 
             if (!validationFilesOFD.CheckFileExists) return;
 
+            OpenFileDialog testFileOFD = new OpenFileDialog();
+            testFileOFD.Title = "Test file path";
+            testFileOFD.ShowDialog();
+
             string currentDirectory = Path.GetDirectoryName(trainingFilesOFD.FileNames[0]),
-                testFilePath = currentDirectory + "\\test.csv",
+                testFilePath = testFileOFD.FileName,
                 cvFilePath = currentDirectory + "\\CrossValidation.csv";
 
-            List<Phi> phis = new List<Phi> { Phis.phi16 };
+            List<Phi> phis = new List<Phi> { Phis.Stacker };
 
             string[] learningFiles = trainingFilesOFD.FileNames;
             Array.Sort(learningFiles);
@@ -172,7 +174,7 @@ namespace NDSB
                         List<int> testModelPredictions = TrainModels.Predict(model, phi, testFilePath);
 
                         File.WriteAllText(Path.GetDirectoryName(file) + "\\submissions\\" +
-                            modelString + "_pred.csv", modelString);
+                            modelString + "_pred.csv", modelString + Environment.NewLine);
 
                         File.AppendAllLines(Path.GetDirectoryName(file) + "\\submissions\\" +
                             modelString + "_pred.csv",
@@ -184,7 +186,7 @@ namespace NDSB
 
                         File.WriteAllText(Path.GetDirectoryName(file) + "\\validations\\" +
                             modelString + "_val.csv",
-                            modelString);
+                            modelString + Environment.NewLine);
 
                         File.AppendAllLines(Path.GetDirectoryName(file) + "\\validations\\" +
                             modelString + "_val.csv",
@@ -232,17 +234,31 @@ namespace NDSB
             for (int i = 0; i < trainFilePath.Length; i++)
             {
                 List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
-                
+
                 models.Add(new DecisionTree(4500, 10));
 
-                models.Add(new NearestCentroid(new PureInteractions(1,20)));
-                
+                models.Add(new NearestCentroid(new PureInteractions(1, 20)));
+
                 models.Add(new KNN(Distances.Euclide, 1, 0.2, new ToSphere()));
-                
+
                 models.Add(new KNN(Distances.Euclide, 4, 0.2, new ToSphere()));
-                
+
                 GenericMLHelper.TrainPredictAndValidate(models.ToArray(), testFilePath, trainFilePath[i], validationFilePath);
             }
+
+        }
+
+        private void extractColumnBtn_Click(object sender, EventArgs e)
+        {
+            string filePath = "";
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "File path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                filePath = fdlg.FileName;
+
+            int columnIndex = Convert.ToInt32(extractColumnTbx.Text);
+
+            CSVHelper.ExtractColumn(filePath, columnIndex);
 
         }
     }

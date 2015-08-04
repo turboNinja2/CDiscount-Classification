@@ -13,7 +13,7 @@ namespace NDSB.SparseMethods
         private const int _PRE_ALLOC_NB_CENTROIDS_ = 6000;
         private const int _PRE_ALLOC_COMPONENTS_ = 1000;
 
-        private static ParallelOptions _parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = 6 };
+        private static ParallelOptions _parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = Globals.NbCores };
 
         #region Private members
         private Dictionary<int, Point> _centroids;

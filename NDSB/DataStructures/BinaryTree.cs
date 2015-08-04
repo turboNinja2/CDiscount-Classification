@@ -1,5 +1,8 @@
 ﻿namespace NDSB
 {
+    /// <summary>
+    /// A generic binary tree
+    /// </summary>
     public class BinaryTree<T>
     {
         #region Private attributes
