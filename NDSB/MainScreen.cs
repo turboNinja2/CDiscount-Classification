@@ -154,14 +154,14 @@ namespace NDSB
                 testFilePath = testFileOFD.FileName,
                 cvFilePath = currentDirectory + "\\CrossValidation.csv";
 
-            List<Phi> phis = new List<Phi> { Phis.Stacker };
+            List<Phi> phis = new List<Phi> { Phis.phi16, Phis.phi13 };
 
             string[] learningFiles = trainingFilesOFD.FileNames;
             Array.Sort(learningFiles);
             string[] validationFiles = validationFilesOFD.FileNames;
             Array.Sort(validationFiles);
 
-            foreach (IStreamingModel model in ModelGenerators.Entropia6())
+            foreach (IStreamingModel model in ModelGenerators.Entropia4())
                 for (int i = 0; i < learningFiles.Length; i++)
                     foreach (Phi phi in phis)
                     {
