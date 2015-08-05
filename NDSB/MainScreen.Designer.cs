@@ -59,6 +59,7 @@
             this.extractColumnBtn = new System.Windows.Forms.Button();
             this.extractColumnTbx = new System.Windows.Forms.TextBox();
             this.countCommonBtn = new System.Windows.Forms.Button();
+            this.trainAndPredictBtn = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -81,7 +82,7 @@
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.nbNeighbTbx);
             this.groupBox3.Controls.Add(this.validateKNNBtn);
-            this.groupBox3.Location = new System.Drawing.Point(7, 152);
+            this.groupBox3.Location = new System.Drawing.Point(11, 156);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
@@ -129,6 +130,7 @@
             this.validateKNNBtn.TabIndex = 0;
             this.validateKNNBtn.Text = "CV";
             this.validateKNNBtn.UseVisualStyleBackColor = true;
+            this.validateKNNBtn.Click += new System.EventHandler(this.validateKNNBtn_Click);
             // 
             // button6
             // 
@@ -202,9 +204,9 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.nearestCentroidPredictBtn);
-            this.groupBox1.Location = new System.Drawing.Point(220, 158);
+            this.groupBox1.Location = new System.Drawing.Point(226, 340);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 59);
+            this.groupBox1.Size = new System.Drawing.Size(200, 74);
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Nearest Centroids";
@@ -221,7 +223,7 @@
             // 
             // NCTrainValidatePredictBtn
             // 
-            this.NCTrainValidatePredictBtn.Location = new System.Drawing.Point(226, 221);
+            this.NCTrainValidatePredictBtn.Location = new System.Drawing.Point(590, 112);
             this.NCTrainValidatePredictBtn.Name = "NCTrainValidatePredictBtn";
             this.NCTrainValidatePredictBtn.Size = new System.Drawing.Size(194, 23);
             this.NCTrainValidatePredictBtn.TabIndex = 1;
@@ -241,17 +243,18 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.trainAndPredictBtn);
             this.groupBox2.Controls.Add(this.predictSGDBtn);
-            this.groupBox2.Location = new System.Drawing.Point(220, 65);
+            this.groupBox2.Location = new System.Drawing.Point(226, 156);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 56);
+            this.groupBox2.Size = new System.Drawing.Size(200, 182);
             this.groupBox2.TabIndex = 27;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "SGD";
             // 
             // predictSGDBtn
             // 
-            this.predictSGDBtn.Location = new System.Drawing.Point(6, 19);
+            this.predictSGDBtn.Location = new System.Drawing.Point(6, 140);
             this.predictSGDBtn.Name = "predictSGDBtn";
             this.predictSGDBtn.Size = new System.Drawing.Size(188, 23);
             this.predictSGDBtn.TabIndex = 0;
@@ -269,7 +272,7 @@
             this.groupBox4.Controls.Add(this.maxDepthLbl);
             this.groupBox4.Controls.Add(this.maxDepthTbx);
             this.groupBox4.Controls.Add(this.decisionTreePredictBtn);
-            this.groupBox4.Location = new System.Drawing.Point(426, 94);
+            this.groupBox4.Location = new System.Drawing.Point(14, 260);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(200, 154);
             this.groupBox4.TabIndex = 27;
@@ -278,12 +281,13 @@
             // 
             // translateAndPredictRFBtn
             // 
-            this.translateAndPredictRFBtn.Location = new System.Drawing.Point(73, 87);
+            this.translateAndPredictRFBtn.Location = new System.Drawing.Point(24, 87);
             this.translateAndPredictRFBtn.Name = "translateAndPredictRFBtn";
-            this.translateAndPredictRFBtn.Size = new System.Drawing.Size(75, 23);
+            this.translateAndPredictRFBtn.Size = new System.Drawing.Size(124, 23);
             this.translateAndPredictRFBtn.TabIndex = 8;
             this.translateAndPredictRFBtn.Text = "Translate and predict";
             this.translateAndPredictRFBtn.UseVisualStyleBackColor = true;
+            this.translateAndPredictRFBtn.Click += new System.EventHandler(this.translateAndPredictRFBtn_Click);
             // 
             // nTreesTbx
             // 
@@ -342,12 +346,13 @@
             // 
             // decisionTreePredictBtn
             // 
-            this.decisionTreePredictBtn.Location = new System.Drawing.Point(73, 116);
+            this.decisionTreePredictBtn.Location = new System.Drawing.Point(24, 116);
             this.decisionTreePredictBtn.Name = "decisionTreePredictBtn";
-            this.decisionTreePredictBtn.Size = new System.Drawing.Size(75, 23);
+            this.decisionTreePredictBtn.Size = new System.Drawing.Size(124, 23);
             this.decisionTreePredictBtn.TabIndex = 0;
             this.decisionTreePredictBtn.Text = "Predict";
             this.decisionTreePredictBtn.UseVisualStyleBackColor = true;
+            this.decisionTreePredictBtn.Click += new System.EventHandler(this.decisionTreePredictBtn_Click);
             // 
             // extractColumnBtn
             // 
@@ -378,11 +383,21 @@
             this.countCommonBtn.UseVisualStyleBackColor = true;
             this.countCommonBtn.Click += new System.EventHandler(this.countCommonBtn_Click);
             // 
+            // trainAndPredictBtn
+            // 
+            this.trainAndPredictBtn.Location = new System.Drawing.Point(6, 17);
+            this.trainAndPredictBtn.Name = "trainAndPredictBtn";
+            this.trainAndPredictBtn.Size = new System.Drawing.Size(188, 23);
+            this.trainAndPredictBtn.TabIndex = 1;
+            this.trainAndPredictBtn.Text = "Train and predict";
+            this.trainAndPredictBtn.UseVisualStyleBackColor = true;
+            this.trainAndPredictBtn.Click += new System.EventHandler(this.trainAndPredictBtn_Click);
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(637, 259);
+            this.ClientSize = new System.Drawing.Size(876, 465);
             this.Controls.Add(this.countCommonBtn);
             this.Controls.Add(this.extractColumnBtn);
             this.Controls.Add(this.extractColumnTbx);
@@ -446,6 +461,7 @@
         private System.Windows.Forms.Button extractColumnBtn;
         private System.Windows.Forms.TextBox extractColumnTbx;
         private System.Windows.Forms.Button countCommonBtn;
+        private System.Windows.Forms.Button trainAndPredictBtn;
     }
 }
 
