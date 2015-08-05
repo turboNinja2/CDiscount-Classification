@@ -154,7 +154,7 @@ namespace NDSB
                 testFilePath = testFileOFD.FileName,
                 cvFilePath = currentDirectory + "\\CrossValidation.csv";
 
-            List<Phi> phis = new List<Phi> { Phis.phi16, Phis.phi13 };
+            List<Phi> phis = new List<Phi> { Phis.phi17, Phis.phi16 };
 
             string[] learningFiles = trainingFilesOFD.FileNames;
             Array.Sort(learningFiles);
@@ -173,10 +173,10 @@ namespace NDSB
 
                         List<int> testModelPredictions = TrainModels.Predict(model, phi, testFilePath);
 
-                        File.WriteAllText(Path.GetDirectoryName(file) + "\\submissions\\" +
+                        File.WriteAllText(Path.GetDirectoryName(file) + "\\test\\" +
                             modelString + "_pred.csv", modelString + Environment.NewLine);
 
-                        File.AppendAllLines(Path.GetDirectoryName(file) + "\\submissions\\" +
+                        File.AppendAllLines(Path.GetDirectoryName(file) + "\\test\\" +
                             modelString + "_pred.csv",
                             testModelPredictions.Select(t => t.ToString()));
 
@@ -184,11 +184,11 @@ namespace NDSB
 
                         var validationModelPredictions = TrainModels.Validate(model, phi, validationFileName);
 
-                        File.WriteAllText(Path.GetDirectoryName(file) + "\\validations\\" +
+                        File.WriteAllText(Path.GetDirectoryName(file) + "\\validation\\" +
                             modelString + "_val.csv",
                             modelString + Environment.NewLine);
 
-                        File.AppendAllLines(Path.GetDirectoryName(file) + "\\validations\\" +
+                        File.AppendAllLines(Path.GetDirectoryName(file) + "\\validation\\" +
                             modelString + "_val.csv",
                             validationModelPredictions.Item1.Select(t => t.ToString()));
 
@@ -236,7 +236,6 @@ namespace NDSB
 
                 GenericMLHelper.TrainPredictAndValidate(models.ToArray(), testFilePath, trainFilePath[i], validationFilePath);
             }
-
         }
 
         private void extractColumnBtn_Click(object sender, EventArgs e)
@@ -250,7 +249,6 @@ namespace NDSB
             int columnIndex = Convert.ToInt32(extractColumnTbx.Text);
 
             CSVHelper.ExtractColumn(filePath, columnIndex);
-
         }
 
         private void countCommonBtn_Click(object sender, EventArgs e)
@@ -351,7 +349,6 @@ namespace NDSB
 
             for(int i = 0; i < minSizes.Length; i++)
                 models.Add(new DecisionTree(4500, minSizes[i]));
-
 
             OpenFileDialog fdlg = new OpenFileDialog();
             fdlg.Title = "Test file path (TFIDF)";

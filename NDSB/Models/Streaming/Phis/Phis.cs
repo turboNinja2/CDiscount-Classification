@@ -185,6 +185,34 @@ namespace DataScienceECom.Phis
 
             List<string> hashedPredictors = new List<string>();
             int answer = 0;
+
+            for (int i = 0; i < headerElements.Length; i++)
+            {
+                string currentHeaderElt = headerElements[i];
+                if (currentHeaderElt == "Categorie3")
+                {
+                    answer = Convert.ToInt32(predictors[i]);
+                    continue;
+                }
+
+                if (currentHeaderElt.StartsWith("Cat") || currentHeaderElt.StartsWith("Ident")) continue;
+
+                string[] splittedElt = predictors[i].Split(' ');
+                hashedPredictors.AddRange(CartesianProduct(splittedElt.Where(c => c.Length > 2).ToList()));
+
+            }
+            return new Tuple<int, List<string>>(answer, hashedPredictors);
+        }
+
+        private static Tuple<int, List<string>> phiInteract2(string line, string header,
+StringTransform sf, PriceTransform pt)
+        {
+            line = line.ToLower();
+            string[] predictors = (sf(line)).Split(';');
+            string[] headerElements = header.Split(';');
+
+            List<string> hashedPredictors = new List<string>();
+            int answer = 0;
             string priceHash = "";
             string brandHash = "";
 
@@ -209,20 +237,23 @@ namespace DataScienceECom.Phis
                 {
                     string brandName = predictors[i];
                     if (String.Equals(brandName, "aucune")) brandName = "";
-                    brandHash = "Mq_" + brandName;
+                    brandHash = "mq_" + brandName;
                     continue;
                 }
 
                 string[] splittedElt = predictors[i].Split(' ');
                 hashedPredictors.AddRange(CartesianProduct(splittedElt.Where(c => c.Length > 2).ToList()));
-
             }
+            hashedPredictors.Add(brandHash);
+            hashedPredictors.Add(priceHash);
+            hashedPredictors.Add(brandHash + priceHash);
             return new Tuple<int, List<string>>(answer, hashedPredictors);
         }
 
+
         public static Tuple<int, List<string>> Stacker(string line, string header)
         {
-            string[] predictors = (line).Split(';'),            
+            string[] predictors = (line).Split(';'),
                 headerElements = header.Split(';');
 
             List<string> hashedPredictors = new List<string>();
@@ -275,6 +306,10 @@ namespace DataScienceECom.Phis
         public static Tuple<int, List<string>> phi16(string line, string header)
         {
             return phiInteract(line, header, StringCleaner.RemoveMorePunctuationAndAccents3, PriceTransforms.LogPrice);
+        }
+        public static Tuple<int, List<string>> phi17(string line, string header)
+        {
+            return phiInteract2(line, header, StringCleaner.RemoveMorePunctuationAndAccents3, PriceTransforms.LogPrice);
         }
     }
 }
