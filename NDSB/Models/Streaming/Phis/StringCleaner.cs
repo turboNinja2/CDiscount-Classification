@@ -9,13 +9,6 @@ namespace DataScienceECom.Phis
             return input;
         }
 
-        public static string RemoveSomePunctuation(string input)
-        {
-            input = input.Replace(":", "");
-            input = input.Replace(".", "");
-            return input;
-        }
-
         public static string RemoveSomePunctuationAndAccents(string input)
         {
             input = input.Replace(":", "");
@@ -29,7 +22,6 @@ namespace DataScienceECom.Phis
             return input;
         }
 
-
         public static string RemoveMorePunctuationAndAccents(string input)
         {
             input = RemoveSomePunctuationAndAccents(input);
@@ -40,7 +32,6 @@ namespace DataScienceECom.Phis
 
             return input;
         }
-
 
         public static string RemoveMorePunctuationAndAccents2(string input)
         {
@@ -75,6 +66,5 @@ namespace DataScienceECom.Phis
 
             return input;
         }
-
     }
 }

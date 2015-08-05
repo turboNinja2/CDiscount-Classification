@@ -58,6 +58,7 @@
             this.decisionTreePredictBtn = new System.Windows.Forms.Button();
             this.extractColumnBtn = new System.Windows.Forms.Button();
             this.extractColumnTbx = new System.Windows.Forms.TextBox();
+            this.countCommonBtn = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -66,7 +67,7 @@
             // 
             // processBtn
             // 
-            this.processBtn.Location = new System.Drawing.Point(490, 34);
+            this.processBtn.Location = new System.Drawing.Point(551, 12);
             this.processBtn.Name = "processBtn";
             this.processBtn.Size = new System.Drawing.Size(75, 23);
             this.processBtn.TabIndex = 11;
@@ -81,9 +82,9 @@
             this.groupBox3.Controls.Add(this.nbNeighbTbx);
             this.groupBox3.Controls.Add(this.validateKNNBtn);
             this.groupBox3.Location = new System.Drawing.Point(7, 152);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox3.Size = new System.Drawing.Size(203, 103);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
@@ -93,12 +94,13 @@
             // predictKNNBtn
             // 
             this.predictKNNBtn.Location = new System.Drawing.Point(4, 66);
-            this.predictKNNBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.predictKNNBtn.Margin = new System.Windows.Forms.Padding(2);
             this.predictKNNBtn.Name = "predictKNNBtn";
             this.predictKNNBtn.Size = new System.Drawing.Size(188, 20);
             this.predictKNNBtn.TabIndex = 5;
             this.predictKNNBtn.Text = "Predict";
             this.predictKNNBtn.UseVisualStyleBackColor = true;
+            this.predictKNNBtn.Click += new System.EventHandler(this.predictKNNBtn_Click);
             // 
             // label3
             // 
@@ -113,7 +115,7 @@
             // nbNeighbTbx
             // 
             this.nbNeighbTbx.Location = new System.Drawing.Point(116, 23);
-            this.nbNeighbTbx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.nbNeighbTbx.Margin = new System.Windows.Forms.Padding(2);
             this.nbNeighbTbx.Name = "nbNeighbTbx";
             this.nbNeighbTbx.Size = new System.Drawing.Size(76, 20);
             this.nbNeighbTbx.TabIndex = 2;
@@ -121,7 +123,7 @@
             // validateKNNBtn
             // 
             this.validateKNNBtn.Location = new System.Drawing.Point(4, 42);
-            this.validateKNNBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.validateKNNBtn.Margin = new System.Windows.Forms.Padding(2);
             this.validateKNNBtn.Name = "validateKNNBtn";
             this.validateKNNBtn.Size = new System.Drawing.Size(188, 20);
             this.validateKNNBtn.TabIndex = 0;
@@ -131,7 +133,7 @@
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(9, 102);
-            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(162, 19);
             this.button6.TabIndex = 5;
@@ -150,7 +152,7 @@
             // shuffleBtn
             // 
             this.shuffleBtn.Location = new System.Drawing.Point(9, 10);
-            this.shuffleBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.shuffleBtn.Margin = new System.Windows.Forms.Padding(2);
             this.shuffleBtn.Name = "shuffleBtn";
             this.shuffleBtn.Size = new System.Drawing.Size(91, 19);
             this.shuffleBtn.TabIndex = 21;
@@ -161,7 +163,7 @@
             // splitBtn
             // 
             this.splitBtn.Location = new System.Drawing.Point(9, 33);
-            this.splitBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitBtn.Margin = new System.Windows.Forms.Padding(2);
             this.splitBtn.Name = "splitBtn";
             this.splitBtn.Size = new System.Drawing.Size(91, 19);
             this.splitBtn.TabIndex = 22;
@@ -172,7 +174,7 @@
             // downSampleBtn
             // 
             this.downSampleBtn.Location = new System.Drawing.Point(9, 57);
-            this.downSampleBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.downSampleBtn.Margin = new System.Windows.Forms.Padding(2);
             this.downSampleBtn.Name = "downSampleBtn";
             this.downSampleBtn.Size = new System.Drawing.Size(91, 19);
             this.downSampleBtn.TabIndex = 23;
@@ -240,7 +242,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.predictSGDBtn);
-            this.groupBox2.Location = new System.Drawing.Point(220, 20);
+            this.groupBox2.Location = new System.Drawing.Point(220, 65);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(200, 56);
             this.groupBox2.TabIndex = 27;
@@ -286,7 +288,7 @@
             // nTreesTbx
             // 
             this.nTreesTbx.Location = new System.Drawing.Point(73, 60);
-            this.nTreesTbx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.nTreesTbx.Margin = new System.Windows.Forms.Padding(2);
             this.nTreesTbx.Name = "nTreesTbx";
             this.nTreesTbx.Size = new System.Drawing.Size(76, 20);
             this.nTreesTbx.TabIndex = 7;
@@ -305,7 +307,7 @@
             // minEltsLeafTbx
             // 
             this.minEltsLeafTbx.Location = new System.Drawing.Point(73, 39);
-            this.minEltsLeafTbx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.minEltsLeafTbx.Margin = new System.Windows.Forms.Padding(2);
             this.minEltsLeafTbx.Name = "minEltsLeafTbx";
             this.minEltsLeafTbx.Size = new System.Drawing.Size(76, 20);
             this.minEltsLeafTbx.TabIndex = 5;
@@ -333,7 +335,7 @@
             // maxDepthTbx
             // 
             this.maxDepthTbx.Location = new System.Drawing.Point(73, 17);
-            this.maxDepthTbx.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.maxDepthTbx.Margin = new System.Windows.Forms.Padding(2);
             this.maxDepthTbx.Name = "maxDepthTbx";
             this.maxDepthTbx.Size = new System.Drawing.Size(76, 20);
             this.maxDepthTbx.TabIndex = 2;
@@ -366,11 +368,22 @@
             this.extractColumnTbx.TabIndex = 28;
             this.extractColumnTbx.Text = "3";
             // 
+            // countCommonBtn
+            // 
+            this.countCommonBtn.Location = new System.Drawing.Point(550, 41);
+            this.countCommonBtn.Name = "countCommonBtn";
+            this.countCommonBtn.Size = new System.Drawing.Size(75, 23);
+            this.countCommonBtn.TabIndex = 30;
+            this.countCommonBtn.Text = "Count common";
+            this.countCommonBtn.UseVisualStyleBackColor = true;
+            this.countCommonBtn.Click += new System.EventHandler(this.countCommonBtn_Click);
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(637, 259);
+            this.Controls.Add(this.countCommonBtn);
             this.Controls.Add(this.extractColumnBtn);
             this.Controls.Add(this.extractColumnTbx);
             this.Controls.Add(this.NCTrainValidatePredictBtn);
@@ -432,6 +445,7 @@
         private System.Windows.Forms.Button NCTrainValidatePredictBtn;
         private System.Windows.Forms.Button extractColumnBtn;
         private System.Windows.Forms.TextBox extractColumnTbx;
+        private System.Windows.Forms.Button countCommonBtn;
     }
 }
 

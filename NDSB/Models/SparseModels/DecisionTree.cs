@@ -9,6 +9,8 @@ namespace NDSB.Models.SparseModels
 
     public class DecisionTree : IModelClassification<Point>
     {
+        #region Private Attributes
+
         private int[] _labels = new int[0];
         private Point[] _points = new Point[0];
 
@@ -19,6 +21,8 @@ namespace NDSB.Models.SparseModels
 
         private BinaryTree<string> _rules;
         private Dictionary<string, int[]> _invertedIndexes;
+
+        #endregion
 
         public DecisionTree(int maxDepth, int minElementsPerLeaf)
         {
@@ -52,6 +56,8 @@ namespace NDSB.Models.SparseModels
         {
             return "DTree_leafSize" + _minElementsPerLeaf + "md_" + _maxDepth + "bis";
         }
+
+        #region Private Methods
 
         private void TrainTree(BinaryTree<string> rules, int currentDepth, int[] subIndexes)
         {
@@ -141,5 +147,7 @@ namespace NDSB.Models.SparseModels
                 }
             return commonSplitters.ToList();
         }
+
+        #endregion
     }
 }

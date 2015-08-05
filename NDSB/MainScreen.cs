@@ -196,8 +196,6 @@ namespace NDSB
                     }
         }
 
-
-
         private void splitTbx_TextChanged(object sender, EventArgs e)
         {
 
@@ -207,7 +205,6 @@ namespace NDSB
         {
             return tbx.Text.Split(';').Select(c => Convert.ToInt32(c)).ToArray();
         }
-
 
         private void NCTrainValidatePredictBtn_Click(object sender, EventArgs e)
         {
@@ -260,6 +257,46 @@ namespace NDSB
 
             CSVHelper.ExtractColumn(filePath, columnIndex);
 
+        }
+
+        private void countCommonBtn_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog file1OFD = new OpenFileDialog();
+            file1OFD.Title = "File 1";
+            file1OFD.ShowDialog();
+            if (!file1OFD.CheckFileExists) return;
+
+            OpenFileDialog file2OFD = new OpenFileDialog();
+            file2OFD.Title = "File 2";
+            file2OFD.ShowDialog();
+            if (!file2OFD.CheckFileExists) return;
+
+            MessageBox.Show((100 * CSVHelper.CountElementsInCommont(file1OFD.FileName, file2OFD.FileName)).ToString());
+        }
+
+        private void predictKNNBtn_Click(object sender, EventArgs e)
+        {
+            string[] trainFilePaths = new string[1];
+            string testFilePath = "";
+
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "Test file path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                testFilePath = fdlg.FileName;
+
+            fdlg = new OpenFileDialog();
+            fdlg.Multiselect = true;
+            fdlg.Title = "Train file(s) path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                trainFilePaths = fdlg.FileNames;
+
+            for (int i = 0; i < trainFilePaths.Length; i++)
+            {
+                List<KNN> models = new List<KNN>();
+                models.Add(new KNN(Distances.Euclide, 1, 0.2, new ToSphere()));
+                GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
+                models.Clear();
+            }
         }
     }
 }

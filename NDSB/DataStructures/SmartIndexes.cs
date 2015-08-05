@@ -48,6 +48,12 @@ namespace NDSB.Models.SparseModels
             return invertedIndexes;
         }
 
+        /// <summary>
+        /// Fast function to intersect two sorted arrays of integers.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
         public static unsafe int[] IntersectSortedIntUnsafe(int[] source, int[] target)
         {
             var ints = new List<int>(Math.Min(source.Length, target.Length));

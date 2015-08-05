@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using NDSB.Models.SparseModels;
+using NDSB.SparseMappings;
 
 namespace NDSB
 {
-    using NDSB.Models.SparseModels;
     using Point = Dictionary<string, double>;
-    using NDSB.SparseMappings;
-    using System.Threading.Tasks;
 
     public class KNN : IModelClassification<Point>
     {
@@ -73,7 +73,7 @@ namespace NDSB
         /// <param name="newPoint"></param>
         /// <param name="nbNeighbours"></param>
         /// <returns></returns>
-        public int[] NearestLabels(int[] labels, Point[] sample, Point newPoint, int nbNeighbours, Distance distance)
+        private int[] NearestLabels(int[] labels, Point[] sample, Point newPoint, int nbNeighbours, Distance distance)
         {
             string[] keys = newPoint.Keys.ToArray();
             int[] relevantIndexes = PreselectNeighbours(keys, _invertedIndexes);
@@ -89,8 +89,6 @@ namespace NDSB
             int[] neighboursLabels = LazyBubbleSort(selectedLabels, distances, nbNeighbours);
             return neighboursLabels;
         }
-
-
 
         /// <summary>
         /// Performs k iterations of the bubble sort algorithm 

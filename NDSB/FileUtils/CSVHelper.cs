@@ -38,5 +38,18 @@ namespace NDSB.FileUtils
             File.WriteAllLines(outFilePath, col.ToArray());
             return outFilePath;
         }
+
+        public static double CountElementsInCommont(string file1Path, string file2Path)
+        {
+            string[] col1 = LinesEnumerator.YieldLines(file1Path).ToArray();
+            string[] col2 = LinesEnumerator.YieldLines(file2Path).ToArray();
+            int common = 0;
+
+            for (int i = 0; i < col1.Length; i++)
+                if(col1[i]==col2[i])
+                    common++;
+
+            return common * 1f / col2.Length;
+        }
     }
 }
