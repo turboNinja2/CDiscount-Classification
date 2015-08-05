@@ -307,7 +307,8 @@ namespace NDSB
             if (fdlg.ShowDialog() == DialogResult.OK)
                 trainFilePaths = fdlg.FileNames;
 
-            Phi phi = Phis.phi16;
+            // Best version of phi ;) (actually, really close to phi16)
+            Phi phi = Phis.phi17;
 
             foreach (IStreamingModel model in ModelGenerators.Entropia6())
                 for (int i = 0; i < trainFilePaths.Length; i++)
