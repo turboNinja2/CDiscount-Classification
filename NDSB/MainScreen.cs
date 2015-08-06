@@ -287,7 +287,7 @@ namespace NDSB
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
                 List<KNN> models = new List<KNN>();
-                models.Add(new KNN(Distances.Euclide, 1, 0.2, new ToSphere()));
+                models.Add(new KNN(Distances.SumSquares, 1, 0.2, new ToSphere()));
                 GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
                 models.Clear();
             }
@@ -381,6 +381,50 @@ namespace NDSB
         private void validateKNNBtn_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void KNNcvTfidfBtn_Click(object sender, EventArgs e)
+        {
+            string testTFIDFFilePath = "",
+             validationTFIDFFilePath = "",
+             trainFilePath = "";
+
+            string[] trainFilePathTFIDF = new string[0];
+
+            int[] nbNeighbours = ToIntArray(nbNeighbTbx);
+            List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
+
+            for (int i = 0; i < nbNeighbours.Length; i++)
+            {
+                models.Add(new KNN(Distances.SumSquares,nbNeighbours[i],0.2, new ToSphere()));
+                models.Add(new KNN(Distances.SumSquares, nbNeighbours[i], 0.2, new ToCube()));
+                models.Add(new KNN(Distances.Norm3, nbNeighbours[i], 0.2, new ToSphere()));
+                models.Add(new KNN(Distances.Norm3, nbNeighbours[i], 0.2, new ToCube()));
+            }
+
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "Test file path (TFIDF)";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                testTFIDFFilePath = fdlg.FileName;
+
+            fdlg = new OpenFileDialog();
+            fdlg.Title = "Train file(s) path (TFIDF)";
+            fdlg.Multiselect = true;
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                trainFilePathTFIDF = fdlg.FileNames;
+
+            fdlg = new OpenFileDialog();
+            fdlg.Title = "Train file(s) path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                trainFilePath = fdlg.FileName;
+
+            fdlg = new OpenFileDialog();
+            fdlg.Title = "Validation file path (TFIDF)";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                validationTFIDFFilePath = fdlg.FileName;
+
+            for (int i = 0; i < trainFilePathTFIDF.Length; i++)
+                GenericMLHelper.TrainPredictAndValidateTFIDF(models.ToArray(), trainFilePath, trainFilePathTFIDF[i], testTFIDFFilePath, validationTFIDFFilePath);
         }
     }
 }

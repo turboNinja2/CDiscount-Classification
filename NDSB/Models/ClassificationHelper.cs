@@ -6,7 +6,7 @@ namespace NDSB.Models
 {
     public static class ClassificationHelper
     {
-        private static ParallelOptions _parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = 6 };
+        private static ParallelOptions _parallelOptions = new ParallelOptions() { MaxDegreeOfParallelism = Globals.NbCores };
 
         public static int[] TrainAndPredict<T>(IModelClassification<T> model, T[] trainPoints, int[] labels, T[] testPoints)
         {
@@ -18,7 +18,6 @@ namespace NDSB.Models
                 int pred = model.Predict(testPoints[i]);
                 predicted[i] = pred;
             });
-
             return predicted;
         }
 

@@ -6,6 +6,7 @@ using DataScienceECom;
 namespace NDSB.Models.SparseModels
 {
     using Point = Dictionary<string, double>;
+    using System.Diagnostics;
 
     public class DecisionTree : IModelClassification<Point>
     {
@@ -62,6 +63,7 @@ namespace NDSB.Models.SparseModels
         private void TrainTree(BinaryTree<string> rules, int currentDepth, int[] subIndexes)
         {
             currentDepth--;
+
             string currentSplitter = FindeBestSplit(subIndexes);
 
             if (currentSplitter == "" || currentDepth == 0)
@@ -77,6 +79,7 @@ namespace NDSB.Models.SparseModels
             rules.RightChild = new BinaryTree<string>();
 
             int[] indexesLeft = SmartIndexes.IntersectSortedIntUnsafe(_invertedIndexes[currentSplitter], subIndexes);
+
             TrainTree(rules.LeftChild, currentDepth, indexesLeft);
             indexesLeft = new int[0];
 
@@ -96,7 +99,7 @@ namespace NDSB.Models.SparseModels
             int[] initialLabels = SmartIndexes.GetElementsAt(_labels, subSelectedIndexes);
             EmpiricScore<int> initalLabelsDistribution = new EmpiricScore<int>(initialLabels);
 
-            double totalGini = initalLabelsDistribution.Gini(); // what if no split happens ?
+            double bestGini = initalLabelsDistribution.Gini(); // what if no split happens ?
             string bestSplitter = "";
 
             List<string> splitters = GetSubsetOfCommonFeatures(subSelectedIndexes);
@@ -104,6 +107,7 @@ namespace NDSB.Models.SparseModels
             for (int i = 0; i < splitters.Count; i++)
             {
                 string splitter = splitters[i];
+
                 int[] relevantIndexes = SmartIndexes.IntersectSortedIntUnsafe(_invertedIndexes[splitter], subSelectedIndexes);
 
                 int nLeft = relevantIndexes.Length;
@@ -122,14 +126,14 @@ namespace NDSB.Models.SparseModels
 
                 double associatedGini = (nLeft * GiniLeft + nRight * GiniRight) / (nRight + nLeft);
 
-                if (associatedGini < totalGini)
+                if (associatedGini < bestGini)
                 {
-                    totalGini = associatedGini;
+                    bestGini = associatedGini;
                     bestSplitter = splitter;
                 }
             }
 
-            if (totalGini < 0.1) return "";
+            if (bestGini < 0.1) return "";
 
             return bestSplitter;
         }

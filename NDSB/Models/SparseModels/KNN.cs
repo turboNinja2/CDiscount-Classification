@@ -8,6 +8,7 @@ using NDSB.SparseMappings;
 namespace NDSB
 {
     using Point = Dictionary<string, double>;
+    using System.Diagnostics;
 
     public class KNN : IModelClassification<Point>
     {
@@ -62,7 +63,7 @@ namespace NDSB
 
         public string Description()
         {
-            return "KNN_min" + _minTFIDF + "_k" + _nbNeighbours + "_dist" + _distance.Method.Name + "_map" + _mapping.Description() ;
+            return "KNN_min" + _minTFIDF + "_k" + _nbNeighbours + "_dist" + _distance.Method.Name + "_map" + _mapping.Description();
         }
 
         /// <summary>
@@ -73,20 +74,24 @@ namespace NDSB
         /// <param name="newPoint"></param>
         /// <param name="nbNeighbours"></param>
         /// <returns></returns>
+        /// 
         private int[] NearestLabels(int[] labels, Point[] sample, Point newPoint, int nbNeighbours, Distance distance)
         {
             string[] keys = newPoint.Keys.ToArray();
-            int[] relevantIndexes = PreselectNeighbours(keys, _invertedIndexes);
 
+            int[] relevantIndexes = PreselectNeighbours(keys, _invertedIndexes);
             double[] distances = new double[relevantIndexes.Length];
             int[] selectedLabels = new int[relevantIndexes.Length];
 
             for (int i = 0; i < relevantIndexes.Length; i++)
             {
-                distances[i] = distance(newPoint, sample[relevantIndexes[i]]);
-                selectedLabels[i] = labels[relevantIndexes[i]];
+                int relevantIndex = relevantIndexes[i];
+                distances[i] = distance(newPoint, sample[relevantIndex]);
+                selectedLabels[i] = labels[relevantIndex];
             }
+
             int[] neighboursLabels = LazyBubbleSort(selectedLabels, distances, nbNeighbours);
+
             return neighboursLabels;
         }
 
@@ -129,11 +134,13 @@ namespace NDSB
         /// <returns></returns>
         private static int[] PreselectNeighbours(string[] keywords, Dictionary<string, int[]> invertedIndexes)
         {
+
             List<int> candidateIndexes = new List<int>();
             for (int i = 0; i < keywords.Length; i++)
                 if (invertedIndexes.ContainsKey(keywords[i]))
                     candidateIndexes.AddRange(invertedIndexes[keywords[i]]);
             return candidateIndexes.Distinct().ToArray();
+
         }
     }
 }

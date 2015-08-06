@@ -4,6 +4,6 @@
     {
         public static char Separator = ';';
 
-        public static int NbCores = 6;
+        public static int NbCores = 7;
     }
 }
