@@ -66,5 +66,32 @@ namespace DataScienceECom.Phis
 
             return input;
         }
+
+
+        public static string RemoveMorePunctuationAndAccents4(string input)
+        {
+            input = input.Replace(":", "");
+            input = input.Replace(".", "");
+
+            input = input.Replace(")", " ");
+            input = input.Replace("(", " ");
+
+
+            input = input.Replace("é", "e");
+            input = input.Replace("è", "e");
+            input = input.Replace("ê", "e");
+            input = input.Replace("à", "a");
+
+            input = input.Replace("?", "");
+            input = input.Replace("!", "");
+            input = input.Replace("*", "");
+            input = input.Replace(".", "");
+
+            input = input.Replace("/", "");
+            input = input.Replace("-", "");
+            input = Regex.Replace(input, "<br*>", "");
+
+            return input;
+        }
     }
 }

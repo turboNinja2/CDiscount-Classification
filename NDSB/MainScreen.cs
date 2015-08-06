@@ -150,11 +150,13 @@ namespace NDSB
             testFileOFD.Title = "Test file path";
             testFileOFD.ShowDialog();
 
+            if (!testFileOFD.CheckFileExists) return;
+
             string currentDirectory = Path.GetDirectoryName(trainingFilesOFD.FileNames[0]),
                 testFilePath = testFileOFD.FileName,
                 cvFilePath = currentDirectory + "\\CrossValidation.csv";
 
-            List<Phi> phis = new List<Phi> { Phis.phi17, Phis.phi16 };
+            List<Phi> phis = new List<Phi> { Phis.phi18, Phis.phi19 };
 
             string[] learningFiles = trainingFilesOFD.FileNames;
             Array.Sort(learningFiles);
