@@ -25,7 +25,7 @@ namespace DataScienceECom
                     model.GarbageCollect();
 
                 Tuple<T, List<string>> received = phi(line, header);
-                model.Update(received.Item1, received.Item2.ToArray());
+                model.Update(received.Item1, received.Item2);
             }
             model.GarbageCollect();
         }
@@ -45,7 +45,7 @@ namespace DataScienceECom
                 }
 
                 Tuple<T, List<string>> received = phi(line, header);
-                U predicted = model.Predict(received.Item2.ToArray());
+                U predicted = model.Predict(received.Item2);
                 result.Add(predicted);
             }
             return result;

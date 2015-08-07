@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NDSB.Models.Streaming.Phis;
 
 namespace DataScienceECom.Models
 {
-    using Histogram = EmpiricScore<int>;
     using FeatureHistogram = Dictionary<string, EmpiricScore<int>>;
-    using NDSB.Models.Streaming.Phis;
+    using Histogram = EmpiricScore<int>;
 
     class HierarchicalSGD : IStreamingModel<Hierarchy, int>
     {
@@ -40,7 +40,7 @@ namespace DataScienceECom.Models
             _refresh = refresh;
         }
 
-        public new string ToString()
+        public string Description()
         {
             return ("HierSGD_" + Convert.ToString(_power) + "_" + Convert.ToString(_refresh) + "_" + Convert.ToString(_minValue) +
                 "_" + Convert.ToString(_maxEntropy));
@@ -58,11 +58,19 @@ namespace DataScienceECom.Models
 
             UpdateSubCat(y.Cat1, xs, _w1);
             xs.Add("c1_" + y.Cat1);
+
+            if (!_n.ContainsKey("c1_" + y.Cat1))
+                _n.Add("c1_" + y.Cat1, 0);
+            _n["c1_" + y.Cat1] += 1;
+
             UpdateSubCat(y.Cat2, xs, _w2);
             xs.Add("c2_" + y.Cat2);
-            UpdateSubCat(y.Cat3, xs, _w3);
 
-        
+            if (!_n.ContainsKey("c2_" + y.Cat2))
+                _n.Add("c2_" + y.Cat2, 0);
+            _n["c2_" + y.Cat2] += 1;
+
+            UpdateSubCat(y.Cat3, xs, _w3);
         }
 
         private void UpdateSubCat(int y, IList<string> xs, FeatureHistogram w)
@@ -116,16 +124,18 @@ namespace DataScienceECom.Models
             {
                 string currentKey = keys[i];
 
-                if (_n[currentKey] < _minValue)
+                if (_n.ContainsKey(currentKey) && _n[currentKey] < _minValue)
                 {
                     _w1.Remove(currentKey);
+                    _w2.Remove(currentKey);
+                    _w3.Remove(currentKey);
                     _n.Remove(currentKey);
                     continue;
                 }
 
-                if (_w1[currentKey].Entropy() > _maxEntropy)
+                if (_n.ContainsKey(currentKey) && _w3.ContainsKey(currentKey) && _w3[currentKey].Entropy() > _maxEntropy)
                 {
-                    _w1.Remove(currentKey);
+                    _w3.Remove(currentKey);
                     _n.Remove(currentKey);
                     _forbidden.Add(currentKey, true);
                 }

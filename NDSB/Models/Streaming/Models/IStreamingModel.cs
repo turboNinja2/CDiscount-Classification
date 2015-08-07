@@ -10,6 +10,8 @@ namespace DataScienceECom
 
         int Refresh { get; }
 
+        string Description();
+
         void GarbageCollect();
 
         void ClearModel();

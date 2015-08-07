@@ -82,7 +82,7 @@
     <Compile Include="Models\Streaming\Models\HierarchicalSGD.cs" />
     <Compile Include="Models\Streaming\Models\IStreamingModel.cs" />
     <Compile Include="Models\Streaming\ModelGenerators.cs" />
-    <Compile Include="Models\Streaming\Phis\HierachicalPhis.cs" />
+    <Compile Include="Models\Streaming\Phis\HierarchicalPhis.cs" />
     <Compile Include="Models\Streaming\Phis\Hierarchy.cs" />
     <Compile Include="Models\Streaming\Phis\Phis.cs" />
     <Compile Include="Models\Streaming\Phis\PriceTransforms.cs" />

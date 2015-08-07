@@ -33,7 +33,7 @@ namespace DataScienceECom.Models
             _refresh = refresh;
         }
 
-        public new string ToString()
+        public string Description()
         {
             return ("GMEntropia_" + Convert.ToString(_power) + "_" + Convert.ToString(_refresh) + "_" + Convert.ToString(_minValue) + 
                 "_" + Convert.ToString(_maxEntropy));

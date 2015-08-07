@@ -5,7 +5,7 @@ using NDSB.Models.Streaming.Phis;
 
 namespace DataScienceECom.Phis
 {
-    public static class HierachicalPhis
+    public partial class HierarchicalPhis
     {
         private static Tuple<Hierarchy, List<string>> phiSmart2(string line, string header,
     StringTransform sf,
@@ -92,7 +92,7 @@ namespace DataScienceECom.Phis
             return new Tuple<Hierarchy, List<string>>(answer, hashedPredictors);
         }
 
-        public static Tuple<Hierarchy, List<string>> phi18(string line, string header)
+        public static Tuple<Hierarchy, List<string>> HPhi1(string line, string header)
         {
             return phiSmart2(line, header, StringCleaner.RemoveMorePunctuationAndAccents4, 1, 20, 20, PriceTransforms.LogPrice);
         }

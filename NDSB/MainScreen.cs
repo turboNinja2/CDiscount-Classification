@@ -10,6 +10,7 @@ using NDSB.FileUtils;
 using NDSB.Models.SparseModels;
 using NDSB.SparseMappings;
 using NDSB.SparseMethods;
+using NDSB.Models.Streaming.Phis;
 
 namespace NDSB
 {
@@ -170,7 +171,7 @@ namespace NDSB
                         model.ClearModel();
                         TrainModels.TrainStreamingModel(model, phi, file);
                         string modelString = Path.GetFileNameWithoutExtension(file) + ";" + Path.GetFileNameWithoutExtension(validationFiles[i]) + ";" +
-                            phi.Method.Name + ";" + model.ToString();
+                            phi.Method.Name + ";" + model.Description();
 
                         List<int> testModelPredictions = TrainModels.Predict(model, phi, testFilePath);
 
@@ -317,7 +318,7 @@ namespace NDSB
                     model.ClearModel();
                     TrainModels.TrainStreamingModel(model, phi, file);
                     string modelString = Path.GetFileNameWithoutExtension(file) + ";" + Path.GetFileNameWithoutExtension(trainFilePaths[i]) + ";" +
-                        phi.Method.Name + ";" + model.ToString();
+                        phi.Method.Name + ";" + model.Description();
 
                     List<int> testModelPredictions = TrainModels.Predict(model, phi, testFilePath);
 
@@ -423,6 +424,72 @@ namespace NDSB
 
             for (int i = 0; i < trainFilePathTFIDF.Length; i++)
                 GenericMLHelper.TrainPredictAndValidateTFIDF(models.ToArray(), trainFilePath, trainFilePathTFIDF[i], testTFIDFFilePath, validationTFIDFFilePath);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog trainingFilesOFD = new OpenFileDialog();
+            trainingFilesOFD.Multiselect = true;
+            trainingFilesOFD.Title = "Train files path";
+            trainingFilesOFD.ShowDialog();
+            if (!trainingFilesOFD.CheckFileExists) return;
+
+            OpenFileDialog validationFilesOFD = new OpenFileDialog();
+            validationFilesOFD.Multiselect = true;
+            validationFilesOFD.Title = "Validation files path";
+            validationFilesOFD.ShowDialog();
+
+            if (!validationFilesOFD.CheckFileExists) return;
+
+            OpenFileDialog testFileOFD = new OpenFileDialog();
+            testFileOFD.Title = "Test file path";
+            testFileOFD.ShowDialog();
+
+            if (!testFileOFD.CheckFileExists) return;
+
+            string currentDirectory = Path.GetDirectoryName(trainingFilesOFD.FileNames[0]),
+                testFilePath = testFileOFD.FileName;
+
+            List<Phi<Hierarchy>> phis = new List<Phi<Hierarchy>> { HierarchicalPhis.HPhi1 };
+
+            string[] learningFiles = trainingFilesOFD.FileNames;
+            Array.Sort(learningFiles);
+            string[] validationFiles = validationFilesOFD.FileNames;
+            Array.Sort(validationFiles);
+
+            foreach (IStreamingModel<Hierarchy, int> model in ModelGenerators.HEntropia())
+                for (int i = 0; i < learningFiles.Length; i++)
+                    foreach (Phi<Hierarchy> phi in phis)
+                    {
+                        string file = learningFiles[i];
+                        model.ClearModel();
+                        TrainModels.TrainStreamingModel(model, phi, file);
+
+                        string modelString = Path.GetFileNameWithoutExtension(file) + ";" + Path.GetFileNameWithoutExtension(validationFiles[i]) + ";" +
+                            phi.Method.Name + ";" + model.Description();
+
+                        List<int> testModelPredictions = TrainModels.Predict(model, phi, testFilePath);
+
+                        File.WriteAllText(Path.GetDirectoryName(file) + "\\test\\" +
+                            modelString + "_pred.csv", modelString + Environment.NewLine);
+
+                        File.AppendAllLines(Path.GetDirectoryName(file) + "\\test\\" +
+                            modelString + "_pred.csv",
+                            testModelPredictions.Select(t => t.ToString()));
+
+                        string validationFileName = validationFiles[i];
+
+                        var validationModelPredictions = TrainModels.Predict(model, phi, validationFileName);
+
+                        File.WriteAllText(Path.GetDirectoryName(file) + "\\validation\\" +
+                            modelString + "_val.csv",
+                            modelString + Environment.NewLine);
+
+                        File.AppendAllLines(Path.GetDirectoryName(file) + "\\validation\\" +
+                            modelString + "_val.csv",
+                            validationModelPredictions.Select(t => t.ToString()));
+
+                    }
         }
     }
 }
