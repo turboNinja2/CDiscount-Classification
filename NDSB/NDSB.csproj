@@ -78,10 +78,12 @@
     <Compile Include="Models\SparseModels\DecisionTree.cs" />
     <Compile Include="Models\SparseModels\GenericHelper.cs" />
     <Compile Include="DataStructures\EmpriricScore.cs" />
-    <Compile Include="Models\Streaming\Models\GenericModel1.cs" />
     <Compile Include="Models\Streaming\Models\GMEntropia.cs" />
+    <Compile Include="Models\Streaming\Models\HierarchicalSGD.cs" />
     <Compile Include="Models\Streaming\Models\IStreamingModel.cs" />
     <Compile Include="Models\Streaming\ModelGenerators.cs" />
+    <Compile Include="Models\Streaming\Phis\HierachicalPhis.cs" />
+    <Compile Include="Models\Streaming\Phis\Hierarchy.cs" />
     <Compile Include="Models\Streaming\Phis\Phis.cs" />
     <Compile Include="Models\Streaming\Phis\PriceTransforms.cs" />
     <Compile Include="Models\Streaming\Phis\StringCleaner.cs" />
@@ -90,7 +92,6 @@
     <Compile Include="FileUtils\CSVHelper.cs" />
     <Compile Include="Models\IModelClassification.cs" />
     <Compile Include="Models\ClassificationHelper.cs" />
-    <Compile Include="SparseMappings\Interactions.cs" />
     <Compile Include="SparseMappings\Identity.cs" />
     <Compile Include="SparseMappings\IMapping.cs" />
     <Compile Include="SparseMappings\PureInteractions.cs" />

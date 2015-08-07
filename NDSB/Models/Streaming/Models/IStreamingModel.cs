@@ -1,17 +1,17 @@
-﻿namespace DataScienceECom
-{
-    public interface IStreamingModel
-    {
-        void Update(int y, string[] predictors);
+﻿using System.Collections.Generic;
 
-        int Predict(string[] predictors);
+namespace DataScienceECom
+{
+    public interface IStreamingModel<T, U>
+    {
+        void Update(T info, IList<string> predictors);
+
+        U Predict(IList<string> predictors);
 
         int Refresh { get; }
 
         void GarbageCollect();
 
         void ClearModel();
-
-        string ToString();
     }
 }

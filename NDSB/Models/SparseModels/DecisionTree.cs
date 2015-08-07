@@ -6,7 +6,6 @@ using DataScienceECom;
 namespace NDSB.Models.SparseModels
 {
     using Point = Dictionary<string, double>;
-    using System.Diagnostics;
 
     public class DecisionTree : IModelClassification<Point>
     {

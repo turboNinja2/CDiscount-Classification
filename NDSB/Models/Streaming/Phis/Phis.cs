@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using DataScienceECom.Phis;
 
 namespace DataScienceECom.Phis
 {
-    public delegate Tuple<int, List<string>> Phi(string line, string header);
-
-    public delegate int PriceTransform(double price);
+    public delegate Tuple<T, List<string>> Phi<T>(string line, string header);
 
     public delegate string StringTransform(string inputString);
 
@@ -176,6 +175,7 @@ namespace DataScienceECom.Phis
             return new Tuple<int, List<string>>(answer, hashedPredictors);
         }
 
+
         private static Tuple<int, List<string>> phiInteract(string line, string header,
     StringTransform sf, PriceTransform pt)
         {
@@ -250,53 +250,6 @@ StringTransform sf, PriceTransform pt)
             return new Tuple<int, List<string>>(answer, hashedPredictors);
         }
 
-        private static Tuple<int, List<string>> phiInteract3(string line, string header,
-StringTransform sf, PriceTransform pt)
-        {
-            line = line.ToLower();
-            string[] predictors = (sf(line)).Split(';');
-            string[] headerElements = header.Split(';');
-
-            List<string> hashedPredictors = new List<string>();
-            int answer = 0;
-            string priceHash = "";
-            string brandHash = "";
-
-            for (int i = 0; i < headerElements.Length; i++)
-            {
-                string currentHeaderElt = headerElements[i];
-                if (currentHeaderElt == "Categorie3")
-                {
-                    answer = Convert.ToInt32(predictors[i]);
-                    continue;
-                }
-
-                if (currentHeaderElt.StartsWith("Cat") || currentHeaderElt.StartsWith("Ident")) continue;
-
-                if (currentHeaderElt == "prix")
-                {
-                    priceHash = "px_" + pt(Convert.ToDouble(predictors[i], CultureInfo.GetCultureInfo("en-US")));
-                    continue;
-                }
-
-                if (currentHeaderElt == "Marque")
-                {
-                    string brandName = predictors[i];
-                    if (String.Equals(brandName, "aucune")) brandName = "";
-                    brandHash = "mq_" + brandName;
-                    continue;
-                }
-
-                string[] splittedElt = predictors[i].Split(' ');
-                hashedPredictors.AddRange(CartesianProduct(splittedElt.Where(c => c.Length > 2).Distinct().ToList()));
-            }
-            hashedPredictors.Add(brandHash);
-            hashedPredictors.Add(priceHash);
-            hashedPredictors.Add(brandHash + priceHash);
-            return new Tuple<int, List<string>>(answer, hashedPredictors);
-        }
-
-
         public static Tuple<int, List<string>> Stacker(string line, string header)
         {
             string[] predictors = (line).Split(';'),
@@ -364,10 +317,5 @@ StringTransform sf, PriceTransform pt)
             return phiInteract2(line, header, StringCleaner.RemoveMorePunctuationAndAccents4, PriceTransforms.LogPrice);
         }
 
-
-        public static Tuple<int, List<string>> phi19(string line, string header)
-        {
-            return phiInteract3(line, header, StringCleaner.RemoveMorePunctuationAndAccents4, PriceTransforms.LogPrice);
-        }
     }
 }
