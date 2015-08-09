@@ -426,7 +426,6 @@ StringTransform sf, PriceTransform pt)
 
         public static Tuple<int, List<string>> phi20(string line, string header)
         {
-           
             return phiInteract4(line, header, StringCleaner.RemoveMorePunctuationAndAccents5, PriceTransforms.LogPrice);
         }
 

@@ -163,7 +163,7 @@ namespace NDSB
             string[] validationFiles = validationFilesOFD.FileNames;
             Array.Sort(validationFiles);
 
-            foreach (IStreamingModel<int, int> model in ModelGenerators.Entropia5())
+            foreach (IStreamingModel<int, int> model in ModelGenerators.Entropia6())
                 for (int i = 0; i < learningFiles.Length; i++)
                     foreach (Phi<int> phi in phis)
                     {
