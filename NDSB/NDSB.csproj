@@ -99,10 +99,14 @@
     <Compile Include="SparseMappings\ToSphere.cs" />
     <Compile Include="SparseSpaces\HilbertSpace.cs" />
     <Compile Include="SparseSpaces\LinearSpace.cs" />
+    <Compile Include="TextUtils\Among.cs" />
     <Compile Include="TextUtils\DSCdiscountUtils.cs" />
     <Compile Include="FileUtils\CSRHelper.cs" />
     <Compile Include="SparseSpaces\Distances.cs" />
     <Compile Include="Models\SparseModels\KNN.cs" />
+    <Compile Include="TextUtils\FrenchStemmer.cs" />
+    <Compile Include="TextUtils\IStemmer.cs" />
+    <Compile Include="TextUtils\StemmerOperations.cs" />
     <Compile Include="TextUtils\TFIDF.cs" />
     <Compile Include="MainScreen.cs">
       <SubType>Form</SubType>

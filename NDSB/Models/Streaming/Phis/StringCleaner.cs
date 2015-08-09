@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Iveonik.Stemmers;
 
 namespace DataScienceECom.Phis
 {
@@ -93,5 +94,26 @@ namespace DataScienceECom.Phis
 
             return input;
         }
+
+        public static string RemoveMorePunctuationAndAccents5(string input)
+        {
+            input = input.Replace(":", "");
+            input = input.Replace(".", "");
+
+            input = input.Replace(")", " ");
+            input = input.Replace("(", " ");
+
+            input = input.Replace("?", "");
+            input = input.Replace("!", "");
+            input = input.Replace("*", "");
+            input = input.Replace(".", "");
+
+            input = input.Replace("/", "");
+            input = input.Replace("-", "");
+            input = Regex.Replace(input, "<br*>", "");
+
+            return input;
+        }
+
     }
 }

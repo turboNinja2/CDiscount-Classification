@@ -156,7 +156,7 @@ namespace NDSB
                 testFilePath = testFileOFD.FileName,
                 cvFilePath = currentDirectory + "\\CrossValidation.csv";
 
-            List<Phi> phis = new List<Phi> { Phis.phi18, Phis.phi19 };
+            List<Phi> phis = new List<Phi> { Phis.phi20, Phis.phi19 };
 
             string[] learningFiles = trainingFilesOFD.FileNames;
             Array.Sort(learningFiles);
@@ -336,7 +336,29 @@ namespace NDSB
 
         private void translateAndPredictRFBtn_Click(object sender, EventArgs e)
         {
+            int minLeafSize = Convert.ToInt32(minEltsLeafTbx.Text);
 
+            string[] trainFilePaths = new string[1];
+            string testFilePath = "";
+
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "Test file path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                testFilePath = fdlg.FileName;
+
+            fdlg = new OpenFileDialog();
+            fdlg.Multiselect = true;
+            fdlg.Title = "Train file(s) path";
+            if (fdlg.ShowDialog() == DialogResult.OK)
+                trainFilePaths = fdlg.FileNames;
+
+            for (int i = 0; i < trainFilePaths.Length; i++)
+            {
+                List<DecisionTree> models = new List<DecisionTree>();
+                models.Add(new DecisionTree(4500,minLeafSize));
+                GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
+                models.Clear();
+            }
         }
 
         private void decisionTreePredictBtn_Click(object sender, EventArgs e)
