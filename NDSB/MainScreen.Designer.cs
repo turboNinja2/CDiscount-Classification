@@ -30,6 +30,7 @@
         {
             this.processBtn = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.KNNcvTfidfBtn = new System.Windows.Forms.Button();
             this.predictKNNBtn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.nbNeighbTbx = new System.Windows.Forms.TextBox();
@@ -60,7 +61,7 @@
             this.extractColumnBtn = new System.Windows.Forms.Button();
             this.extractColumnTbx = new System.Windows.Forms.TextBox();
             this.countCommonBtn = new System.Windows.Forms.Button();
-            this.KNNcvTfidfBtn = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -93,6 +94,17 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "KNN";
             this.groupBox3.UseCompatibleTextRendering = true;
+            // 
+            // KNNcvTfidfBtn
+            // 
+            this.KNNcvTfidfBtn.Location = new System.Drawing.Point(4, 69);
+            this.KNNcvTfidfBtn.Margin = new System.Windows.Forms.Padding(2);
+            this.KNNcvTfidfBtn.Name = "KNNcvTfidfBtn";
+            this.KNNcvTfidfBtn.Size = new System.Drawing.Size(188, 20);
+            this.KNNcvTfidfBtn.TabIndex = 6;
+            this.KNNcvTfidfBtn.Text = "CV (TFIDF)";
+            this.KNNcvTfidfBtn.UseVisualStyleBackColor = true;
+            this.KNNcvTfidfBtn.Click += new System.EventHandler(this.KNNcvTfidfBtn_Click);
             // 
             // predictKNNBtn
             // 
@@ -206,7 +218,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.nearestCentroidPredictBtn);
-            this.groupBox1.Location = new System.Drawing.Point(313, 112);
+            this.groupBox1.Location = new System.Drawing.Point(602, 179);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(200, 74);
             this.groupBox1.TabIndex = 26;
@@ -245,11 +257,12 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.trainAndPredictBtn);
             this.groupBox2.Controls.Add(this.predictSGDBtn);
             this.groupBox2.Location = new System.Drawing.Point(313, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 86);
+            this.groupBox2.Size = new System.Drawing.Size(200, 137);
             this.groupBox2.TabIndex = 27;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "SGD";
@@ -395,16 +408,15 @@
             this.countCommonBtn.UseVisualStyleBackColor = true;
             this.countCommonBtn.Click += new System.EventHandler(this.countCommonBtn_Click);
             // 
-            // KNNcvTfidfBtn
+            // button1
             // 
-            this.KNNcvTfidfBtn.Location = new System.Drawing.Point(4, 69);
-            this.KNNcvTfidfBtn.Margin = new System.Windows.Forms.Padding(2);
-            this.KNNcvTfidfBtn.Name = "KNNcvTfidfBtn";
-            this.KNNcvTfidfBtn.Size = new System.Drawing.Size(188, 20);
-            this.KNNcvTfidfBtn.TabIndex = 6;
-            this.KNNcvTfidfBtn.Text = "CV (TFIDF)";
-            this.KNNcvTfidfBtn.UseVisualStyleBackColor = true;
-            this.KNNcvTfidfBtn.Click += new System.EventHandler(this.KNNcvTfidfBtn_Click);
+            this.button1.Location = new System.Drawing.Point(6, 90);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(188, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Train validate predict (hierarchical)";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainScreen
             // 
@@ -476,6 +488,7 @@
         private System.Windows.Forms.Button countCommonBtn;
         private System.Windows.Forms.Button trainAndPredictBtn;
         private System.Windows.Forms.Button KNNcvTfidfBtn;
+        private System.Windows.Forms.Button button1;
     }
 }
 

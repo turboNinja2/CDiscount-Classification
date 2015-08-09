@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DataScienceECom.Models
 {
-    class GMEntropia : IStreamingModel
+    class GMEntropia : IStreamingModel<int,int>
     {
         private static int preallocSize = 2000000;
 
@@ -33,13 +33,13 @@ namespace DataScienceECom.Models
             _refresh = refresh;
         }
 
-        public new string ToString()
+        public string Description()
         {
             return ("GMEntropia_" + Convert.ToString(_power) + "_" + Convert.ToString(_refresh) + "_" + Convert.ToString(_minValue) + 
                 "_" + Convert.ToString(_maxEntropy));
         }
 
-        public void Update(int y, string[] xs)
+        public void Update(int y, IList<string> xs)
         {
             if (Predict(xs) == y) return;
 
@@ -57,9 +57,9 @@ namespace DataScienceECom.Models
             }
         }
 
-        public int Predict(string[] xs)
+        public int Predict(IList<string> xs)
         {
-            EmpiricScore<int>[] ess = new EmpiricScore<int>[xs.Length];
+            EmpiricScore<int>[] ess = new EmpiricScore<int>[xs.Count];
             for (int i = 0; i < ess.Length; i++)
             {
                 if (_w.ContainsKey(xs[i]))

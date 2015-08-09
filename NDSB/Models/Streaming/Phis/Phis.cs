@@ -7,9 +7,7 @@ using Iveonik.Stemmers;
 
 namespace DataScienceECom.Phis
 {
-    public delegate Tuple<int, List<string>> Phi(string line, string header);
-
-    public delegate int PriceTransform(double price);
+    public delegate Tuple<T, List<string>> Phi<T>(string line, string header);
 
     public delegate string StringTransform(string inputString);
 
@@ -176,6 +174,7 @@ namespace DataScienceECom.Phis
 
             return new Tuple<int, List<string>>(answer, hashedPredictors);
         }
+
 
         private static Tuple<int, List<string>> phiInteract(string line, string header,
     StringTransform sf, PriceTransform pt)
@@ -351,7 +350,6 @@ StringTransform sf, PriceTransform pt)
         }
 
 
-
         public static Tuple<int, List<string>> Stacker(string line, string header)
         {
             string[] predictors = (line).Split(';'),
@@ -431,5 +429,6 @@ StringTransform sf, PriceTransform pt)
            
             return phiInteract4(line, header, StringCleaner.RemoveMorePunctuationAndAccents5, PriceTransforms.LogPrice);
         }
+
     }
 }

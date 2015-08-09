@@ -7,7 +7,7 @@ namespace DataScienceECom
 {
     public class TrainModels
     {
-        public static void TrainStreamingModel(IStreamingModel model, Phi phi, string file)
+        public static void TrainStreamingModel<T, U>(IStreamingModel<T, U> model, Phi<T> phi, string file)
         {
             int currentLine = 0;
             string header = "";
@@ -24,17 +24,17 @@ namespace DataScienceECom
                 if (currentLine % model.Refresh == 0)
                     model.GarbageCollect();
 
-                Tuple<int, List<string>> received = phi(line, header);
-                model.Update(received.Item1, received.Item2.ToArray());
+                Tuple<T, List<string>> received = phi(line, header);
+                model.Update(received.Item1, received.Item2);
             }
             model.GarbageCollect();
         }
 
-        public static List<int> Predict(IStreamingModel model, Phi phi, string testFile)
+        public static List<U> Predict<T, U>(IStreamingModel<T, U> model, Phi<T> phi, string testFile)
         {
             int currentLine = 0;
             string header = "";
-            List<int> result = new List<int>();
+            List<U> result = new List<U>();
             foreach (string line in LinesEnumerator.YieldLines(testFile))
             {
                 currentLine++;
@@ -44,38 +44,11 @@ namespace DataScienceECom
                     continue;
                 }
 
-                Tuple<int, List<string>> received = phi(line, header);
-                int predicted = model.Predict(received.Item2.ToArray());
+                Tuple<T, List<string>> received = phi(line, header);
+                U predicted = model.Predict(received.Item2);
                 result.Add(predicted);
             }
             return result;
-        }
-
-        public static Tuple<List<int>, double> Validate(IStreamingModel model, Phi phi, string testFile)
-        {
-            int currentLine = 0;
-            string header = "";
-            List<int> result = new List<int>();
-
-            double error = 0;
-
-            foreach (string line in LinesEnumerator.YieldLines(testFile))
-            {
-                currentLine++;
-                if (currentLine == 1)
-                {
-                    header = line;
-                    continue;
-                }
-
-                Tuple<int, List<string>> received = phi(line, header);
-                int predicted = model.Predict(received.Item2.ToArray());
-                result.Add(predicted);
-
-                if (predicted != received.Item1)
-                    error++;
-            }
-            return new Tuple<List<int>, double>(result, 1 - error / currentLine);
         }
     }
 }
