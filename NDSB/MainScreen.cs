@@ -456,13 +456,16 @@ namespace NDSB
             trainingFilesOFD.ShowDialog();
             if (!trainingFilesOFD.CheckFileExists) return;
 
+            
+            /*
             OpenFileDialog validationFilesOFD = new OpenFileDialog();
             validationFilesOFD.Multiselect = true;
             validationFilesOFD.Title = "Validation files path";
             validationFilesOFD.ShowDialog();
 
-            if (!validationFilesOFD.CheckFileExists) return;
 
+            if (!validationFilesOFD.CheckFileExists) return;
+            */
             OpenFileDialog testFileOFD = new OpenFileDialog();
             testFileOFD.Title = "Test file path";
             testFileOFD.ShowDialog();
@@ -476,9 +479,12 @@ namespace NDSB
 
             string[] learningFiles = trainingFilesOFD.FileNames;
             Array.Sort(learningFiles);
+            
+            /*
             string[] validationFiles = validationFilesOFD.FileNames;
             Array.Sort(validationFiles);
-
+            */
+            
             foreach (IStreamingModel<Hierarchy, int> model in ModelGenerators.HEntropia())
                 for (int i = 0; i < learningFiles.Length; i++)
                     foreach (Phi<Hierarchy> phi in phis)
@@ -487,7 +493,7 @@ namespace NDSB
                         model.ClearModel();
                         TrainModels.TrainStreamingModel(model, phi, file);
 
-                        string modelString = Path.GetFileNameWithoutExtension(file) + ";" + Path.GetFileNameWithoutExtension(validationFiles[i]) + ";" +
+                        string modelString = Path.GetFileNameWithoutExtension(file) + ";" + Path.GetFileNameWithoutExtension(testFilePath) + ";" +
                             phi.Method.Name + ";" + model.Description();
 
                         List<int> testModelPredictions = TrainModels.Predict(model, phi, testFilePath);
@@ -499,6 +505,7 @@ namespace NDSB
                             modelString + "_pred.csv",
                             testModelPredictions.Select(t => t.ToString()));
 
+                        /*
                         string validationFileName = validationFiles[i];
 
                         var validationModelPredictions = TrainModels.Predict(model, phi, validationFileName);
@@ -510,7 +517,7 @@ namespace NDSB
                         File.AppendAllLines(Path.GetDirectoryName(file) + "\\validation\\" +
                             modelString + "_val.csv",
                             validationModelPredictions.Select(t => t.ToString()));
-
+                        */
                     }
         }
     }
