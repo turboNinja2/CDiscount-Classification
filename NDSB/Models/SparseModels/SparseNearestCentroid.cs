@@ -6,7 +6,7 @@ using NDSB.SparseMappings;
 
 namespace NDSB.SparseMethods
 {
-    public class NearestCentroid<T> : IModelClassification<Dictionary<T, double>>
+    public class SparseNearestCentroid<T> : IModelClassification<Dictionary<T, double>>
     {
         private const int _PRE_ALLOC_NB_CENTROIDS_ = 6000;
         private const int _PRE_ALLOC_COMPONENTS_ = 1000;
@@ -18,7 +18,7 @@ namespace NDSB.SparseMethods
         private IMapping<Dictionary<T, double>> _mapping;
         #endregion
 
-        public NearestCentroid(IMapping<Dictionary<T, double>> map)
+        public SparseNearestCentroid(IMapping<Dictionary<T, double>> map)
         {
             _mapping = map;
         }

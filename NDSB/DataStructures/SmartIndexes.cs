@@ -91,9 +91,9 @@ namespace NDSB.Models.SparseModels
             return ints.ToArray();
         }
 
-        public static int[] GetElementsAt(int[] labels, int[] indexes)
+        public static T[] GetElementsAt<T>(T[] labels, int[] indexes)
         {
-            int[] result = new int[indexes.Length];
+            T[] result = new T[indexes.Length];
             for (int i = 0; i < indexes.Length; i++)
                 result[i] = labels[indexes[i]];
             return result;

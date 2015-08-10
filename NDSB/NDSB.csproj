@@ -76,9 +76,10 @@
     <Compile Include="FileUtils\GeneralFileUtils.cs" />
     <Compile Include="DataStructures\SmartIndexes.cs" />
     <Compile Include="ListExtensions.cs" />
+    <Compile Include="Models\SparseModels\BagOfWords.cs" />
     <Compile Include="Models\SparseModels\DecisionTree.cs" />
     <Compile Include="Models\SparseModels\GenericHelper.cs" />
-    <Compile Include="DataStructures\EmpriricScore.cs" />
+    <Compile Include="DataStructures\EmpiricScore.cs" />
     <Compile Include="Models\Streaming\Models\GMEntropia.cs" />
     <Compile Include="Models\Streaming\Models\HierarchicalSGD.cs" />
     <Compile Include="Models\Streaming\Models\IStreamingModel.cs" />
@@ -97,7 +98,7 @@
     <Compile Include="SparseMappings\IMapping.cs" />
     <Compile Include="SparseMappings\PureInteractions.cs" />
     <Compile Include="SparseMappings\ToCube.cs" />
-    <Compile Include="Models\SparseModels\NearestCentroid.cs" />
+    <Compile Include="Models\SparseModels\SparseNearestCentroid.cs" />
     <Compile Include="SparseMappings\ToSphere.cs" />
     <Compile Include="SparseSpaces\SparseHilbertSpace.cs" />
     <Compile Include="SparseSpaces\SparseLinearSpace.cs" />
