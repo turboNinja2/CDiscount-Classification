@@ -4,7 +4,7 @@ namespace DataScienceECom
 {
     public interface IStreamingModel<T, U>
     {
-        void Update(T info, IList<string> predictors);
+        void Update(T labels, IList<string> predictors);
 
         U Predict(IList<string> predictors);
 

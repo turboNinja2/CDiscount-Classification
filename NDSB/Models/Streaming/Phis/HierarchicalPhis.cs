@@ -7,7 +7,7 @@ namespace DataScienceECom.Phis
 {
     public partial class HierarchicalPhis
     {
-        private static Tuple<Hierarchy, List<string>> phiSmart2(string line, string header,
+        private static Tuple<Hierarchy, List<string>> GetPredictorsAndHierarchy(string line, string header,
     StringTransform sf,
     int minLetters, int maxLetters, int minLetters2,
     PriceTransform pt)
@@ -94,7 +94,7 @@ namespace DataScienceECom.Phis
 
         public static Tuple<Hierarchy, List<string>> HPhi1(string line, string header)
         {
-            return phiSmart2(line, header, StringCleaner.RemoveMorePunctuationAndAccents4, 1, 20, 20, PriceTransforms.LogPrice);
+            return GetPredictorsAndHierarchy(line, header, StringCleaner.RemoveMorePunctuationAndAccents4, 1, 20, 20, PriceTransforms.LogPrice);
         }
     }
 }

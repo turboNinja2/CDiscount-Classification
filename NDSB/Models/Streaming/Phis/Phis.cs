@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Iveonik.Stemmers;
+using NDSB;
 
 namespace DataScienceECom.Phis
 {
@@ -13,22 +14,6 @@ namespace DataScienceECom.Phis
 
     public static class Phis
     {
-        public static List<string> CartesianProduct(this List<string> input)
-        {
-            List<string> res = new List<string>();
-
-            for (int i = 0; i < input.Count; i++)
-                for (int j = i; j < input.Count; j++)
-                {
-                    string ki = input[i],
-                        kj = input[j];
-                    if (string.Compare(ki, kj) > 0)
-                        res.Add(ki + "_" + kj);
-                    else
-                        res.Add(kj + "_" + ki);
-                }
-            return res;
-        }
 
         private static Tuple<int, List<string>> phiSmart(string line, string header,
             StringTransform sf,
@@ -198,7 +183,7 @@ namespace DataScienceECom.Phis
                 if (currentHeaderElt.StartsWith("Cat") || currentHeaderElt.StartsWith("Ident")) continue;
 
                 string[] splittedElt = predictors[i].Split(' ');
-                hashedPredictors.AddRange(CartesianProduct(splittedElt.Where(c => c.Length > 2).ToList()));
+                hashedPredictors.AddRange(ListExtensions.CartesianProduct(splittedElt.Where(c => c.Length > 2).ToList()));
 
             }
             return new Tuple<int, List<string>>(answer, hashedPredictors);
@@ -242,7 +227,7 @@ StringTransform sf, PriceTransform pt)
                 }
 
                 string[] splittedElt = predictors[i].Split(' ');
-                hashedPredictors.AddRange(CartesianProduct(splittedElt.Where(c => c.Length > 2).ToList()));
+                hashedPredictors.AddRange(ListExtensions.CartesianProduct(splittedElt.Where(c => c.Length > 2).ToList()));
             }
             hashedPredictors.Add(brandHash);
             hashedPredictors.Add(priceHash);
@@ -288,7 +273,7 @@ StringTransform sf, PriceTransform pt)
                 }
 
                 string[] splittedElt = predictors[i].Split(' ');
-                hashedPredictors.AddRange(CartesianProduct(splittedElt.Where(c => c.Length > 2).Distinct().ToList()));
+                hashedPredictors.AddRange(ListExtensions.CartesianProduct(splittedElt.Where(c => c.Length > 2).Distinct().ToList()));
             }
             hashedPredictors.Add(brandHash);
             hashedPredictors.Add(priceHash);
@@ -341,7 +326,7 @@ StringTransform sf, PriceTransform pt)
                 for (int k = 0; k < splittedElt.Length; k++)
                     splittedElt[k] = fs.Stem(splittedElt[k]);
 
-                hashedPredictors.AddRange(CartesianProduct(splittedElt.Where(c => c.Length > 2).Distinct().ToList()));
+                hashedPredictors.AddRange(ListExtensions.CartesianProduct(splittedElt.Where(c => c.Length > 2).Distinct().ToList()));
             }
             hashedPredictors.Add(brandHash);
             hashedPredictors.Add(priceHash);

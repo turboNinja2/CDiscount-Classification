@@ -103,8 +103,8 @@ namespace NDSB
 
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
-                List<NearestCentroid> models = new List<NearestCentroid>();
-                models.Add(new NearestCentroid(new PureInteractions(1, 20)));
+                List<NearestCentroid<string>> models = new List<NearestCentroid<string>>();
+                models.Add(new NearestCentroid<string>(new PureInteractions(1, 20)));
                 GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath, false);
                 models.Clear();
             }
@@ -272,6 +272,8 @@ namespace NDSB
             string[] trainFilePaths = new string[1];
             string testFilePath = "";
 
+            int nbNeighbours = Convert.ToInt32(nbNeighbTbx.Text);
+
             OpenFileDialog fdlg = new OpenFileDialog();
             fdlg.Title = "Test file path";
             if (fdlg.ShowDialog() == DialogResult.OK)
@@ -285,8 +287,8 @@ namespace NDSB
 
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
-                List<KNN> models = new List<KNN>();
-                models.Add(new KNN(Distances.SumSquares, 1, 0.2, new ToSphere()));
+                List<SparseKNN<string>> models = new List<SparseKNN<string>>();
+                models.Add(new SparseKNN<string>(SparseDistances.SumSquares<string>, nbNeighbours, 0.15, new ToSphere<string>()));
                 GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath, true);
                 models.Clear();
             }
@@ -328,9 +330,7 @@ namespace NDSB
                     File.AppendAllLines(Path.GetDirectoryName(file) + "\\test\\" +
                         modelString + "_pred.csv",
                         testModelPredictions.Select(t => t.ToString()));
-
                 }
-
         }
 
         private void translateAndPredictRFBtn_Click(object sender, EventArgs e)
@@ -416,12 +416,7 @@ namespace NDSB
             List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
 
             for (int i = 0; i < nbNeighbours.Length; i++)
-            {
-                models.Add(new KNN(Distances.SumSquares, nbNeighbours[i], 0.2, new ToSphere()));
-                models.Add(new KNN(Distances.SumSquares, nbNeighbours[i], 0.2, new ToCube()));
-                models.Add(new KNN(Distances.Norm3, nbNeighbours[i], 0.2, new ToSphere()));
-                models.Add(new KNN(Distances.Norm3, nbNeighbours[i], 0.2, new ToCube()));
-            }
+                models.Add(new SparseKNN<string>(SparseDistances.SumSquares<string>, nbNeighbours[i], 0.15, new ToSphere<string>()));
 
             OpenFileDialog fdlg = new OpenFileDialog();
             fdlg.Title = "Test file path (TFIDF)";

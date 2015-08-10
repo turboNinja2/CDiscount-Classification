@@ -70,6 +70,7 @@ namespace DataScienceECom.Models
                 _n.Add("c2_" + y.Cat2, 0);
             _n["c2_" + y.Cat2] += 1;
 
+
             UpdateSubCat(y.Cat3, xs, _w3);
         }
 
