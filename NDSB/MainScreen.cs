@@ -355,7 +355,7 @@ namespace NDSB
             {
                 List<DecisionTree> models = new List<DecisionTree>();
                 models.Add(new DecisionTree(4500, minLeafSize));
-                GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath, false);
+                GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath, true);
                 models.Clear();
             }
         }
