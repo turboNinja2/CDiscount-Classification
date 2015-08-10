@@ -75,6 +75,7 @@
     <Compile Include="FileUtils\FSplitter.cs" />
     <Compile Include="FileUtils\GeneralFileUtils.cs" />
     <Compile Include="DataStructures\SmartIndexes.cs" />
+    <Compile Include="ListExtensions.cs" />
     <Compile Include="Models\SparseModels\DecisionTree.cs" />
     <Compile Include="Models\SparseModels\GenericHelper.cs" />
     <Compile Include="DataStructures\EmpriricScore.cs" />
@@ -98,13 +99,13 @@
     <Compile Include="SparseMappings\ToCube.cs" />
     <Compile Include="Models\SparseModels\NearestCentroid.cs" />
     <Compile Include="SparseMappings\ToSphere.cs" />
-    <Compile Include="SparseSpaces\HilbertSpace.cs" />
-    <Compile Include="SparseSpaces\LinearSpace.cs" />
+    <Compile Include="SparseSpaces\SparseHilbertSpace.cs" />
+    <Compile Include="SparseSpaces\SparseLinearSpace.cs" />
     <Compile Include="TextUtils\Among.cs" />
     <Compile Include="TextUtils\DSCdiscountUtils.cs" />
     <Compile Include="FileUtils\CSRHelper.cs" />
-    <Compile Include="SparseSpaces\Distances.cs" />
-    <Compile Include="Models\SparseModels\KNN.cs" />
+    <Compile Include="SparseSpaces\SparseDistances.cs" />
+    <Compile Include="Models\SparseModels\SparseKNN.cs" />
     <Compile Include="TextUtils\FrenchStemmer.cs" />
     <Compile Include="TextUtils\IStemmer.cs" />
     <Compile Include="TextUtils\StemmerOperations.cs" />

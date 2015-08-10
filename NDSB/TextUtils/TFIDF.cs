@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Iveonik.Stemmers;
 
 namespace NDSB
 {
@@ -43,11 +44,13 @@ namespace NDSB
         /// </summary>
         /// <param name="inputFilePath"></param>
         /// <param name="maxLines"></param>
-        public static string TextToTFIDFCSR(string inputFilePath, int maxLines = int.MaxValue)
+        public static string TextToTFIDFCSR(string inputFilePath, bool stem, int minVoc = 3, int maxLines = int.MaxValue)
         {
-            string outputFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + "_tfidf.csr";
+            string outputFilePath = Path.GetDirectoryName(inputFilePath) + "\\" + Path.GetFileNameWithoutExtension(inputFilePath) + stem.ToString() + minVoc.ToString() + "_tfidf.csr";
+
+
             List<string> buffer = new List<string>();
-            foreach (var cd in TFIDF.Transform2(LinesEnumerator.YieldLines(inputFilePath, maxLines)))
+            foreach (var cd in TFIDF.Transform2(LinesEnumerator.YieldLines(inputFilePath, maxLines), stem, minVoc))
             {
                 List<string> res = cd.Select(kvp => kvp.Key + ":" + Math.Round(kvp.Value, 3)).ToList();
                 string toWrite = String.Join(" ", res);
@@ -62,7 +65,7 @@ namespace NDSB
         /// </summary>
         private static ConcurrentDictionary<string, double> _vocabularyIDF = new ConcurrentDictionary<string, double>();
 
-        public static void Clear()
+        public static void ClearVocabulary()
         {
             _vocabularyIDF.Clear();
         }
@@ -74,38 +77,13 @@ namespace NDSB
         /// <param name="documents">string[]</param>
         /// <param name="vocabularyThreshold">Minimum number of occurences of the term within all documents</param>
         /// <returns>double[][]</returns>
-        public static double[][] Transform(IEnumerable<string> documents, int vocabularyThreshold = 3)
+        public static IEnumerable<Dictionary<string, double>> Transform2(IEnumerable<string> documents, bool stem, int vocabularyThreshold)
         {
             List<List<string>> stemmedDocs;
             List<string> vocabulary;
 
             // Get the vocabulary and stem the documents at the same time.
-            vocabulary = GetVocabulary(documents, out stemmedDocs, vocabularyThreshold);
-
-            if (_vocabularyIDF.Count == 0)
-            {
-                // Calculate the IDF for each vocabulary term.
-                int vocabularySize = vocabulary.Count;
-
-                Parallel.For(0, vocabularySize, i =>
-                    {
-                        string term = vocabulary[i];
-                        double numberOfDocsContainingTerm = stemmedDocs.Where(d => d.Contains(term)).Count();
-                        _vocabularyIDF[term] = Math.Log((double)stemmedDocs.Count / ((double)1 + numberOfDocsContainingTerm));
-                    });
-            }
-
-            // Transform each document into a vector of tfidf values.
-            return TransformToTFIDFVectors(stemmedDocs, _vocabularyIDF);
-        }
-
-        public static IEnumerable<Dictionary<string, double>> Transform2(IEnumerable<string> documents, int vocabularyThreshold = 4)
-        {
-            List<List<string>> stemmedDocs;
-            List<string> vocabulary;
-
-            // Get the vocabulary and stem the documents at the same time.
-            vocabulary = GetVocabulary(documents, out stemmedDocs, vocabularyThreshold);
+            vocabulary = GetVocabulary(documents, out stemmedDocs, vocabularyThreshold, stem);
 
             if (_vocabularyIDF.Count == 0)
             {
@@ -122,34 +100,6 @@ namespace NDSB
 
             // Transform each document into a vector of tfidf values.
             return GetSparseTFIDFVectors(stemmedDocs, _vocabularyIDF);
-        }
-
-        /// <summary>
-        /// Converts a list of stemmed documents (lists of stemmed words) and their associated vocabulary + idf values, into an array of TF*IDF values.
-        /// </summary>
-        /// <param name="docs">List of List of string</param>
-        /// <param name="vocabularyIDF">Dictionary of string, double (term, IDF)</param>
-        /// <returns>double[][]</returns>
-        private static double[][] TransformToTFIDFVectors(List<List<string>> docs, ConcurrentDictionary<string, double> vocabularyIDF)
-        {
-            // Transform each document into a vector of tfidf values.
-            List<List<double>> vectors = new List<List<double>>();
-            foreach (var doc in docs)
-            {
-                //List<double> vector = new List<double>();
-                double[] vector = new double[vocabularyIDF.Count()];
-
-                Parallel.For(0, vocabularyIDF.Count(), i =>
-                {
-                    KeyValuePair<string, double> vocab = vocabularyIDF.ElementAt(i);
-                    double tf = doc.Where(d => d == vocab.Key).Count();
-                    double tfidf = tf * vocab.Value;
-                    vector[i] = tfidf;
-                });
-
-                vectors.Add(vector.ToList());
-            }
-            return vectors.Select(v => v.ToArray()).ToArray();
         }
 
         /// <summary>
@@ -218,8 +168,10 @@ namespace NDSB
         /// <param name="docs">string[]</param>
         /// <param name="stemmedDocs">List of List of string</param>
         /// <returns>Vocabulary (list of strings)</returns>
-        private static List<string> GetVocabulary(IEnumerable<string> docs, out List<List<string>> stemmedDocs, int vocabularyThreshold)
+        private static List<string> GetVocabulary(IEnumerable<string> docs, out List<List<string>> stemmedDocs, int vocabularyThreshold, bool stem)
         {
+            FrenchStemmer fs = new FrenchStemmer();
+
             List<string> vocabulary = new List<string>();
             Dictionary<string, int> wordCountList = new Dictionary<string, int>();
             stemmedDocs = new List<List<string>>();
@@ -242,6 +194,9 @@ namespace NDSB
 
                     if (stripped.Length > 0)
                     {
+                        if (stem)
+                            stripped = fs.Stem(stripped);
+
                         // Build the word count list.
                         if (wordCountList.ContainsKey(stripped))
                             wordCountList[stripped]++;

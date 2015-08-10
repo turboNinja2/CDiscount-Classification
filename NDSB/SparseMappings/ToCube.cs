@@ -3,14 +3,14 @@ using System.Linq;
 
 namespace NDSB.SparseMappings
 {
-    public class ToCube : IMapping<Dictionary<string, double>>
+    public class ToCube<T> : IMapping<Dictionary<T, double>>
     {
-        public Dictionary<string, double> Map(Dictionary<string, double> input)
+        public Dictionary<T, double> Map(Dictionary<T, double> input)
         {
-            Dictionary<string, double> res = new Dictionary<string, double>();
+            Dictionary<T, double> res = new Dictionary<T, double>();
             if (input.Count() == 0) return res;
             double max = input.Select(kvp => kvp.Value).Max();
-            foreach (KeyValuePair<string, double> kvp in input)
+            foreach (KeyValuePair<T, double> kvp in input)
                 res.Add(kvp.Key, kvp.Value / max);
             return res;
         }

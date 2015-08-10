@@ -88,8 +88,6 @@ namespace NDSB.Models.SparseModels
                     }
                 }
             }
-
-            //ints.TrimExcess();
             return ints.ToArray();
         }
 

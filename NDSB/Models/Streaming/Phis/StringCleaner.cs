@@ -66,7 +66,6 @@ namespace DataScienceECom.Phis
             input = input.Replace(")", " ");
             input = input.Replace("(", " ");
 
-
             input = input.Replace("é", "e");
             input = input.Replace("è", "e");
             input = input.Replace("ê", "e");
