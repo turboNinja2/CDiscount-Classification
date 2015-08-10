@@ -9,10 +9,10 @@ namespace NDSB.Models.SparseModels
 
     public static class GenericMLHelper
     {
-        public static string TrainPredictAndWrite(IModelClassification<Point>[] models, string trainFilePath, string testFilePath)
+        public static string TrainPredictAndWrite(IModelClassification<Point>[] models, string trainFilePath, string testFilePath, bool stem)
         {
-            string tfidfTestFile = TFIDF.TextToTFIDFCSR(testFilePath),
-                tfidfTrainFile = TFIDF.TextToTFIDFCSR(trainFilePath);
+            string tfidfTestFile = TFIDF.TextToTFIDFCSR(testFilePath, stem),
+                tfidfTrainFile = TFIDF.TextToTFIDFCSR(trainFilePath, stem);
 
             return TrainPredictAndWriteFromTFIDF(models, trainFilePath, tfidfTrainFile, tfidfTestFile);
         }
@@ -48,7 +48,7 @@ namespace NDSB.Models.SparseModels
                 Tuple<int[], int[]> res = ClassificationHelper.TrainValidateAndPredict(models[i], trainSet, trainLabels, validationSet, testSet);
 
                 string desc = Path.GetFileNameWithoutExtension(trainFilePath) + models[i].Description();
-                
+
                 Directory.CreateDirectory(Path.GetDirectoryName(trainFilePath) + "\\test");
                 string testFilePath = Path.GetDirectoryName(trainFilePath) + "\\test\\test_" + desc + ".csv";
 
@@ -66,13 +66,13 @@ namespace NDSB.Models.SparseModels
             }
         }
 
-        public static void TrainPredictAndValidate(IModelClassification<Point>[] models, string testFilePath, string trainFilePath, string validationFilePath)
+        public static void TrainPredictAndValidate(IModelClassification<Point>[] models, string testFilePath, string trainFilePath, string validationFilePath, bool stem)
         {
-            string tfidfTestFile = TFIDF.TextToTFIDFCSR(testFilePath),
-                tfidfTrainFile = TFIDF.TextToTFIDFCSR(trainFilePath),
-                tfidfValidationFile = TFIDF.TextToTFIDFCSR(validationFilePath);
+            string tfidfTestFile = TFIDF.TextToTFIDFCSR(testFilePath, stem),
+                tfidfTrainFile = TFIDF.TextToTFIDFCSR(trainFilePath, stem),
+                tfidfValidationFile = TFIDF.TextToTFIDFCSR(validationFilePath, stem);
 
-            TFIDF.Clear();
+            TFIDF.ClearVocabulary();
             TrainPredictAndValidateTFIDF(models, trainFilePath, tfidfTrainFile, tfidfTestFile, tfidfValidationFile);
         }
 

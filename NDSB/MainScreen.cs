@@ -105,7 +105,7 @@ namespace NDSB
             {
                 List<NearestCentroid> models = new List<NearestCentroid>();
                 models.Add(new NearestCentroid(new PureInteractions(1, 20)));
-                GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
+                GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath, false);
                 models.Clear();
             }
         }
@@ -235,7 +235,7 @@ namespace NDSB
 
                 models.Add(new DecisionTree(4500, 5));
 
-                GenericMLHelper.TrainPredictAndValidate(models.ToArray(), testFilePath, trainFilePath[i], validationFilePath);
+                GenericMLHelper.TrainPredictAndValidate(models.ToArray(), testFilePath, trainFilePath[i], validationFilePath, false);
             }
         }
 
@@ -287,7 +287,7 @@ namespace NDSB
             {
                 List<KNN> models = new List<KNN>();
                 models.Add(new KNN(Distances.SumSquares, 1, 0.2, new ToSphere()));
-                GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
+                GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath, true);
                 models.Clear();
             }
         }
@@ -354,8 +354,8 @@ namespace NDSB
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
                 List<DecisionTree> models = new List<DecisionTree>();
-                models.Add(new DecisionTree(4500,minLeafSize));
-                GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath);
+                models.Add(new DecisionTree(4500, minLeafSize));
+                GenericMLHelper.TrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath, false);
                 models.Clear();
             }
         }

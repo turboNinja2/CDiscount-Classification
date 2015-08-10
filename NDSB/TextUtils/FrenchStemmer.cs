@@ -5,9 +5,6 @@
  *  
  *  Most of stemmers are ported from Java by Iveonik Systems ltd. (www.iveonik.com)
  */
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Iveonik.Stemmers
 {
