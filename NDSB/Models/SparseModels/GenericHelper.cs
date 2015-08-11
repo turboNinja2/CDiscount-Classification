@@ -5,12 +5,11 @@ using System.Linq;
 
 namespace NDSB.Models.SparseModels
 {
-    using HashedPoint = Dictionary<int, double>;
     using Point = Dictionary<string, double>;
 
     public static class GenericMLHelper
     {
-        public static string TrainPredictAndWrite(IModelClassification<Point>[] models, string trainFilePath, string testFilePath, bool stem)
+        public static string TranslateTrainPredictAndWrite(IModelClassification<Point>[] models, string trainFilePath, string testFilePath, bool stem)
         {
             string tfidfTestFile = TFIDF.TextToTFIDFCSR(testFilePath, stem),
                 tfidfTrainFile = TFIDF.TextToTFIDFCSR(trainFilePath, stem);
@@ -36,7 +35,7 @@ namespace NDSB.Models.SparseModels
             return trainFilePath;
         }
 
-        public static void TrainPredictAndValidateTFIDF(IModelClassification<Point>[] models, string trainFilePath, string tfidfTrainFile, string tfidfTestFile, string tfidfValidationFile)
+        public static void TrainPredictAndValidateFromTFIDF(IModelClassification<Point>[] models, string trainFilePath, string tfidfTrainFile, string tfidfTestFile, string tfidfValidationFile)
         {
             Point[] trainSet = CSRHelper.ImportPointsAsStrings(tfidfTrainFile),
                 testSet = CSRHelper.ImportPointsAsStrings(tfidfTestFile),
@@ -67,14 +66,14 @@ namespace NDSB.Models.SparseModels
             }
         }
 
-        public static void TrainPredictAndValidate(IModelClassification<Point>[] models, string testFilePath, string trainFilePath, string validationFilePath, bool stem)
+        public static void TranslateTrainPredictAndValidate(IModelClassification<Point>[] models, string testFilePath, string trainFilePath, string validationFilePath, bool stem)
         {
             string tfidfTestFile = TFIDF.TextToTFIDFCSR(testFilePath, stem),
                 tfidfTrainFile = TFIDF.TextToTFIDFCSR(trainFilePath, stem),
                 tfidfValidationFile = TFIDF.TextToTFIDFCSR(validationFilePath, stem);
 
             TFIDF.ClearVocabulary();
-            TrainPredictAndValidateTFIDF(models, trainFilePath, tfidfTrainFile, tfidfTestFile, tfidfValidationFile);
+            TrainPredictAndValidateFromTFIDF(models, trainFilePath, tfidfTrainFile, tfidfTestFile, tfidfValidationFile);
         }
 
     }

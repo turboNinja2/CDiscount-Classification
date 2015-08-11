@@ -6,13 +6,15 @@ using DataScienceECom;
 
 namespace NDSB.Models.SparseModels
 {
-    public class BagOfWords<T> : IModelClassification<Dictionary<T, double>>
+    public class BagOfWords<T> : IModelClassification<Dictionary<T, double>> 
     {
         private double _minTFIDF;
+        private double _maxGini;
+
         private const int _INVERTED_INDEXES_PREALLOC_ = 100000;
 
-        private Dictionary<List<T>, EmpiricScore<int>> _bags;
         private Dictionary<T, int[]> _invertedIndexes = new Dictionary<T, int[]>();
+        Dictionary<List<T>, EmpiricScore<int>> _pairsHistograms;
 
         private int[] _labels;
         private Dictionary<T, double>[] _points;
@@ -20,14 +22,12 @@ namespace NDSB.Models.SparseModels
         private int _minOccurences;
         private int _maxOccurences;
 
-        private Random _rnd;
-
-        public BagOfWords(int minOccurences, int maxOccurences, double minTFIDF)
+        public BagOfWords(int minOccurences, int maxOccurences, double maxGini, double minTFIDF)
         {
             _minTFIDF = minTFIDF;
             _minOccurences = minOccurences;
             _maxOccurences = maxOccurences;
-            _rnd = new Random(0);
+            _maxGini = maxGini;
         }
 
         public void Train(int[] labels, Dictionary<T, double>[] points)
@@ -41,58 +41,34 @@ namespace NDSB.Models.SparseModels
                 if (_invertedIndexes[keys[i]].Length > _maxOccurences || _invertedIndexes[keys[i]].Length < _minOccurences)
                     _invertedIndexes.Remove(keys[i]);
 
-            _bags = Get2Bags(_minOccurences);
-        }
+            Dictionary<List<T>, int[]> invertedPairs = SmartIndexes.InversePairs(_invertedIndexes, _minOccurences);
 
-        private Dictionary<List<T>, EmpiricScore<int>> Get2Bags(int minOccurences)
-        {
-            Dictionary<List<T>, EmpiricScore<int>> bags = new Dictionary<List<T>, EmpiricScore<int>>();
+            _pairsHistograms = new Dictionary<List<T>, EmpiricScore<int>>(new ListComparer<T>());
 
-            foreach (KeyValuePair<T, int[]> entry1 in _invertedIndexes)
+            foreach (KeyValuePair<List<T>, int[]> invertedPair in invertedPairs)
             {
-                foreach (KeyValuePair<T, int[]> entry2 in _invertedIndexes)
-                {
-                    if (entry2.Value.Length < minOccurences) continue;
-                    int[] intersectedIndexes = SmartIndexes.IntersectSortedIntUnsafe(entry1.Value, entry2.Value);
-                    if (intersectedIndexes.Length > minOccurences)
-                    {
-                        if (entry1.Key.Equals(entry2.Key)) break;
-
-                        int[] relevantLabels = SmartIndexes.GetElementsAt(_labels, intersectedIndexes);
-                        EmpiricScore<int> labelsScores = new EmpiricScore<int>(relevantLabels);
-                        bags.Add(new List<T>() { entry1.Key, entry2.Key }, labelsScores);
-
-                        /*
-                        foreach (KeyValuePair<T, int[]> entry3 in _invertedIndexes)
-                        {
-                            if (entry3.Key.Equals(entry2.Key) || entry3.Key.Equals(entry1.Key)) continue;
-
-                            int[] intersectedIndexes2 = SmartIndexes.IntersectSortedIntUnsafe(entry3.Value, intersectedIndexes);
-                            
-                            if (intersectedIndexes2.Length > minOccurences)
-                            {
-                                relevantLabels = SmartIndexes.GetElementsAt(_labels, intersectedIndexes);
-                                labelsScores = new EmpiricScore<int>(relevantLabels);
-                                bags.Add(new List<T>() { entry1.Key, entry2.Key, entry3.Key }, labelsScores);
-
-                            }
-                        }
-                        */
-                    }
-                }
+                int[] relevantLabels = SmartIndexes.GetElementsAt<int>(_labels, invertedPair.Value);
+                EmpiricScore<int> histogram = new EmpiricScore<int>(relevantLabels);
+                if(histogram.Gini() < _maxGini)
+                    _pairsHistograms.Add(invertedPair.Key, histogram);
             }
-
-            return bags;
         }
 
         public string Description()
         {
-            return "zizi";
+            return "BOW_" + _maxOccurences + "_" + _minOccurences + "_" + _maxGini + "_" + _minTFIDF;
         }
 
         public int Predict(Dictionary<T, double> point)
         {
-            return 0;
+            List<List<T>> bags = ListExtensions.CreateBags<T>(point.Keys.ToList());
+
+            List<EmpiricScore<int>> histograms = new List<EmpiricScore<int>>();
+            foreach (List<T> bag in bags)
+                if (_pairsHistograms.ContainsKey(bag))
+                    histograms.Add(_pairsHistograms[bag]);
+
+            return EmpiricScore<int>.Merge(histograms).MostLikelyElement();
         }
 
 

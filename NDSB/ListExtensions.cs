@@ -31,5 +31,21 @@ namespace NDSB
                 res.Add(input[i] + "_" + input2);
             return res;
         }
+
+        public static List<List<T>> CreateBags<T>(List<T> input)
+        {
+            List<List<T>> res = new List<List<T>>();
+            foreach (T elt1 in input)
+                foreach (T elt2 in input)
+                {
+                    if (elt1.Equals(elt2)) break;
+                    else
+                    {
+                        res.Add(new List<T>() { elt1, elt2 });
+                        res.Add(new List<T>() { elt2, elt1 });
+                    }
+                }
+            return res;
+        }
     }
 }

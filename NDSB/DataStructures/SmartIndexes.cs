@@ -48,6 +48,29 @@ namespace NDSB.Models.SparseModels
             return invertedIndexes;
         }
 
+        public static  Dictionary<List<T>, int[]> InversePairs<T>(Dictionary<T, int[]> invertedIndexes, int minOccurences = 0)
+        {
+            Dictionary<List<T>, int[]> bags = new Dictionary<List<T>, int[]>();
+
+            int nbLines = 0;
+            foreach (KeyValuePair<T, int[]> entry1 in invertedIndexes)
+            {
+                foreach (KeyValuePair<T, int[]> entry2 in invertedIndexes)
+                {
+                    nbLines++;
+
+                    if (entry1.Key.Equals(entry2.Key)) break; 
+
+                    if (entry2.Value.Length < minOccurences) continue;
+
+                    int[] intersectedIndexes = IntersectSortedIntUnsafe(entry1.Value, entry2.Value);
+                    if (intersectedIndexes.Length > minOccurences)
+                        bags.Add(new List<T>() { entry1.Key, entry2.Key }, intersectedIndexes);
+                }
+            }
+            return bags;
+        }
+
         /// <summary>
         /// Fast function to intersect two sorted arrays of integers.
         /// </summary>

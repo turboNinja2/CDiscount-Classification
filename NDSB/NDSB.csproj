@@ -75,6 +75,7 @@
     <Compile Include="FileUtils\FSplitter.cs" />
     <Compile Include="FileUtils\GeneralFileUtils.cs" />
     <Compile Include="DataStructures\SmartIndexes.cs" />
+    <Compile Include="ListComparer.cs" />
     <Compile Include="ListExtensions.cs" />
     <Compile Include="Models\SparseModels\BagOfWords.cs" />
     <Compile Include="Models\SparseModels\DecisionTree.cs" />
