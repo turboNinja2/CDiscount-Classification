@@ -52,6 +52,17 @@ namespace NDSB.Models.SparseModels
                 if(histogram.Gini() < _maxGini)
                     _pairsHistograms.Add(invertedPair.Key, histogram.Normalize());
             }
+
+            Dictionary<List<T>, int[]> invertedBags = SmartIndexes.InverseBags(_invertedIndexes, invertedPairs, _minOccurences);
+
+            foreach (KeyValuePair<List<T>, int[]> invertedBag in invertedBags)
+            {
+                int[] relevantLabels = SmartIndexes.GetElementsAt<int>(_labels, invertedBag.Value);
+                EmpiricScore<int> histogram = new EmpiricScore<int>(relevantLabels);
+                if (histogram.Gini() < _maxGini)
+                    _pairsHistograms.Add(invertedBag.Key, histogram.Normalize());
+            }
+
         }
 
         public string Description()
@@ -61,7 +72,7 @@ namespace NDSB.Models.SparseModels
 
         public int Predict(Dictionary<T, double> point)
         {
-            List<List<T>> bags = ListExtensions.CreateBags<T>(point.Keys.ToList());
+            List<List<T>> bags = ListExtensions.CreateSortedBags<T>(point.Keys.ToList());
 
             List<EmpiricScore<int>> histograms = new List<EmpiricScore<int>>();
             foreach (List<T> bag in bags)

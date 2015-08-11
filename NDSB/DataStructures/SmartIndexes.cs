@@ -77,6 +77,35 @@ namespace NDSB.Models.SparseModels
             return bags;
         }
 
+        public static Dictionary<List<T>, int[]> InverseBags<T>(Dictionary<T, int[]> invertedIndexes, Dictionary<List<T>, int[]> inputBags, int minOccurences = 0)
+        {
+            Dictionary<List<T>, int[]> newBags = new Dictionary<List<T>, int[]>();
+
+            foreach (KeyValuePair<List<T>, int[]> bag in inputBags)
+            {
+                if (bag.Value.Length < 2 * minOccurences) continue; // otherwise, things may get messy. This can be improved though.
+                List<T> bagOfWords = bag.Key; 
+                foreach (KeyValuePair<T, int[]> singleEntry in invertedIndexes)
+                {
+                    T word = singleEntry.Key;
+                    if(bagOfWords.Contains(word)) continue; // this is not a three elements bag;
+
+                    int[] intersectedIndexes = IntersectSortedIntUnsafe(bag.Value, singleEntry.Value);
+                    if (intersectedIndexes.Length > minOccurences)
+                    {
+                        List<T> keys = new List<T>(bagOfWords);
+                        keys.Add(word);
+                        keys.Sort();
+
+                        newBags.Add(keys, intersectedIndexes);
+                    }
+
+                }
+            }
+
+            return newBags;
+        }
+
         /// <summary>
         /// Fast function to intersect two sorted arrays of integers.
         /// </summary>

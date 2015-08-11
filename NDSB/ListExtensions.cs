@@ -29,7 +29,7 @@ namespace NDSB
             return res;
         }
 
-        public static List<List<T>> CreateBags<T>(List<T> input)
+        public static List<List<T>> CreateSortedBags<T>(List<T> input)
         {
             List<List<T>> res = new List<List<T>>();
             foreach (T elt1 in input)
