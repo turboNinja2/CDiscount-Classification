@@ -81,10 +81,13 @@ namespace NDSB.Models.SparseModels
         {
             Dictionary<List<T>, int[]> newBags = new Dictionary<List<T>, int[]>();
 
+            int nbLines = 0;
+
             foreach (KeyValuePair<List<T>, int[]> bag in inputBags)
             {
                 if (bag.Value.Length < 2 * minOccurences) continue; // otherwise, things may get messy. This can be improved though.
-                List<T> bagOfWords = bag.Key; 
+                List<T> bagOfWords = bag.Key;
+                nbLines++;
                 foreach (KeyValuePair<T, int[]> singleEntry in invertedIndexes)
                 {
                     T word = singleEntry.Key;
@@ -99,10 +102,8 @@ namespace NDSB.Models.SparseModels
 
                         newBags.Add(keys, intersectedIndexes);
                     }
-
                 }
             }
-
             return newBags;
         }
 
