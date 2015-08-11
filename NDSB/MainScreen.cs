@@ -396,6 +396,7 @@ namespace NDSB
         private void bowRunBtn_Click(object sender, EventArgs e)
         {
             List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
+            models.Add(new BagOfWords<string>(8, 500, 0.5, 3));
             models.Add(new BagOfWords<string>(5, 1000, 0.5, 3));
             models.Add(new BagOfWords<string>(5, 1000, 0.25, 3));
             models.Add(new BagOfWords<string>(5, 1000, 0.15, 3));

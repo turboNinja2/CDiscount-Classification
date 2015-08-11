@@ -77,7 +77,8 @@ namespace NDSB.Models.SparseModels
             return bags;
         }
 
-        public static Dictionary<List<T>, int[]> InverseBags<T>(Dictionary<T, int[]> invertedIndexes, Dictionary<List<T>, int[]> inputBags, int minOccurences = 0)
+        public static Dictionary<List<T>, int[]> InverseBags<T>(Dictionary<T, int[]> invertedIndexes,
+            Dictionary<List<T>, int[]> inputBags, int minOccurences = 0) where T : IComparable
         {
             Dictionary<List<T>, int[]> newBags = new Dictionary<List<T>, int[]>();
 
@@ -91,7 +92,8 @@ namespace NDSB.Models.SparseModels
                 foreach (KeyValuePair<T, int[]> singleEntry in invertedIndexes)
                 {
                     T word = singleEntry.Key;
-                    if(bagOfWords.Contains(word)) continue; // this is not a three elements bag;
+                    if (bagOfWords.Contains(word)) continue; // this is not a three elements bag;
+                    if (bagOfWords.Last().CompareTo(word) >= 0) continue;
 
                     int[] intersectedIndexes = IntersectSortedIntUnsafe(bag.Value, singleEntry.Value);
                     if (intersectedIndexes.Length > minOccurences)

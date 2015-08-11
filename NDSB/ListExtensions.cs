@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace NDSB
 {
@@ -29,7 +31,7 @@ namespace NDSB
             return res;
         }
 
-        public static List<List<T>> CreateSortedBags<T>(List<T> input)
+        public static List<List<T>> CreateSortedBags<T>(List<T> input) where T : IComparable
         {
             List<List<T>> res = new List<List<T>>();
             foreach (T elt1 in input)
@@ -41,6 +43,12 @@ namespace NDSB
                         List<T> toAdd = new List<T>() { elt1, elt2 };
                         toAdd.Sort();
                         res.Add(toAdd);
+                        foreach (T elt3 in input)
+                        {
+                            if (toAdd.Last().CompareTo(elt3) >= 0) continue;
+                            toAdd = new List<T>() { elt1, elt2, elt3 };
+                            res.Add(toAdd);
+                        }
                     }
                 }
             return res;

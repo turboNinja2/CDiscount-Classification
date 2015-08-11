@@ -6,7 +6,7 @@ using DataScienceECom;
 
 namespace NDSB.Models.SparseModels
 {
-    public class BagOfWords<T> : IModelClassification<Dictionary<T, double>> 
+    public class BagOfWords<T> : IModelClassification<Dictionary<T, double>> where T : IComparable
     {
         private double _minTFIDF;
         private double _maxGini;
