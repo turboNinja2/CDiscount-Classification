@@ -50,7 +50,7 @@ namespace NDSB.Models.SparseModels
                 int[] relevantLabels = SmartIndexes.GetElementsAt<int>(_labels, invertedPair.Value);
                 EmpiricScore<int> histogram = new EmpiricScore<int>(relevantLabels);
                 if(histogram.Gini() < _maxGini)
-                    _pairsHistograms.Add(invertedPair.Key, histogram);
+                    _pairsHistograms.Add(invertedPair.Key, histogram.Normalize());
             }
         }
 
@@ -70,7 +70,5 @@ namespace NDSB.Models.SparseModels
 
             return EmpiricScore<int>.Merge(histograms).MostLikelyElement();
         }
-
-
     }
 }

@@ -12,7 +12,7 @@ namespace DataScienceECom
     public class EmpiricScore<T>
     {
         private Dictionary<T, double> _scores = new Dictionary<T, double>(20);
-        private const double _THRESHOLD_ = 1e-5f;
+        private const double _EPSILON_ = 1e-5f;
 
         public Dictionary<T, double> Scores
         {
@@ -115,7 +115,7 @@ namespace DataScienceECom
                 if (diff._scores.ContainsKey(kvp.Key))
                 {
                     diff._scores[kvp.Key] -= kvp.Value;
-                    if (Math.Abs(diff._scores[kvp.Key]) < _THRESHOLD_)
+                    if (Math.Abs(diff._scores[kvp.Key]) < _EPSILON_)
                         diff._scores.Remove(kvp.Key);
                 }
             return diff;

@@ -33,7 +33,7 @@ namespace NDSB.Models.SparseModels
                 }
             }
 
-            Dictionary<T,int[]> invertedIndexesArray = new Dictionary<T,int[]>(invertedIndexes.Count); // this dictionnary enjoys a better pre-allocation
+            Dictionary<T, int[]> invertedIndexesArray = new Dictionary<T, int[]>(invertedIndexes.Count); // this dictionnary enjoys a better pre-allocation
             for (int i = 0; i < invertedIndexes.Count; i++)
                 invertedIndexesArray.Add(invertedIndexes.ElementAt(i).Key, invertedIndexes.ElementAt(i).Value.ToArray());
 
@@ -48,26 +48,32 @@ namespace NDSB.Models.SparseModels
             return invertedIndexes;
         }
 
-        public static  Dictionary<List<T>, int[]> InversePairs<T>(Dictionary<T, int[]> invertedIndexes, int minOccurences = 0)
+        /// <summary>
+        /// Returns the indexes of the inversed pairs. Note that the inverted dictionary<T,int[]> 
+        /// needs to have his values sorted.
+        /// </summary>
+        /// <typeparam name="T">The type of the keys</typeparam>
+        /// <param name="invertedIndexes"></param>
+        /// <param name="minOccurences">The minimum number of occurences expected for each pair.</param>
+        /// <returns></returns>
+        public static Dictionary<List<T>, int[]> InversePairs<T>(Dictionary<T, int[]> invertedIndexes, int minOccurences = 0)
         {
             Dictionary<List<T>, int[]> bags = new Dictionary<List<T>, int[]>();
-
-            int nbLines = 0;
             foreach (KeyValuePair<T, int[]> entry1 in invertedIndexes)
-            {
                 foreach (KeyValuePair<T, int[]> entry2 in invertedIndexes)
                 {
-                    nbLines++;
-
-                    if (entry1.Key.Equals(entry2.Key)) break; 
-
+                    if (entry1.Key.Equals(entry2.Key)) break;
                     if (entry2.Value.Length < minOccurences) continue;
 
                     int[] intersectedIndexes = IntersectSortedIntUnsafe(entry1.Value, entry2.Value);
                     if (intersectedIndexes.Length > minOccurences)
-                        bags.Add(new List<T>() { entry1.Key, entry2.Key }, intersectedIndexes);
+                    {
+                        List<T> keys = new List<T>() { entry1.Key, entry2.Key };
+                        keys.Sort();
+
+                        bags.Add(keys, intersectedIndexes);
+                    }
                 }
-            }
             return bags;
         }
 
@@ -114,13 +120,19 @@ namespace NDSB.Models.SparseModels
             return ints.ToArray();
         }
 
-        public static T[] GetElementsAt<T>(T[] labels, int[] indexes)
+        /// <summary>
+        /// Returns the elements at the specified indexes. 
+        /// </summary>
+        /// <typeparam name="T">Type of the elements</typeparam>
+        /// <param name="source">The array to retrieve the data from</param>
+        /// <param name="indexes">The indexes to look up</param>
+        /// <returns>The extraction T_indexes_i</returns>
+        public static T[] GetElementsAt<T>(T[] source, int[] indexes)
         {
             T[] result = new T[indexes.Length];
             for (int i = 0; i < indexes.Length; i++)
-                result[i] = labels[indexes[i]];
+                result[i] = source[indexes[i]];
             return result;
         }
-
     }
 }

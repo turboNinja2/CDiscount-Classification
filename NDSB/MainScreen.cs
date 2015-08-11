@@ -8,9 +8,9 @@ using DataScienceECom.Models;
 using DataScienceECom.Phis;
 using NDSB.FileUtils;
 using NDSB.Models.SparseModels;
+using NDSB.Models.Streaming.Phis;
 using NDSB.SparseMappings;
 using NDSB.SparseMethods;
-using NDSB.Models.Streaming.Phis;
 
 namespace NDSB
 {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace NDSB
 {
@@ -41,8 +38,9 @@ namespace NDSB
                     if (elt1.Equals(elt2)) break;
                     else
                     {
-                        res.Add(new List<T>() { elt1, elt2 });
-                        res.Add(new List<T>() { elt2, elt1 });
+                        List<T> toAdd = new List<T>() { elt1, elt2 };
+                        toAdd.Sort();
+                        res.Add(toAdd);
                     }
                 }
             return res;
