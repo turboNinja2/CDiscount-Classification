@@ -186,7 +186,7 @@ namespace NDSB
             List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
             models.Add(new SparseNearestCentroid<string>(new PureInteractions(1, 20)));
 
-            TranslateTrainAndPredict(models);
+            TranslateTrainAndPredict(models, false);
         }
 
         private void NCTrainValidatePredictBtn_Click(object sender, EventArgs e)
@@ -254,7 +254,7 @@ namespace NDSB
             int nbNeighbours = Convert.ToInt32(nbNeighbTbx.Text);
             List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
             models.Add(new SparseKNN<string>(SparseDistances.SumSquares<string>, nbNeighbours, 0.15, new ToSphere<string>()));
-            TranslateTrainAndPredict(models);
+            TranslateTrainAndPredict(models, false);
         }
 
         private void trainAndPredictBtn_Click(object sender, EventArgs e)
@@ -301,7 +301,7 @@ namespace NDSB
             int minLeafSize = Convert.ToInt32(minEltsLeafTbx.Text);
             List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
             models.Add(new DecisionTree(4500, minLeafSize));
-            TranslateTrainAndPredict(models);
+            TranslateTrainAndPredict(models,false);
         }
 
         private void decisionTreePredictBtn_Click(object sender, EventArgs e)
@@ -396,13 +396,13 @@ namespace NDSB
         private void bowRunBtn_Click(object sender, EventArgs e)
         {
             List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
-            models.Add(new BagOfWords<string>(8, 500, 0.5, 3));
-            models.Add(new BagOfWords<string>(5, 1000, 0.5, 3));
-            models.Add(new BagOfWords<string>(5, 1000, 0.25, 3));
-            models.Add(new BagOfWords<string>(5, 1000, 0.15, 3));
-            models.Add(new BagOfWords<string>(5, 2000, 0.5, 3));
-            models.Add(new BagOfWords<string>(5, 2000, 0.25, 3));
-            models.Add(new BagOfWords<string>(5, 2000, 0.15, 3));
+            models.Add(new BagOfWords<string>(4, 8, 500, 0.5, 3));
+            models.Add(new BagOfWords<string>(4, 5, 1000, 0.5, 3));
+            models.Add(new BagOfWords<string>(4, 5, 1000, 0.25, 3));
+            models.Add(new BagOfWords<string>(4, 5, 1000, 0.15, 3));
+            models.Add(new BagOfWords<string>(4, 5, 2000, 0.5, 3));
+            models.Add(new BagOfWords<string>(4, 5, 2000, 0.25, 3));
+            models.Add(new BagOfWords<string>(4, 5, 2000, 0.15, 3));
             TrainPredictAndValidateFromTFIDF(models);
         }
 
@@ -439,7 +439,7 @@ namespace NDSB
                 GenericMLHelper.TrainPredictAndValidateFromTFIDF(models.ToArray(), trainFilePath, trainFilePathTFIDF[i], testTFIDFFilePath, validationTFIDFFilePath);
         }
 
-        private void TranslateTrainAndPredict(List<IModelClassification<Dictionary<string, double>>> models)
+        private void TranslateTrainAndPredict(List<IModelClassification<Dictionary<string, double>>> models, bool stem)
         {
             string[] trainFilePaths = new string[1];
             string testFilePath = "";
@@ -457,7 +457,7 @@ namespace NDSB
 
             for (int i = 0; i < trainFilePaths.Length; i++)
             {
-                GenericMLHelper.TranslateTrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath, true);
+                GenericMLHelper.TranslateTrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath, stem);
                 models.Clear();
             }
         }
@@ -491,17 +491,23 @@ namespace NDSB
         private void button2_Click(object sender, EventArgs e)
         {
             List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
-            models.Add(new BagOfWords<string>(5, 1000, 0.5, 3));
-            models.Add(new BagOfWords<string>(5, 1000, 0.25, 3));
-            models.Add(new BagOfWords<string>(5, 1000, 0.15, 3));
-            models.Add(new BagOfWords<string>(5, 2000, 0.5, 3));
-            models.Add(new BagOfWords<string>(5, 2000, 0.25, 3));
-            models.Add(new BagOfWords<string>(5, 2000, 0.15, 3));
-            models.Add(new BagOfWords<string>(3, 2000, 0.5, 3));
-            models.Add(new BagOfWords<string>(3, 2000, 0.25, 3));
-            models.Add(new BagOfWords<string>(3, 2000, 0.15, 3));
+            models.Add(new BagOfWords<string>(4, 4, 2000, 0.7, 3));
+            models.Add(new BagOfWords<string>(4, 4, 2000, 0.6, 3));
+            models.Add(new BagOfWords<string>(4, 4, 2000, 0.5, 3));
+            models.Add(new BagOfWords<string>(4, 4, 2000, 0.25, 3));
+            models.Add(new BagOfWords<string>(4, 4, 2000, 0.15, 3));
             TranslateTrainValidatePredict(models, false);
         }
 
+        private void bowTranslateAndPredict_Click(object sender, EventArgs e)
+        {
+            List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
+            models.Add(new BagOfWords<string>(4, 4, 2000, 0.7, 3));
+            models.Add(new BagOfWords<string>(4, 4, 2000, 0.6, 3));
+            models.Add(new BagOfWords<string>(4, 4, 2000, 0.5, 3));
+            models.Add(new BagOfWords<string>(4, 4, 2000, 0.25, 3));
+            models.Add(new BagOfWords<string>(4, 4, 2000, 0.15, 3));
+            TranslateTrainAndPredict(models, false);
+        }
     }
 }

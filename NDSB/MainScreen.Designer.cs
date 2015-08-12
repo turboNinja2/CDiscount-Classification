@@ -59,6 +59,8 @@
             this.extractColumnTbx = new System.Windows.Forms.TextBox();
             this.countCommonBtn = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.bowTranslateAndPredict = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -385,11 +387,34 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(603, 257);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(188, 20);
+            this.button3.TabIndex = 32;
+            this.button3.Text = "BOW (TFIDF)";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // bowTranslateAndPredict
+            // 
+            this.bowTranslateAndPredict.Location = new System.Drawing.Point(603, 369);
+            this.bowTranslateAndPredict.Margin = new System.Windows.Forms.Padding(2);
+            this.bowTranslateAndPredict.Name = "bowTranslateAndPredict";
+            this.bowTranslateAndPredict.Size = new System.Drawing.Size(188, 20);
+            this.bowTranslateAndPredict.TabIndex = 33;
+            this.bowTranslateAndPredict.Text = "BOW (Translate and predict)";
+            this.bowTranslateAndPredict.UseVisualStyleBackColor = true;
+            this.bowTranslateAndPredict.Click += new System.EventHandler(this.bowTranslateAndPredict_Click);
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(876, 465);
+            this.Controls.Add(this.bowTranslateAndPredict);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.bowRunBtn);
             this.Controls.Add(this.countCommonBtn);
@@ -455,6 +480,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button bowRunBtn;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button bowTranslateAndPredict;
     }
 }
 

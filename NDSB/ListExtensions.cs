@@ -37,7 +37,7 @@ namespace NDSB
             foreach (T elt1 in input)
                 foreach (T elt2 in input)
                 {
-                    if (elt1.Equals(elt2)) break;
+                    if (elt1.CompareTo(elt2) >= 0) continue;
                     else
                     {
                         List<T> toAdd = new List<T>() { elt1, elt2 };
@@ -48,6 +48,12 @@ namespace NDSB
                             if (toAdd.Last().CompareTo(elt3) >= 0) continue;
                             toAdd = new List<T>() { elt1, elt2, elt3 };
                             res.Add(toAdd);
+                            foreach (T elt4 in input)
+                            {
+                                if (toAdd.Last().CompareTo(elt4) >= 0) continue;
+                                toAdd = new List<T>() { elt1, elt2, elt3, elt4 };
+                                res.Add(toAdd);
+                            }
                         }
                     }
                 }
