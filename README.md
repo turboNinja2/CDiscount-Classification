@@ -13,6 +13,6 @@ Optimizations include :
 - Pre-allocation of memory
 - Unsafe code
  
-Part of the code come from other sources :
+Some parts of the code come from other sources :
 - Stemming is a C# port of Snowball
 - Text to TFIDF utils 
