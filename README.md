@@ -10,6 +10,7 @@ This code contains, among file utils, various learning methods designed for spar
 
 Optimizations include :
 - Inversion of indexes
+- Parallelization
 - Pre-allocation of memory
 - Unsafe code
  
