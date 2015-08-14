@@ -84,27 +84,6 @@ namespace NDSB
                     DownSample.Run(filePaths[j], eltsPerClass[i], DSCdiscountUtils.GetLabelCDiscountDB);
         }
 
-        private void getHistogramBtn_Click(object sender, EventArgs e)
-        {
-            string trainFilePath = "";
-            OpenFileDialog fdlg = new OpenFileDialog();
-
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                trainFilePath = fdlg.FileName;
-
-            int[] labels = DSCdiscountUtils.ReadLabelsFromTraining(trainFilePath);
-
-            EmpiricScore<int> es = new EmpiricScore<int>();
-            for (int i = 0; i < labels.Length; i++)
-                es.UpdateKey(labels[i], 1);
-
-            //es = es.Normalize();
-
-            string[] text = es.Scores.OrderBy(c => c.Value).Select(c => c.Key + " " + c.Value).ToArray();
-            File.WriteAllLines(Path.GetDirectoryName(trainFilePath) + "\\" + Path.GetFileNameWithoutExtension(trainFilePath) + "_hist.txt", text);
-
-            MessageBox.Show("h");
-        }
 
         private void predictSGDBtn_Click(object sender, EventArgs e)
         {
@@ -185,41 +164,9 @@ namespace NDSB
         {
             List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
             models.Add(new SparseNearestCentroid<string>(new PureInteractions(1, 20)));
-
-            TranslateTrainAndPredict(models, false);
+            TranslateTrainAndPredict(models, ncStemChkbx.Checked);
         }
 
-        private void NCTrainValidatePredictBtn_Click(object sender, EventArgs e)
-        {
-            string testFilePath = "",
-                validationFilePath = "";
-            string[] trainFilePath = new string[0];
-
-            OpenFileDialog fdlg = new OpenFileDialog();
-            fdlg.Title = "Test file path";
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                testFilePath = fdlg.FileName;
-
-            fdlg = new OpenFileDialog();
-            fdlg.Title = "Train file(s) path";
-            fdlg.Multiselect = true;
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                trainFilePath = fdlg.FileNames;
-
-            fdlg = new OpenFileDialog();
-            fdlg.Title = "Validation file path";
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                validationFilePath = fdlg.FileName;
-
-            for (int i = 0; i < trainFilePath.Length; i++)
-            {
-                List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
-
-                models.Add(new DecisionTree(4500, 5));
-
-                GenericMLHelper.TranslateTrainPredictAndValidate(models.ToArray(), testFilePath, trainFilePath[i], validationFilePath, false);
-            }
-        }
 
         private void extractColumnBtn_Click(object sender, EventArgs e)
         {
@@ -254,7 +201,7 @@ namespace NDSB
             int nbNeighbours = Convert.ToInt32(nbNeighbTbx.Text);
             List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
             models.Add(new SparseKNN<string>(SparseDistances.SumSquares<string>, nbNeighbours, 0.15, new ToSphere<string>()));
-            TranslateTrainAndPredict(models, false);
+            TranslateTrainAndPredict(models, knnStemChkbx.Checked);
         }
 
         private void trainAndPredictBtn_Click(object sender, EventArgs e)
@@ -301,16 +248,7 @@ namespace NDSB
             int minLeafSize = Convert.ToInt32(minEltsLeafTbx.Text);
             List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
             models.Add(new DecisionTree(4500, minLeafSize));
-            TranslateTrainAndPredict(models,false);
-        }
-
-        private void decisionTreePredictBtn_Click(object sender, EventArgs e)
-        {
-            int[] minSizes = ToIntArray(minEltsLeafTbx);
-            List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
-            for (int i = 0; i < minSizes.Length; i++)
-                models.Add(new DecisionTree(4500, minSizes[i]));
-            TrainPredictAndValidateFromTFIDF(models);
+            TranslateTrainAndPredict(models, rfStemChkbx.Checked);
         }
 
         private void KNNcvTfidfBtn_Click(object sender, EventArgs e)
@@ -456,10 +394,7 @@ namespace NDSB
                 trainFilePaths = fdlg.FileNames;
 
             for (int i = 0; i < trainFilePaths.Length; i++)
-            {
                 GenericMLHelper.TranslateTrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath, stem);
-                models.Clear();
-            }
         }
 
         private void TranslateTrainValidatePredict(List<IModelClassification<Dictionary<string, double>>> models, bool stem = false)
@@ -502,12 +437,10 @@ namespace NDSB
         private void bowTranslateAndPredict_Click(object sender, EventArgs e)
         {
             List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
-            models.Add(new BagOfWords<string>(4, 4, 2000, 0.7, 3));
-            models.Add(new BagOfWords<string>(4, 4, 2000, 0.6, 3));
-            models.Add(new BagOfWords<string>(4, 4, 2000, 0.5, 3));
-            models.Add(new BagOfWords<string>(4, 4, 2000, 0.25, 3));
-            models.Add(new BagOfWords<string>(4, 4, 2000, 0.15, 3));
-            TranslateTrainAndPredict(models, false);
+            models.Add(new BagOfWords<string>(4, 2, 2500, 0.8, 3));
+            models.Add(new BagOfWords<string>(4, 2, 2500, 0.5, 3));
+            models.Add(new BagOfWords<string>(4, 2, 2500, 0.3, 3));
+            TranslateTrainAndPredict(models, true);
         }
     }
 }

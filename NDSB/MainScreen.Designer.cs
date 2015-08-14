@@ -28,13 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.processBtn = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.KNNcvTfidfBtn = new System.Windows.Forms.Button();
+            this.knnStemChkbx = new System.Windows.Forms.CheckBox();
             this.predictKNNBtn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.nbNeighbTbx = new System.Windows.Forms.TextBox();
-            this.bowRunBtn = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.downSampleTbx = new System.Windows.Forms.TextBox();
             this.shuffleBtn = new System.Windows.Forms.Button();
@@ -43,106 +41,79 @@
             this.shuffleSeedTbx = new System.Windows.Forms.TextBox();
             this.splitTbx = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ncStemChkbx = new System.Windows.Forms.CheckBox();
             this.nearestCentroidPredictBtn = new System.Windows.Forms.Button();
-            this.NCTrainValidatePredictBtn = new System.Windows.Forms.Button();
-            this.getHistogramBtn = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.trainAndPredictBtn = new System.Windows.Forms.Button();
             this.predictSGDBtn = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.rfStemChkbx = new System.Windows.Forms.CheckBox();
             this.translateAndPredictRFBtn = new System.Windows.Forms.Button();
             this.minEltsLeafTbx = new System.Windows.Forms.TextBox();
             this.minEltLeafLbl = new System.Windows.Forms.Label();
-            this.decisionTreePredictBtn = new System.Windows.Forms.Button();
             this.extractColumnBtn = new System.Windows.Forms.Button();
             this.extractColumnTbx = new System.Windows.Forms.TextBox();
-            this.countCommonBtn = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.bowTranslateAndPredict = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
-            // processBtn
-            // 
-            this.processBtn.Location = new System.Drawing.Point(551, 12);
-            this.processBtn.Name = "processBtn";
-            this.processBtn.Size = new System.Drawing.Size(75, 23);
-            this.processBtn.TabIndex = 11;
-            this.processBtn.Text = "32_64btn";
-            this.processBtn.UseVisualStyleBackColor = true;
-            this.processBtn.Click += new System.EventHandler(this.processBtn_Click);
-            // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.KNNcvTfidfBtn);
+            this.groupBox3.Controls.Add(this.knnStemChkbx);
             this.groupBox3.Controls.Add(this.predictKNNBtn);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.nbNeighbTbx);
-            this.groupBox3.Location = new System.Drawing.Point(11, 156);
+            this.groupBox3.Location = new System.Drawing.Point(15, 140);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Size = new System.Drawing.Size(203, 139);
+            this.groupBox3.Size = new System.Drawing.Size(178, 97);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "KNN";
             this.groupBox3.UseCompatibleTextRendering = true;
             // 
-            // KNNcvTfidfBtn
+            // knnStemChkbx
             // 
-            this.KNNcvTfidfBtn.Location = new System.Drawing.Point(4, 69);
-            this.KNNcvTfidfBtn.Margin = new System.Windows.Forms.Padding(2);
-            this.KNNcvTfidfBtn.Name = "KNNcvTfidfBtn";
-            this.KNNcvTfidfBtn.Size = new System.Drawing.Size(188, 20);
-            this.KNNcvTfidfBtn.TabIndex = 6;
-            this.KNNcvTfidfBtn.Text = "CV (TFIDF)";
-            this.KNNcvTfidfBtn.UseVisualStyleBackColor = true;
-            this.KNNcvTfidfBtn.Click += new System.EventHandler(this.KNNcvTfidfBtn_Click);
+            this.knnStemChkbx.AutoSize = true;
+            this.knnStemChkbx.Location = new System.Drawing.Point(26, 13);
+            this.knnStemChkbx.Name = "knnStemChkbx";
+            this.knnStemChkbx.Size = new System.Drawing.Size(50, 17);
+            this.knnStemChkbx.TabIndex = 2;
+            this.knnStemChkbx.Text = "Stem";
+            this.knnStemChkbx.UseVisualStyleBackColor = true;
             // 
             // predictKNNBtn
             // 
-            this.predictKNNBtn.Location = new System.Drawing.Point(4, 101);
+            this.predictKNNBtn.Location = new System.Drawing.Point(4, 62);
             this.predictKNNBtn.Margin = new System.Windows.Forms.Padding(2);
             this.predictKNNBtn.Name = "predictKNNBtn";
-            this.predictKNNBtn.Size = new System.Drawing.Size(188, 20);
+            this.predictKNNBtn.Size = new System.Drawing.Size(170, 20);
             this.predictKNNBtn.TabIndex = 5;
-            this.predictKNNBtn.Text = "Predict";
+            this.predictKNNBtn.Text = "Translate and Predict";
             this.predictKNNBtn.UseVisualStyleBackColor = true;
             this.predictKNNBtn.Click += new System.EventHandler(this.predictKNNBtn_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 27);
+            this.label3.Location = new System.Drawing.Point(38, 38);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(108, 13);
+            this.label3.Size = new System.Drawing.Size(76, 13);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Nb neighbours (KNN)";
+            this.label3.Text = "Nb neighbours";
             // 
             // nbNeighbTbx
             // 
-            this.nbNeighbTbx.Location = new System.Drawing.Point(116, 23);
+            this.nbNeighbTbx.Location = new System.Drawing.Point(10, 35);
             this.nbNeighbTbx.Margin = new System.Windows.Forms.Padding(2);
             this.nbNeighbTbx.Name = "nbNeighbTbx";
-            this.nbNeighbTbx.Size = new System.Drawing.Size(76, 20);
+            this.nbNeighbTbx.Size = new System.Drawing.Size(24, 20);
             this.nbNeighbTbx.TabIndex = 2;
-            // 
-            // bowRunBtn
-            // 
-            this.bowRunBtn.Location = new System.Drawing.Point(603, 300);
-            this.bowRunBtn.Margin = new System.Windows.Forms.Padding(2);
-            this.bowRunBtn.Name = "bowRunBtn";
-            this.bowRunBtn.Size = new System.Drawing.Size(188, 20);
-            this.bowRunBtn.TabIndex = 7;
-            this.bowRunBtn.Text = "BOW (TFIDF)";
-            this.bowRunBtn.UseVisualStyleBackColor = true;
-            this.bowRunBtn.Click += new System.EventHandler(this.bowRunBtn_Click);
             // 
             // button6
             // 
@@ -215,59 +186,50 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ncStemChkbx);
             this.groupBox1.Controls.Add(this.nearestCentroidPredictBtn);
-            this.groupBox1.Location = new System.Drawing.Point(450, 171);
+            this.groupBox1.Location = new System.Drawing.Point(12, 255);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 74);
+            this.groupBox1.Size = new System.Drawing.Size(174, 72);
             this.groupBox1.TabIndex = 26;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Nearest Centroids";
             // 
+            // ncStemChkbx
+            // 
+            this.ncStemChkbx.AutoSize = true;
+            this.ncStemChkbx.Location = new System.Drawing.Point(22, 23);
+            this.ncStemChkbx.Name = "ncStemChkbx";
+            this.ncStemChkbx.Size = new System.Drawing.Size(50, 17);
+            this.ncStemChkbx.TabIndex = 1;
+            this.ncStemChkbx.Text = "Stem";
+            this.ncStemChkbx.UseVisualStyleBackColor = true;
+            // 
             // nearestCentroidPredictBtn
             // 
-            this.nearestCentroidPredictBtn.Location = new System.Drawing.Point(6, 23);
+            this.nearestCentroidPredictBtn.Location = new System.Drawing.Point(6, 46);
             this.nearestCentroidPredictBtn.Name = "nearestCentroidPredictBtn";
-            this.nearestCentroidPredictBtn.Size = new System.Drawing.Size(194, 23);
+            this.nearestCentroidPredictBtn.Size = new System.Drawing.Size(164, 23);
             this.nearestCentroidPredictBtn.TabIndex = 0;
-            this.nearestCentroidPredictBtn.Text = "Predict";
+            this.nearestCentroidPredictBtn.Text = "Translate and Predict";
             this.nearestCentroidPredictBtn.UseVisualStyleBackColor = true;
             this.nearestCentroidPredictBtn.Click += new System.EventHandler(this.nearestCentroidPredictBtn_Click);
-            // 
-            // NCTrainValidatePredictBtn
-            // 
-            this.NCTrainValidatePredictBtn.Location = new System.Drawing.Point(450, 79);
-            this.NCTrainValidatePredictBtn.Name = "NCTrainValidatePredictBtn";
-            this.NCTrainValidatePredictBtn.Size = new System.Drawing.Size(194, 23);
-            this.NCTrainValidatePredictBtn.TabIndex = 1;
-            this.NCTrainValidatePredictBtn.Text = "Stack";
-            this.NCTrainValidatePredictBtn.UseVisualStyleBackColor = true;
-            this.NCTrainValidatePredictBtn.Click += new System.EventHandler(this.NCTrainValidatePredictBtn_Click);
-            // 
-            // getHistogramBtn
-            // 
-            this.getHistogramBtn.Location = new System.Drawing.Point(9, 126);
-            this.getHistogramBtn.Name = "getHistogramBtn";
-            this.getHistogramBtn.Size = new System.Drawing.Size(162, 23);
-            this.getHistogramBtn.TabIndex = 27;
-            this.getHistogramBtn.Text = "Histogram";
-            this.getHistogramBtn.UseVisualStyleBackColor = true;
-            this.getHistogramBtn.Click += new System.EventHandler(this.getHistogramBtn_Click);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.trainAndPredictBtn);
             this.groupBox2.Controls.Add(this.predictSGDBtn);
-            this.groupBox2.Location = new System.Drawing.Point(235, 12);
+            this.groupBox2.Location = new System.Drawing.Point(261, 10);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 137);
+            this.groupBox2.Size = new System.Drawing.Size(200, 111);
             this.groupBox2.TabIndex = 27;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "SGD";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(6, 90);
+            this.button1.Location = new System.Drawing.Point(6, 75);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(188, 23);
             this.button1.TabIndex = 2;
@@ -297,22 +259,32 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.rfStemChkbx);
             this.groupBox4.Controls.Add(this.translateAndPredictRFBtn);
             this.groupBox4.Controls.Add(this.minEltsLeafTbx);
             this.groupBox4.Controls.Add(this.minEltLeafLbl);
-            this.groupBox4.Controls.Add(this.decisionTreePredictBtn);
-            this.groupBox4.Location = new System.Drawing.Point(235, 166);
+            this.groupBox4.Location = new System.Drawing.Point(217, 153);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(200, 154);
+            this.groupBox4.Size = new System.Drawing.Size(174, 99);
             this.groupBox4.TabIndex = 27;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Decision Tree";
             // 
+            // rfStemChkbx
+            // 
+            this.rfStemChkbx.AutoSize = true;
+            this.rfStemChkbx.Location = new System.Drawing.Point(22, 19);
+            this.rfStemChkbx.Name = "rfStemChkbx";
+            this.rfStemChkbx.Size = new System.Drawing.Size(50, 17);
+            this.rfStemChkbx.TabIndex = 2;
+            this.rfStemChkbx.Text = "Stem";
+            this.rfStemChkbx.UseVisualStyleBackColor = true;
+            // 
             // translateAndPredictRFBtn
             // 
-            this.translateAndPredictRFBtn.Location = new System.Drawing.Point(25, 64);
+            this.translateAndPredictRFBtn.Location = new System.Drawing.Point(6, 64);
             this.translateAndPredictRFBtn.Name = "translateAndPredictRFBtn";
-            this.translateAndPredictRFBtn.Size = new System.Drawing.Size(124, 23);
+            this.translateAndPredictRFBtn.Size = new System.Drawing.Size(164, 23);
             this.translateAndPredictRFBtn.TabIndex = 8;
             this.translateAndPredictRFBtn.Text = "Translate and predict";
             this.translateAndPredictRFBtn.UseVisualStyleBackColor = true;
@@ -320,32 +292,22 @@
             // 
             // minEltsLeafTbx
             // 
-            this.minEltsLeafTbx.Location = new System.Drawing.Point(73, 39);
+            this.minEltsLeafTbx.Location = new System.Drawing.Point(6, 41);
             this.minEltsLeafTbx.Margin = new System.Windows.Forms.Padding(2);
             this.minEltsLeafTbx.Name = "minEltsLeafTbx";
-            this.minEltsLeafTbx.Size = new System.Drawing.Size(76, 20);
+            this.minEltsLeafTbx.Size = new System.Drawing.Size(28, 20);
             this.minEltsLeafTbx.TabIndex = 5;
             // 
             // minEltLeafLbl
             // 
             this.minEltLeafLbl.AutoSize = true;
-            this.minEltLeafLbl.Location = new System.Drawing.Point(3, 42);
+            this.minEltLeafLbl.Location = new System.Drawing.Point(37, 44);
             this.minEltLeafLbl.Name = "minEltLeafLbl";
             this.minEltLeafLbl.Size = new System.Drawing.Size(63, 17);
             this.minEltLeafLbl.TabIndex = 4;
             this.minEltLeafLbl.Text = "MinEltsLeaf";
             this.minEltLeafLbl.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.minEltLeafLbl.UseCompatibleTextRendering = true;
-            // 
-            // decisionTreePredictBtn
-            // 
-            this.decisionTreePredictBtn.Location = new System.Drawing.Point(25, 93);
-            this.decisionTreePredictBtn.Name = "decisionTreePredictBtn";
-            this.decisionTreePredictBtn.Size = new System.Drawing.Size(124, 23);
-            this.decisionTreePredictBtn.TabIndex = 0;
-            this.decisionTreePredictBtn.Text = "Predict";
-            this.decisionTreePredictBtn.UseVisualStyleBackColor = true;
-            this.decisionTreePredictBtn.Click += new System.EventHandler(this.decisionTreePredictBtn_Click);
             // 
             // extractColumnBtn
             // 
@@ -366,64 +328,15 @@
             this.extractColumnTbx.TabIndex = 28;
             this.extractColumnTbx.Text = "3";
             // 
-            // countCommonBtn
-            // 
-            this.countCommonBtn.Location = new System.Drawing.Point(550, 41);
-            this.countCommonBtn.Name = "countCommonBtn";
-            this.countCommonBtn.Size = new System.Drawing.Size(75, 23);
-            this.countCommonBtn.TabIndex = 30;
-            this.countCommonBtn.Text = "Count common";
-            this.countCommonBtn.UseVisualStyleBackColor = true;
-            this.countCommonBtn.Click += new System.EventHandler(this.countCommonBtn_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(603, 333);
-            this.button2.Margin = new System.Windows.Forms.Padding(2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(188, 20);
-            this.button2.TabIndex = 31;
-            this.button2.Text = "BOW (Translate valdiate predict)";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(603, 257);
-            this.button3.Margin = new System.Windows.Forms.Padding(2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(188, 20);
-            this.button3.TabIndex = 32;
-            this.button3.Text = "BOW (TFIDF)";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // bowTranslateAndPredict
-            // 
-            this.bowTranslateAndPredict.Location = new System.Drawing.Point(603, 369);
-            this.bowTranslateAndPredict.Margin = new System.Windows.Forms.Padding(2);
-            this.bowTranslateAndPredict.Name = "bowTranslateAndPredict";
-            this.bowTranslateAndPredict.Size = new System.Drawing.Size(188, 20);
-            this.bowTranslateAndPredict.TabIndex = 33;
-            this.bowTranslateAndPredict.Text = "BOW (Translate and predict)";
-            this.bowTranslateAndPredict.UseVisualStyleBackColor = true;
-            this.bowTranslateAndPredict.Click += new System.EventHandler(this.bowTranslateAndPredict_Click);
-            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(876, 465);
-            this.Controls.Add(this.bowTranslateAndPredict);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.bowRunBtn);
-            this.Controls.Add(this.countCommonBtn);
+            this.ClientSize = new System.Drawing.Size(473, 357);
             this.Controls.Add(this.extractColumnBtn);
             this.Controls.Add(this.extractColumnTbx);
-            this.Controls.Add(this.NCTrainValidatePredictBtn);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.getHistogramBtn);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.splitTbx);
             this.Controls.Add(this.shuffleSeedTbx);
@@ -433,12 +346,12 @@
             this.Controls.Add(this.button6);
             this.Controls.Add(this.downSampleTbx);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.processBtn);
             this.Name = "MainScreen";
-            this.Text = "Form1";
+            this.Text = "CDiscount Classification tools";
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -449,7 +362,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button processBtn;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox nbNeighbTbx;
@@ -462,26 +374,20 @@
         private System.Windows.Forms.TextBox splitTbx;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button nearestCentroidPredictBtn;
-        private System.Windows.Forms.Button getHistogramBtn;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button predictSGDBtn;
         private System.Windows.Forms.Button predictKNNBtn;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Button decisionTreePredictBtn;
         private System.Windows.Forms.TextBox minEltsLeafTbx;
         private System.Windows.Forms.Label minEltLeafLbl;
         private System.Windows.Forms.Button translateAndPredictRFBtn;
-        private System.Windows.Forms.Button NCTrainValidatePredictBtn;
         private System.Windows.Forms.Button extractColumnBtn;
         private System.Windows.Forms.TextBox extractColumnTbx;
-        private System.Windows.Forms.Button countCommonBtn;
         private System.Windows.Forms.Button trainAndPredictBtn;
-        private System.Windows.Forms.Button KNNcvTfidfBtn;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button bowRunBtn;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button bowTranslateAndPredict;
+        private System.Windows.Forms.CheckBox ncStemChkbx;
+        private System.Windows.Forms.CheckBox rfStemChkbx;
+        private System.Windows.Forms.CheckBox knnStemChkbx;
     }
 }
 
