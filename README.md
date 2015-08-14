@@ -1,6 +1,6 @@
 # CDiscout-Classification
 
-This code contains, among file utils, various learning methods designed for sparse datasets, where keys are represented by strings. This allows to keep track of "what is going on" in every algorithm (what do the centroids look like ? what do the decision trees look like ?...).
+This code contains, among file utils, various learning methods designed for sparse datasets, where keys are represented by strings. This allows to keep track of "what is going on" in every algorithm : what do the centroids look like ? what do the decision trees look like ?
 
 - k-Nearest Neighbours (based on a TF-IDF representation of the documents)
 - Nearest Centroids (based on a TF-IDF representation of the documents)
