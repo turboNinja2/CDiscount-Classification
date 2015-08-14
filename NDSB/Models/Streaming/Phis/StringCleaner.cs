@@ -23,17 +23,6 @@ namespace DataScienceECom.Phis
             return input;
         }
 
-        public static string RemoveMorePunctuationAndAccents2(string input)
-        {
-            input = RemoveSomePunctuationAndAccents(input);
-
-            input = input.Replace("?", "");
-            input = input.Replace("!", "");
-            input = input.Replace("*", "");
-            input = input.Replace(".", "");
-
-            return input;
-        }
 
         public static string RemoveMorePunctuationAndAccents3(string input)
         {
