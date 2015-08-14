@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Iveonik.Stemmers;
 using NDSB;
 
@@ -161,28 +160,6 @@ StringTransform sf, PriceTransform pt)
         }
 
 
-        public static Tuple<int, List<string>> Stacker(string line, string header)
-        {
-            string[] predictors = (line).Split(';'),
-                headerElements = header.Split(';');
-
-            List<string> hashedPredictors = new List<string>();
-            int answer = 0;
-
-            for (int i = 0; i < headerElements.Length; i++)
-            {
-                string currentHeaderElt = headerElements[i];
-                if (currentHeaderElt == "Categorie3")
-                {
-                    answer = Convert.ToInt32(predictors[i]);
-                    continue;
-                }
-                hashedPredictors.Add(headerElements[i] + "_" + predictors[i]);
-            }
-            return new Tuple<int, List<string>>(answer, hashedPredictors);
-        }
-
-
         public static Tuple<int, List<string>> phi17(string line, string header)
         {
             return phiInteract2(line, header, StringCleaner.RemoveMorePunctuationAndAccents3, PriceTransforms.LogPrice);
@@ -192,7 +169,6 @@ StringTransform sf, PriceTransform pt)
         {
             return phiInteract2(line, header, StringCleaner.RemoveMorePunctuationAndAccents4, PriceTransforms.LogPrice);
         }
-
 
         public static Tuple<int, List<string>> phi19(string line, string header)
         {

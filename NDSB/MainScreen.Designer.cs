@@ -188,7 +188,7 @@
             // 
             this.groupBox1.Controls.Add(this.ncStemChkbx);
             this.groupBox1.Controls.Add(this.nearestCentroidPredictBtn);
-            this.groupBox1.Location = new System.Drawing.Point(12, 255);
+            this.groupBox1.Location = new System.Drawing.Point(12, 242);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(174, 72);
             this.groupBox1.TabIndex = 26;
@@ -220,9 +220,9 @@
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.trainAndPredictBtn);
             this.groupBox2.Controls.Add(this.predictSGDBtn);
-            this.groupBox2.Location = new System.Drawing.Point(261, 10);
+            this.groupBox2.Location = new System.Drawing.Point(201, 10);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 111);
+            this.groupBox2.Size = new System.Drawing.Size(176, 111);
             this.groupBox2.TabIndex = 27;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "SGD";
@@ -231,7 +231,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(6, 75);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(188, 23);
+            this.button1.Size = new System.Drawing.Size(164, 23);
             this.button1.TabIndex = 2;
             this.button1.Text = "Train validate predict (hierarchical)";
             this.button1.UseVisualStyleBackColor = true;
@@ -241,7 +241,7 @@
             // 
             this.trainAndPredictBtn.Location = new System.Drawing.Point(6, 17);
             this.trainAndPredictBtn.Name = "trainAndPredictBtn";
-            this.trainAndPredictBtn.Size = new System.Drawing.Size(188, 23);
+            this.trainAndPredictBtn.Size = new System.Drawing.Size(164, 23);
             this.trainAndPredictBtn.TabIndex = 1;
             this.trainAndPredictBtn.Text = "Train and predict";
             this.trainAndPredictBtn.UseVisualStyleBackColor = true;
@@ -251,7 +251,7 @@
             // 
             this.predictSGDBtn.Location = new System.Drawing.Point(6, 46);
             this.predictSGDBtn.Name = "predictSGDBtn";
-            this.predictSGDBtn.Size = new System.Drawing.Size(188, 23);
+            this.predictSGDBtn.Size = new System.Drawing.Size(164, 23);
             this.predictSGDBtn.TabIndex = 0;
             this.predictSGDBtn.Text = "Train validate predict";
             this.predictSGDBtn.UseVisualStyleBackColor = true;
@@ -263,7 +263,7 @@
             this.groupBox4.Controls.Add(this.translateAndPredictRFBtn);
             this.groupBox4.Controls.Add(this.minEltsLeafTbx);
             this.groupBox4.Controls.Add(this.minEltLeafLbl);
-            this.groupBox4.Location = new System.Drawing.Point(217, 153);
+            this.groupBox4.Location = new System.Drawing.Point(203, 138);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(174, 99);
             this.groupBox4.TabIndex = 27;
@@ -332,7 +332,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(473, 357);
+            this.ClientSize = new System.Drawing.Size(396, 334);
             this.Controls.Add(this.extractColumnBtn);
             this.Controls.Add(this.extractColumnTbx);
             this.Controls.Add(this.groupBox4);

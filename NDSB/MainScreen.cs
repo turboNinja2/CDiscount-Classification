@@ -21,10 +21,6 @@ namespace NDSB
             InitializeComponent();
         }
 
-        private void processBtn_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(IntPtr.Size.ToString());
-        }
 
         private void button6_Click(object sender, EventArgs e)
         {
@@ -266,16 +262,6 @@ namespace NDSB
             trainingFilesOFD.ShowDialog();
             if (!trainingFilesOFD.CheckFileExists) return;
 
-
-            /*
-            OpenFileDialog validationFilesOFD = new OpenFileDialog();
-            validationFilesOFD.Multiselect = true;
-            validationFilesOFD.Title = "Validation files path";
-            validationFilesOFD.ShowDialog();
-
-
-            if (!validationFilesOFD.CheckFileExists) return;
-            */
             OpenFileDialog testFileOFD = new OpenFileDialog();
             testFileOFD.Title = "Test file path";
             testFileOFD.ShowDialog();
@@ -289,11 +275,6 @@ namespace NDSB
 
             string[] learningFiles = trainingFilesOFD.FileNames;
             Array.Sort(learningFiles);
-
-            /*
-            string[] validationFiles = validationFilesOFD.FileNames;
-            Array.Sort(validationFiles);
-            */
 
             foreach (IStreamingModel<Hierarchy, int> model in ModelGenerators.HEntropia())
                 for (int i = 0; i < learningFiles.Length; i++)
@@ -329,19 +310,6 @@ namespace NDSB
                             validationModelPredictions.Select(t => t.ToString()));
                         */
                     }
-        }
-
-        private void bowRunBtn_Click(object sender, EventArgs e)
-        {
-            List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
-            models.Add(new BagOfWords<string>(4, 8, 500, 0.5, 3));
-            models.Add(new BagOfWords<string>(4, 5, 1000, 0.5, 3));
-            models.Add(new BagOfWords<string>(4, 5, 1000, 0.25, 3));
-            models.Add(new BagOfWords<string>(4, 5, 1000, 0.15, 3));
-            models.Add(new BagOfWords<string>(4, 5, 2000, 0.5, 3));
-            models.Add(new BagOfWords<string>(4, 5, 2000, 0.25, 3));
-            models.Add(new BagOfWords<string>(4, 5, 2000, 0.15, 3));
-            TrainPredictAndValidateFromTFIDF(models);
         }
 
         private void TrainPredictAndValidateFromTFIDF(List<IModelClassification<Dictionary<string, double>>> models)
@@ -421,26 +389,6 @@ namespace NDSB
 
             for (int i = 0; i < trainFilePath.Length; i++)
                 GenericMLHelper.TranslateTrainPredictAndValidate(models.ToArray(), testFilePath, trainFilePath[i], validationFilePath, stem);
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
-            models.Add(new BagOfWords<string>(4, 4, 2000, 0.7, 3));
-            models.Add(new BagOfWords<string>(4, 4, 2000, 0.6, 3));
-            models.Add(new BagOfWords<string>(4, 4, 2000, 0.5, 3));
-            models.Add(new BagOfWords<string>(4, 4, 2000, 0.25, 3));
-            models.Add(new BagOfWords<string>(4, 4, 2000, 0.15, 3));
-            TranslateTrainValidatePredict(models, false);
-        }
-
-        private void bowTranslateAndPredict_Click(object sender, EventArgs e)
-        {
-            List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
-            models.Add(new BagOfWords<string>(4, 2, 2500, 0.8, 3));
-            models.Add(new BagOfWords<string>(4, 2, 2500, 0.5, 3));
-            models.Add(new BagOfWords<string>(4, 2, 2500, 0.3, 3));
-            TranslateTrainAndPredict(models, true);
         }
     }
 }
