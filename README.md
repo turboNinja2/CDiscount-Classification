@@ -1,11 +1,18 @@
-# SparseKNN
+# CDiscout-Classification
 
-This contains, among file utils, three (custom) learning methods for sparse datasets : k-Nearest Neighbours, Nearest Centroids and a SGD for multiclass problems (with a high number of classes). They are designed to be able to work with very large dataset (millions of lines) without (too many) memory issues.
+This code contains, among file utils, various learning methods designed for sparse datasets, where keys are represented by strings. This allows to keep track of "what is going on" in every algorithm.
 
-The Nearest Centroids follows a streaming calibration (everything is expanded accorded to the mapping, then added). The code enables the user to write custom mappings easily. It needs the whole data set to be loaded in memory (this could be easily worked around).
+- k-Nearest Neighbours (based on a TF-IDF representation of the documents)
+- Nearest Centroids (based on a TF-IDF representation of the documents)
+- Decision tree (proposing formulas such as if(not word1 in doc and word2 in doc and word3 in doc) then Cat k )
+- Bag of Words
+- SGD for multiclass problems (with a high number of classes)
 
-The KNN implements an inverted index and the lookup has a parameter (if the parameter is set to double.MinValue, a genuine KNN with inverted indexes is performed). However, it needs the whole data set to be loaded in memory.
-
-The SGD does not follow the exact implementation of a SGD and implements various regularizations. It is a pure streaming algorithm.
-
-A decision tree is also available. It relies on index inversion, intersections of sorted data sets but it is still very slow (benchmarked on 1 000 000 lines, 25 000 predictors)
+Optimizations include :
+- Inversion of indexes
+- Pre-allocation of memory
+- Unsafe code
+ 
+Part of the code come from other sources :
+- Stemming is a C# port of Snowball
+- Text to TFIDF utils 
