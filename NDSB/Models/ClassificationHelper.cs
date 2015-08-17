@@ -26,12 +26,11 @@ namespace NDSB.Models
             model.Train(labels, trainPoints);
 
             int[] predictedTest = new int[testPoints.Length];
-            //Parallel.For(0, testPoints.Length, _parallelOptions, i =>
-            for(int i =0; i < testPoints.Length;i++)
+            Parallel.For(0, testPoints.Length, _parallelOptions, i =>
             {
                 int pred = model.Predict(testPoints[i]);
                 predictedTest[i] = pred;
-            }//);
+            });
 
             int[] predictedValidation = new int[validationPoints.Length];
             Parallel.For(0, validationPoints.Length, _parallelOptions, i =>
