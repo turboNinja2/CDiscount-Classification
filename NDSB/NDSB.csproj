@@ -98,7 +98,6 @@
     <Compile Include="SparseMappings\Identity.cs" />
     <Compile Include="SparseMappings\IMapping.cs" />
     <Compile Include="SparseMappings\PureInteractions.cs" />
-    <Compile Include="SparseMappings\ToCube.cs" />
     <Compile Include="Models\SparseModels\SparseNearestCentroid.cs" />
     <Compile Include="SparseMappings\ToSphere.cs" />
     <Compile Include="SparseSpaces\SparseHilbertSpace.cs" />
