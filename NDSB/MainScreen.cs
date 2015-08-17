@@ -105,7 +105,7 @@ namespace NDSB
             string currentDirectory = Path.GetDirectoryName(trainingFilesOFD.FileNames[0]),
                 testFilePath = testFileOFD.FileName;
 
-            List<Phi<int>> phis = new List<Phi<int>> { Phis.phi20, Phis.phi19 };
+            List<Phi<int>> phis = new List<Phi<int>> { Phis.phi17};
 
             string[] learningFiles = trainingFilesOFD.FileNames;
             Array.Sort(learningFiles);

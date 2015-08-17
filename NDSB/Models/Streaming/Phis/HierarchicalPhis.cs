@@ -94,7 +94,7 @@ namespace DataScienceECom.Phis
 
         public static Tuple<Hierarchy, List<string>> HPhi1(string line, string header)
         {
-            return GetPredictorsAndHierarchy(line, header, StringCleaner.RemoveMorePunctuationAndAccents4, 1, 20, 20, PriceTransforms.LogPrice);
+            return GetPredictorsAndHierarchy(line, header, StringCleaner.RemoveMorePunctuationAndAccents, 1, 20, 20, PriceTransforms.LogPrice);
         }
     }
 }

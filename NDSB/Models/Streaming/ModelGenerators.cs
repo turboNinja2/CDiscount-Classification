@@ -5,7 +5,6 @@ namespace DataScienceECom.Models
 {
     public static class ModelGenerators
     {
-
         public static IEnumerable<IStreamingModel<int,int>> Entropia6()
         {
             yield return new GMEntropia(0.5, 4, 6, 500000);
@@ -20,6 +19,5 @@ namespace DataScienceECom.Models
         {
             yield return new HierarchicalSGD(0.5, 4, 6);
         }
-
     }
 }
