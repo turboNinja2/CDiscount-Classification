@@ -4,10 +4,10 @@ This code contains, among file utils, various learning methods designed for spar
 
 - k-Nearest Neighbours (based on a TF-IDF representation of the documents)
 - Nearest Centroids (based on a TF-IDF representation of the documents)
-- Decision tree (proposing formulas such as if(not word1 in doc and word2 in doc and word3 in doc) then Cat k )
-- Bag of Words
+- "Logic" Decision tree (proposing formulas such as if(not word1 in doc and word2 in doc and word3 in doc) then Cat k )
 - SGD for multiclass problems (with a high number of classes)
-
+- Bag of Words (not used in the final solution)
+ 
 Optimizations include :
 - Inversion of indexes
 - Parallelization
