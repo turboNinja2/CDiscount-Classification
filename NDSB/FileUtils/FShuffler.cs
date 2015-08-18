@@ -7,6 +7,12 @@ namespace NDSB.FileUtils
 {
     public static class FShuffler
     {
+        /// <summary>
+        /// Randomizes the order of the lines of a file.
+        /// </summary>
+        /// <param name="file">The file to shuffle.</param>
+        /// <param name="seed">The seed, to ensure reproductibility of the result.</param>
+        /// <returns>The path of the shuffled file.</returns>
         public static string Shuffle(string file, int seed)
         {
             int numberOfLines = GeneralFileUtils.NumberOfLines(file);
@@ -37,8 +43,6 @@ namespace NDSB.FileUtils
             }
             return outFile;
         }
-
-
 
         private static List<string> ReadLinesWithIndex(string file, List<int> indexes)
         {

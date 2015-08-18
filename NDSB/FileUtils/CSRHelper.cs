@@ -3,14 +3,12 @@ using System.Collections.Generic;
 
 namespace NDSB
 {
-    using Point = Dictionary<string, double>;
-
     public static class CSRHelper
     {
         /// <summary>
         /// Imports a complete .csr file to a Dictionary<string, double>[]
         /// </summary>
-        public static Point[] ImportPointsAsStrings(string inputFilePath, bool header = true, int prealloc = 1000000)
+        public static Dictionary<string, double>[] ImportPointsAsStrings(string inputFilePath, bool header = true, int prealloc = 1000000)
         {
             List<Dictionary<string, double>> points = new List<Dictionary<string, double>>(prealloc);
             foreach (string line in LinesEnumerator.YieldLines(inputFilePath))
@@ -33,12 +31,14 @@ namespace NDSB
             return points.ToArray();
         }
 
+        #region Private methods
+        
         /// <summary>
         /// Imports a line from a .csr file to a Dictionary<string,double>
         /// </summary>
-        public static Point SparsePointFromString(string current)
+        private static Dictionary<string, double> SparsePointFromString(string current)
         {
-            Point sparseRepresentation = new Dictionary<string, double>(20);
+            Dictionary<string, double> sparseRepresentation = new Dictionary<string, double>(20);
             if (current.Length == 0) return sparseRepresentation;
             string[] splitted = current.Split(' ');
 
@@ -50,11 +50,10 @@ namespace NDSB
             return sparseRepresentation;
         }
 
-
         /// <summary>
         /// Imports a line from a .csr file to a Dictionary<int,double>, using a hash.
         /// </summary>
-        public static Dictionary<int, double> SparsePointFromStringInt(string current)
+        private static Dictionary<int, double> SparsePointFromStringInt(string current)
         {
             Dictionary<int, double> sparseRepresentation = new Dictionary<int, double>(20);
             if (current.Length == 0) return sparseRepresentation;
@@ -67,5 +66,7 @@ namespace NDSB
             }
             return sparseRepresentation;
         }
+
+        #endregion
     }
 }
