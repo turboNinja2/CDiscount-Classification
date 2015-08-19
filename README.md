@@ -17,3 +17,12 @@ Optimizations include :
 Some parts of the code come from other sources :
 - Stemming is a C# port of Snowball
 - Text to TFIDF utils 
+ 
+
+
+The final solution has been generated following these steps :
+- Shuffle the training file according to 7 seeds : 0,1...,6
+- Down-sample each file so that there a no more than 1000 elements per class
+- On each file train : a 3-NN model (lookup parameter 0.25, no stemming), a Nearest Centroid model (using PureInteractions mapping, stemmed), A hierarchical SGD model, a SGD model and a logic decision tree (max depth 4500, min elements per leaf = 8, no stemming)
+
+They correspond to the default models in the main window.
