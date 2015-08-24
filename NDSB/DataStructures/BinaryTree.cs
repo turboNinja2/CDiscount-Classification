@@ -1,8 +1,9 @@
 ﻿namespace NDSB
 {
     /// <summary>
-    /// A generic binary tree
+    /// A generic binary tree, which only contains data. No methods are implemented here.
     /// </summary>
+    /// <typeparam name="T">The data contained by the binary tree</typeparam>
     public class BinaryTree<T>
     {
         #region Private attributes
