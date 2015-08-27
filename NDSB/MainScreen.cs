@@ -21,7 +21,6 @@ namespace NDSB
             InitializeComponent();
         }
 
-
         private void button6_Click(object sender, EventArgs e)
         {
             OpenFileDialog fdlg = new OpenFileDialog();
@@ -81,76 +80,6 @@ namespace NDSB
         }
 
 
-        private void predictSGDBtn_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog trainingFilesOFD = new OpenFileDialog();
-            trainingFilesOFD.Multiselect = true;
-            trainingFilesOFD.Title = "Train files path";
-            trainingFilesOFD.ShowDialog();
-            if (!trainingFilesOFD.CheckFileExists) return;
-
-            OpenFileDialog validationFilesOFD = new OpenFileDialog();
-            validationFilesOFD.Multiselect = true;
-            validationFilesOFD.Title = "Validation files path";
-            validationFilesOFD.ShowDialog();
-
-            if (!validationFilesOFD.CheckFileExists) return;
-
-            OpenFileDialog testFileOFD = new OpenFileDialog();
-            testFileOFD.Title = "Test file path";
-            testFileOFD.ShowDialog();
-
-            if (!testFileOFD.CheckFileExists) return;
-
-            string currentDirectory = Path.GetDirectoryName(trainingFilesOFD.FileNames[0]),
-                testFilePath = testFileOFD.FileName;
-
-            List<Phi<int>> phis = new List<Phi<int>> { Phis.phi17};
-
-            string[] learningFiles = trainingFilesOFD.FileNames;
-            Array.Sort(learningFiles);
-            string[] validationFiles = validationFilesOFD.FileNames;
-            Array.Sort(validationFiles);
-
-            foreach (IStreamingModel<int, int> model in ModelGenerators.Entropia6())
-                for (int i = 0; i < learningFiles.Length; i++)
-                    foreach (Phi<int> phi in phis)
-                    {
-                        string file = learningFiles[i];
-                        model.ClearModel();
-                        TrainModels.TrainStreamingModel(model, phi, file);
-                        string modelString = Path.GetFileNameWithoutExtension(file) + ";" + Path.GetFileNameWithoutExtension(validationFiles[i]) + ";" +
-                            phi.Method.Name + ";" + model.Description();
-
-                        List<int> testModelPredictions = TrainModels.Predict(model, phi, testFilePath);
-
-                        File.WriteAllText(Path.GetDirectoryName(file) + "\\test\\" +
-                            modelString + "_pred.csv", modelString + Environment.NewLine);
-
-                        File.AppendAllLines(Path.GetDirectoryName(file) + "\\test\\" +
-                            modelString + "_pred.csv",
-                            testModelPredictions.Select(t => t.ToString()));
-
-                        string validationFileName = validationFiles[i];
-
-                        var validationModelPredictions = TrainModels.Predict(model, phi, validationFileName);
-
-                        File.WriteAllText(Path.GetDirectoryName(file) + "\\validation\\" +
-                            modelString + "_val.csv",
-                            modelString + Environment.NewLine);
-
-                        File.AppendAllLines(Path.GetDirectoryName(file) + "\\validation\\" +
-                            modelString + "_val.csv",
-                            validationModelPredictions.Select(t => t.ToString()));
-
-                    }
-        }
-
-        private void splitTbx_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private static int[] ToIntArray(TextBox tbx)
         {
             return tbx.Text.Split(';').Select(c => Convert.ToInt32(c)).ToArray();
@@ -175,21 +104,6 @@ namespace NDSB
             int columnIndex = Convert.ToInt32(extractColumnTbx.Text);
 
             CSVHelper.ExtractColumn(filePath, columnIndex);
-        }
-
-        private void countCommonBtn_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog file1OFD = new OpenFileDialog();
-            file1OFD.Title = "File 1";
-            file1OFD.ShowDialog();
-            if (!file1OFD.CheckFileExists) return;
-
-            OpenFileDialog file2OFD = new OpenFileDialog();
-            file2OFD.Title = "File 2";
-            file2OFD.ShowDialog();
-            if (!file2OFD.CheckFileExists) return;
-
-            MessageBox.Show((100 * CSVHelper.CountElementsInCommont(file1OFD.FileName, file2OFD.FileName)).ToString());
         }
 
         private void predictKNNBtn_Click(object sender, EventArgs e)
@@ -247,13 +161,6 @@ namespace NDSB
             TranslateTrainAndPredict(models, rfStemChkbx.Checked);
         }
 
-        private void KNNcvTfidfBtn_Click(object sender, EventArgs e)
-        {
-            int[] nbNeighbours = ToIntArray(nbNeighbTbx);
-            List<IModelClassification<Dictionary<string, double>>> models = new List<IModelClassification<Dictionary<string, double>>>();
-            TrainPredictAndValidateFromTFIDF(models);
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog trainingFilesOFD = new OpenFileDialog();
@@ -295,54 +202,7 @@ namespace NDSB
                         File.AppendAllLines(Path.GetDirectoryName(file) + "\\test\\" +
                             modelString + "_pred.csv",
                             testModelPredictions.Select(t => t.ToString()));
-
-                        /*
-                        string validationFileName = validationFiles[i];
-
-                        var validationModelPredictions = TrainModels.Predict(model, phi, validationFileName);
-
-                        File.WriteAllText(Path.GetDirectoryName(file) + "\\validation\\" +
-                            modelString + "_val.csv",
-                            modelString + Environment.NewLine);
-
-                        File.AppendAllLines(Path.GetDirectoryName(file) + "\\validation\\" +
-                            modelString + "_val.csv",
-                            validationModelPredictions.Select(t => t.ToString()));
-                        */
                     }
-        }
-
-        private void TrainPredictAndValidateFromTFIDF(List<IModelClassification<Dictionary<string, double>>> models)
-        {
-            string testTFIDFFilePath = "",
-                validationTFIDFFilePath = "",
-                trainFilePath = "";
-
-            string[] trainFilePathTFIDF = new string[0];
-
-            OpenFileDialog fdlg = new OpenFileDialog();
-            fdlg.Title = "Test file path (TFIDF)";
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                testTFIDFFilePath = fdlg.FileName;
-
-            fdlg = new OpenFileDialog();
-            fdlg.Title = "Train file(s) path (TFIDF)";
-            fdlg.Multiselect = true;
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                trainFilePathTFIDF = fdlg.FileNames;
-
-            fdlg = new OpenFileDialog();
-            fdlg.Title = "Train file(s) path";
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                trainFilePath = fdlg.FileName;
-
-            fdlg = new OpenFileDialog();
-            fdlg.Title = "Validation file path (TFIDF)";
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                validationTFIDFFilePath = fdlg.FileName;
-
-            for (int i = 0; i < trainFilePathTFIDF.Length; i++)
-                GenericMLHelper.TrainPredictAndValidateFromTFIDF(models.ToArray(), trainFilePath, trainFilePathTFIDF[i], testTFIDFFilePath, validationTFIDFFilePath);
         }
 
         private void TranslateTrainAndPredict(List<IModelClassification<Dictionary<string, double>>> models, bool stem)
@@ -365,30 +225,5 @@ namespace NDSB
                 GenericMLHelper.TranslateTrainPredictAndWrite(models.ToArray(), trainFilePaths[i], testFilePath, stem);
         }
 
-        private void TranslateTrainValidatePredict(List<IModelClassification<Dictionary<string, double>>> models, bool stem = false)
-        {
-            string testFilePath = "",
-                validationFilePath = "";
-            string[] trainFilePath = new string[0];
-
-            OpenFileDialog fdlg = new OpenFileDialog();
-            fdlg.Title = "Test file path";
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                testFilePath = fdlg.FileName;
-
-            fdlg = new OpenFileDialog();
-            fdlg.Title = "Train file(s) path";
-            fdlg.Multiselect = true;
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                trainFilePath = fdlg.FileNames;
-
-            fdlg = new OpenFileDialog();
-            fdlg.Title = "Validation file path";
-            if (fdlg.ShowDialog() == DialogResult.OK)
-                validationFilePath = fdlg.FileName;
-
-            for (int i = 0; i < trainFilePath.Length; i++)
-                GenericMLHelper.TranslateTrainPredictAndValidate(models.ToArray(), testFilePath, trainFilePath[i], validationFilePath, stem);
-        }
     }
 }
